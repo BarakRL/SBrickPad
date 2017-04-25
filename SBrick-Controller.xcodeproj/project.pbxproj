@@ -1,0 +1,415 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		95618F03D266FD67E59D72C1 /* Pods_SBrick_Controller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2356330B8EE1F431B7A0BC /* Pods_SBrick_Controller.framework */; };
+		E59CF2F91EAF13B100661A77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CF2F81EAF13B100661A77 /* AppDelegate.swift */; };
+		E59CF2FE1EAF13B100661A77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E59CF2FC1EAF13B100661A77 /* Main.storyboard */; };
+		E59CF3001EAF13B100661A77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E59CF2FF1EAF13B100661A77 /* Assets.xcassets */; };
+		E59CF3031EAF13B100661A77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E59CF3011EAF13B100661A77 /* LaunchScreen.storyboard */; };
+		E59CF30B1EAF140C00661A77 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CF30A1EAF140C00661A77 /* MainViewController.swift */; };
+		E59CF3151EAF17C400661A77 /* ICade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CF3111EAF17C400661A77 /* ICade.swift */; };
+		E59CF3161EAF17C400661A77 /* engine.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E59CF3131EAF17C400661A77 /* engine.mp3 */; };
+		E59CF3171EAF17C400661A77 /* horn.wav in Resources */ = {isa = PBXBuildFile; fileRef = E59CF3141EAF17C400661A77 /* horn.wav */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2FBE4A2E1AB5D2A34581299D /* Pods-SBrick-Controller.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBrick-Controller.release.xcconfig"; path = "Pods/Target Support Files/Pods-SBrick-Controller/Pods-SBrick-Controller.release.xcconfig"; sourceTree = "<group>"; };
+		A0F527C52523843D3F9F9343 /* Pods-SBrick-Controller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBrick-Controller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SBrick-Controller/Pods-SBrick-Controller.debug.xcconfig"; sourceTree = "<group>"; };
+		AE2356330B8EE1F431B7A0BC /* Pods_SBrick_Controller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SBrick_Controller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E59CF2F51EAF13B100661A77 /* SBrick-Controller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SBrick-Controller.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E59CF2F81EAF13B100661A77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E59CF2FD1EAF13B100661A77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E59CF2FF1EAF13B100661A77 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E59CF3021EAF13B100661A77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E59CF3041EAF13B100661A77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E59CF30A1EAF140C00661A77 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		E59CF3111EAF17C400661A77 /* ICade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICade.swift; sourceTree = "<group>"; };
+		E59CF3131EAF17C400661A77 /* engine.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = engine.mp3; sourceTree = "<group>"; };
+		E59CF3141EAF17C400661A77 /* horn.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = horn.wav; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E59CF2F21EAF13B100661A77 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				95618F03D266FD67E59D72C1 /* Pods_SBrick_Controller.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D87322A04A213A8D791202B5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AE2356330B8EE1F431B7A0BC /* Pods_SBrick_Controller.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E59CF2EC1EAF13B100661A77 = {
+			isa = PBXGroup;
+			children = (
+				E59CF2F71EAF13B100661A77 /* SBrick-Controller */,
+				E59CF2F61EAF13B100661A77 /* Products */,
+				F8DEB0EF8C7A9854B59BD35F /* Pods */,
+				D87322A04A213A8D791202B5 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E59CF2F61EAF13B100661A77 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E59CF2F51EAF13B100661A77 /* SBrick-Controller.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E59CF2F71EAF13B100661A77 /* SBrick-Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E59CF3101EAF17C400661A77 /* iCade */,
+				E59CF3121EAF17C400661A77 /* Resources */,
+				E59CF2F81EAF13B100661A77 /* AppDelegate.swift */,
+				E59CF30A1EAF140C00661A77 /* MainViewController.swift */,
+				E59CF2FC1EAF13B100661A77 /* Main.storyboard */,
+				E59CF2FF1EAF13B100661A77 /* Assets.xcassets */,
+				E59CF3011EAF13B100661A77 /* LaunchScreen.storyboard */,
+				E59CF3041EAF13B100661A77 /* Info.plist */,
+			);
+			path = "SBrick-Controller";
+			sourceTree = "<group>";
+		};
+		E59CF3101EAF17C400661A77 /* iCade */ = {
+			isa = PBXGroup;
+			children = (
+				E59CF3111EAF17C400661A77 /* ICade.swift */,
+			);
+			path = iCade;
+			sourceTree = "<group>";
+		};
+		E59CF3121EAF17C400661A77 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E59CF3131EAF17C400661A77 /* engine.mp3 */,
+				E59CF3141EAF17C400661A77 /* horn.wav */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F8DEB0EF8C7A9854B59BD35F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A0F527C52523843D3F9F9343 /* Pods-SBrick-Controller.debug.xcconfig */,
+				2FBE4A2E1AB5D2A34581299D /* Pods-SBrick-Controller.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E59CF2F41EAF13B100661A77 /* SBrick-Controller */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E59CF3071EAF13B100661A77 /* Build configuration list for PBXNativeTarget "SBrick-Controller" */;
+			buildPhases = (
+				7222768997EB874A60B5F039 /* [CP] Check Pods Manifest.lock */,
+				E59CF2F11EAF13B100661A77 /* Sources */,
+				E59CF2F21EAF13B100661A77 /* Frameworks */,
+				E59CF2F31EAF13B100661A77 /* Resources */,
+				7E1AFBE81F6D4BA76EE8304D /* [CP] Embed Pods Frameworks */,
+				7B7BE9C0273B2085F07FD571 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SBrick-Controller";
+			productName = "SBrick-Controller";
+			productReference = E59CF2F51EAF13B100661A77 /* SBrick-Controller.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E59CF2ED1EAF13B100661A77 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Barak Harel";
+				TargetAttributes = {
+					E59CF2F41EAF13B100661A77 = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = T9FT44P7KA;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = E59CF2F01EAF13B100661A77 /* Build configuration list for PBXProject "SBrick-Controller" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E59CF2EC1EAF13B100661A77;
+			productRefGroup = E59CF2F61EAF13B100661A77 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E59CF2F41EAF13B100661A77 /* SBrick-Controller */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E59CF2F31EAF13B100661A77 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E59CF3171EAF17C400661A77 /* horn.wav in Resources */,
+				E59CF3031EAF13B100661A77 /* LaunchScreen.storyboard in Resources */,
+				E59CF3001EAF13B100661A77 /* Assets.xcassets in Resources */,
+				E59CF3161EAF17C400661A77 /* engine.mp3 in Resources */,
+				E59CF2FE1EAF13B100661A77 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7222768997EB874A60B5F039 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7B7BE9C0273B2085F07FD571 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SBrick-Controller/Pods-SBrick-Controller-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7E1AFBE81F6D4BA76EE8304D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SBrick-Controller/Pods-SBrick-Controller-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E59CF2F11EAF13B100661A77 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E59CF30B1EAF140C00661A77 /* MainViewController.swift in Sources */,
+				E59CF2F91EAF13B100661A77 /* AppDelegate.swift in Sources */,
+				E59CF3151EAF17C400661A77 /* ICade.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E59CF2FC1EAF13B100661A77 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E59CF2FD1EAF13B100661A77 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E59CF3011EAF13B100661A77 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E59CF3021EAF13B100661A77 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E59CF3051EAF13B100661A77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E59CF3061EAF13B100661A77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E59CF3081EAF13B100661A77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A0F527C52523843D3F9F9343 /* Pods-SBrick-Controller.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = T9FT44P7KA;
+				INFOPLIST_FILE = "SBrick-Controller/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.barakharel.SBrick-Controller";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		E59CF3091EAF13B100661A77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2FBE4A2E1AB5D2A34581299D /* Pods-SBrick-Controller.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = T9FT44P7KA;
+				INFOPLIST_FILE = "SBrick-Controller/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.barakharel.SBrick-Controller";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E59CF2F01EAF13B100661A77 /* Build configuration list for PBXProject "SBrick-Controller" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E59CF3051EAF13B100661A77 /* Debug */,
+				E59CF3061EAF13B100661A77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E59CF3071EAF13B100661A77 /* Build configuration list for PBXNativeTarget "SBrick-Controller" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E59CF3081EAF13B100661A77 /* Debug */,
+				E59CF3091EAF13B100661A77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E59CF2ED1EAF13B100661A77 /* Project object */;
+}
