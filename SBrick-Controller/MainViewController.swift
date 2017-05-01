@@ -50,50 +50,58 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
             
             guard let gameController = gameController else { return }
             
-            gameController.controllerPausedHandler = { controller in
+            gameController.controllerPausedHandler = { [unowned self] controller in
                 self.onButton(.start, pressed: true)
                 self.onButton(.start, pressed: false)
             }
             
-            gameController.gamepad?.buttonA.pressedChangedHandler = { button, value, pressed in
+            gameController.gamepad?.buttonA.pressedChangedHandler = { [unowned self]  button, value, pressed in
                 print(value)
-                self.onButton(.buttonA, pressed: pressed)
+                self.onButton(.buttonA, pressed: pressed, value: value)
             }
             
-            gameController.gamepad?.buttonB.pressedChangedHandler = { button, value, pressed in
-                self.onButton(.buttonB, pressed: pressed)
+            gameController.gamepad?.buttonB.pressedChangedHandler = { [unowned self]  button, value, pressed in
+                self.onButton(.buttonB, pressed: pressed, value: value)
             }
             
-            gameController.gamepad?.buttonX.pressedChangedHandler = { button, value, pressed in
-                self.onButton(.buttonX, pressed: pressed)
+            gameController.gamepad?.buttonX.pressedChangedHandler = { [unowned self]  button, value, pressed in
+                self.onButton(.buttonX, pressed: pressed, value: value)
             }
             
-            gameController.gamepad?.buttonY.pressedChangedHandler = { button, value, pressed in
-                self.onButton(.buttonY, pressed: pressed)
+            gameController.gamepad?.buttonY.pressedChangedHandler = { [unowned self]  button, value, pressed in
+                self.onButton(.buttonY, pressed: pressed, value: value)
             }
             
-            gameController.gamepad?.dpad.up.pressedChangedHandler = { button, value, pressed in
-                self.onButton(.up, pressed: pressed)
+            gameController.gamepad?.dpad.up.pressedChangedHandler = { [unowned self]  button, value, pressed in
+                self.onButton(.up, pressed: pressed, value: value)
             }
             
-            gameController.gamepad?.dpad.down.pressedChangedHandler = { button, value, pressed in
-                self.onButton(.down, pressed: pressed)
+            gameController.gamepad?.dpad.down.pressedChangedHandler = { [unowned self]  button, value, pressed in
+                self.onButton(.down, pressed: pressed, value: value)
             }
             
-            gameController.gamepad?.dpad.left.pressedChangedHandler = { button, value, pressed in
-                self.onButton(.left, pressed: pressed)
+            gameController.gamepad?.dpad.left.pressedChangedHandler = { [unowned self]  button, value, pressed in
+                self.onButton(.left, pressed: pressed, value: value)
             }
             
-            gameController.gamepad?.dpad.right.pressedChangedHandler = { button, value, pressed in
-                self.onButton(.right, pressed: pressed)
+            gameController.gamepad?.dpad.right.pressedChangedHandler = { [unowned self]  button, value, pressed in
+                self.onButton(.right, pressed: pressed, value: value)
             }
             
-            gameController.gamepad?.leftShoulder.pressedChangedHandler = { button, value, pressed in
-                self.onButton(.leftShoulder, pressed: pressed)
+            gameController.gamepad?.leftShoulder.pressedChangedHandler = { [unowned self]  button, value, pressed in
+                self.onButton(.leftShoulder, pressed: pressed, value: value)
             }
 
-            gameController.gamepad?.rightShoulder.pressedChangedHandler = { button, value, pressed in
-                self.onButton(.rightShoulder, pressed: pressed)
+            gameController.gamepad?.rightShoulder.pressedChangedHandler = { [unowned self]  button, value, pressed in
+                self.onButton(.rightShoulder, pressed: pressed, value: value)
+            }
+            
+            gameController.extendedGamepad?.leftTrigger.pressedChangedHandler = { [unowned self]  button, value, pressed in
+                self.onButton(.leftTrigger, pressed: pressed, value: value)
+            }
+            
+            gameController.extendedGamepad?.rightTrigger.pressedChangedHandler = { [unowned self]  button, value, pressed in
+                self.onButton(.rightTrigger, pressed: pressed, value: value)
             }
             
             gameController.extendedGamepad?.leftThumbstick.xAxis.valueChangedHandler = { input, value in
@@ -254,10 +262,13 @@ extension MainViewController {
         onButton(button, pressed: true)
     }
     
-    
     func onButton(_ button: GameControllerButton, pressed: Bool) {
+        onButton(button, pressed: pressed, value: pressed ? 1 : 0)
+    }
+    
+    func onButton(_ button: GameControllerButton, pressed: Bool, value: Float) {
         
-        print("\(button) \(pressed ? "pressed" : "released")")
+        print("\(button) \(pressed ? "pressed" : "released") value: \(value)")
         
         if let index = GameControllerButton.allButtons.index(of: button) {
             let indexPath = IndexPath(row: index, section: 0)
