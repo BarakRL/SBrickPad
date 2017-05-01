@@ -12,6 +12,27 @@ import CoreBluetooth
 import AVFoundation
 import GameController
 
+class ButtonCell: UITableViewCell {
+    
+    let progressView = UIProgressView(progressViewStyle: .default)
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        contentView.addSubview(progressView)
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-15-[progress(64)]", options: [], metrics: nil, views: ["progress":self.progressView]))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[progress]-10-|", options: [], metrics: nil, views: ["progress":self.progressView]))
+        
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        progressView.setProgress(0, animated: false)
+    }
+}
+
 class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDelegate {
 
     var manager: SBrickManager!
@@ -20,6 +41,10 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     let driveChannel: UInt8 = 2
     let steerChannel: UInt8 = 0
     let steerCW: Bool = true
+    
+    var buttonPressActions =    [GameControllerButton: GameControllerPressAction]()
+    var buttonReleaseActions =  [GameControllerButton: GameControllerPressAction]()
+    var buttonValueActions =    [GameControllerButton: GameControllerValueAction]()
     
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
@@ -43,7 +68,11 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         if let gameController = GCController.controllers().first {
             self.gameController = gameController
         }
+        
+        loadActions()
     }
+    
+    
     
     var gameController: GCController? {
         didSet {
@@ -55,54 +84,19 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
                 self.onButton(.start, pressed: false)
             }
             
-            gameController.gamepad?.buttonA.pressedChangedHandler = { [unowned self]  button, value, pressed in
-                print(value)
-                self.onButton(.buttonA, pressed: pressed, value: value)
-            }
+            linkInput(gameController.gamepad?.buttonA, button: .buttonA)
+            linkInput(gameController.gamepad?.buttonB, button: .buttonB)
+            linkInput(gameController.gamepad?.buttonX, button: .buttonX)
+            linkInput(gameController.gamepad?.buttonY, button: .buttonY)
+            linkInput(gameController.gamepad?.leftShoulder, button: .leftShoulder)
+            linkInput(gameController.gamepad?.rightShoulder, button: .rightShoulder)
+            linkInput(gameController.gamepad?.dpad.up, button: .up)
+            linkInput(gameController.gamepad?.dpad.down, button: .down)
+            linkInput(gameController.gamepad?.dpad.left, button: .left)
+            linkInput(gameController.gamepad?.dpad.right, button: .right)
+            linkInput(gameController.extendedGamepad?.leftTrigger, button: .leftTrigger)
+            linkInput(gameController.extendedGamepad?.rightTrigger, button: .rightTrigger)
             
-            gameController.gamepad?.buttonB.pressedChangedHandler = { [unowned self]  button, value, pressed in
-                self.onButton(.buttonB, pressed: pressed, value: value)
-            }
-            
-            gameController.gamepad?.buttonX.pressedChangedHandler = { [unowned self]  button, value, pressed in
-                self.onButton(.buttonX, pressed: pressed, value: value)
-            }
-            
-            gameController.gamepad?.buttonY.pressedChangedHandler = { [unowned self]  button, value, pressed in
-                self.onButton(.buttonY, pressed: pressed, value: value)
-            }
-            
-            gameController.gamepad?.dpad.up.pressedChangedHandler = { [unowned self]  button, value, pressed in
-                self.onButton(.up, pressed: pressed, value: value)
-            }
-            
-            gameController.gamepad?.dpad.down.pressedChangedHandler = { [unowned self]  button, value, pressed in
-                self.onButton(.down, pressed: pressed, value: value)
-            }
-            
-            gameController.gamepad?.dpad.left.pressedChangedHandler = { [unowned self]  button, value, pressed in
-                self.onButton(.left, pressed: pressed, value: value)
-            }
-            
-            gameController.gamepad?.dpad.right.pressedChangedHandler = { [unowned self]  button, value, pressed in
-                self.onButton(.right, pressed: pressed, value: value)
-            }
-            
-            gameController.gamepad?.leftShoulder.pressedChangedHandler = { [unowned self]  button, value, pressed in
-                self.onButton(.leftShoulder, pressed: pressed, value: value)
-            }
-
-            gameController.gamepad?.rightShoulder.pressedChangedHandler = { [unowned self]  button, value, pressed in
-                self.onButton(.rightShoulder, pressed: pressed, value: value)
-            }
-            
-            gameController.extendedGamepad?.leftTrigger.pressedChangedHandler = { [unowned self]  button, value, pressed in
-                self.onButton(.leftTrigger, pressed: pressed, value: value)
-            }
-            
-            gameController.extendedGamepad?.rightTrigger.pressedChangedHandler = { [unowned self]  button, value, pressed in
-                self.onButton(.rightTrigger, pressed: pressed, value: value)
-            }
             
             gameController.extendedGamepad?.leftThumbstick.xAxis.valueChangedHandler = { input, value in
                 print(value)
@@ -120,6 +114,20 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
                 print(value)
             }
         }
+    }
+    
+    func linkInput(_ input: GCControllerButtonInput?, button: GameControllerButton) {
+        
+        guard let input = input else { return }
+        
+        input.valueChangedHandler = { [unowned self]  input, value, pressed in
+            self.onButton(button, value: value)
+        }
+        
+        input.pressedChangedHandler = { [unowned self]  input, value, pressed in
+            self.onButton(button, pressed: pressed)
+        }
+        
     }
     
     
@@ -208,6 +216,20 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     func stopSound() {
         player?.stop()
     }
+    
+    var lastScrolledToIndexPath: IndexPath?
+    func scrollToIfNeeded(_ indexPath: IndexPath, andSelect shouldSelect: Bool) {
+        
+        guard lastScrolledToIndexPath != indexPath else { return }
+        
+        lastScrolledToIndexPath = indexPath
+        if shouldSelect {
+            self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
+        }
+        else {
+            self.tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+        }
+    }
 }
 
 extension MainViewController {
@@ -263,119 +285,106 @@ extension MainViewController {
     }
     
     func onButton(_ button: GameControllerButton, pressed: Bool) {
-        onButton(button, pressed: pressed, value: pressed ? 1 : 0)
-    }
-    
-    func onButton(_ button: GameControllerButton, pressed: Bool, value: Float) {
         
-        print("\(button) \(pressed ? "pressed" : "released") value: \(value)")
+        let actionDict = pressed ? self.buttonPressActions : self.buttonReleaseActions
+        guard let action = actionDict[button] else { return }
+        
+        print("\(button) \(pressed ? "pressed" : "released")")
         
         if let index = GameControllerButton.allButtons.index(of: button) {
             let indexPath = IndexPath(row: index, section: 0)
             if pressed {
-                tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
+                self.scrollToIfNeeded(indexPath, andSelect: true)
             }
             else {
                 tableView.deselectRow(at: indexPath, animated: true)
             }
-        }        
-        
-        guard let sbrick = self.sbrick else { return }
-        
-        switch button {
-        
-        case .left:
-            
-            if pressed {
-                 sbrick.send(command: .drive(channelId: steerChannel, cw: steerCW, power: 255))
-            }
-            else {
-                sbrick.send(command: .stop(channelId: steerChannel))
-            }
-           
-            
-        case .right:
-            
-            if pressed {
-                sbrick.send(command: .drive(channelId: steerChannel, cw: !steerCW, power: 255))
-            }
-            else {
-                sbrick.send(command: .stop(channelId: steerChannel))
-            }
-            
-        case .buttonA:
-            
-            if pressed {
-                sbrick.send(command: .drive(channelId: driveChannel, cw: false, power: 0xFF))
-            }
-            else {
-                sbrick.send(command: .stop(channelId: driveChannel))
-            }
-            
-        case .buttonB:
-            
-            if pressed {
-                accPower = 100
-                accTimer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true, block: { [unowned self] (timer) in
-                    if self.accPower < 0xFF {
-                        self.accPower = UInt8(min(Int(self.accPower) + 10, 0xFF))
-                        sbrick.send(command: .drive(channelId: self.driveChannel, cw: false, power: self.accPower))
-                    }
-                })
-            }
-            else {
-                sbrick.send(command: .stop(channelId: driveChannel))
-                accTimer?.invalidate()
-            }
-            
-        case .buttonX:
-            
-            if pressed {
-                sbrick.send(command: .drive(channelId: driveChannel, cw: true, power: 0xFF))
-            }
-            else {
-                sbrick.send(command: .stop(channelId: driveChannel))
-            }
-            
-        case .buttonY:
-            
-            if pressed {
-                accPower = 100
-                accTimer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true, block: { [unowned self] (timer) in
-                    if self.accPower < 0xFF {
-                        self.accPower = UInt8(min(Int(self.accPower) + 10, 0xFF))
-                        sbrick.send(command: .drive(channelId: self.driveChannel, cw: true, power: self.accPower))
-                    }
-                })
-            }
-            else {
-                sbrick.send(command: .stop(channelId: driveChannel))
-                accTimer?.invalidate()
-            }
-            
-        case .leftShoulder:
-            
-            if pressed {
-                playSound(name: "horn", withExtension: "wav")
-            }
-            else {
-                stopSound()
-            }
-        
-        case .rightShoulder:
-            
-            
-            if pressed {
-                playSound(name: "engine", withExtension: "mp3")
-            }
-            else {
-                stopSound()
-            }
-            
-        default:
-            break
         }
         
+        
+        switch action {
+        case .playSound(let soundName, let ext):
+            self.playSound(name: soundName, withExtension: ext)
+            break
+        
+        case .stopSound(let soundName, let ext):
+            self.stopSound()
+            break
+            
+        case .drive(let channel, let cw, let power):
+            
+            if let sbrick = self.sbrick {
+               sbrick.send(command: .drive(channelId: channel, cw: cw, power: power))
+            }
+            break
+            
+        case .stop(let channel):
+            
+            if let sbrick = self.sbrick {
+                sbrick.send(command: .stop(channelId: channel))
+            }
+            break
+            
+        }
+        
+    }
+    
+    func onButton(_ button: GameControllerButton, value: Float) {
+        
+        guard let action = buttonValueActions[button] else { return }
+        
+        print("\(button) value: \(value)")
+        
+        if let index = GameControllerButton.allButtons.index(of: button) {
+            let indexPath = IndexPath(row: index, section: 0)
+            scrollToIfNeeded(indexPath, andSelect: false)
+            
+            if let cell = self.tableView.cellForRow(at: indexPath) as? ButtonCell {
+                cell.progressView.progress = value
+            }
+        }
+        
+        switch action {
+            
+        case .drive(let channel, let cw, let minPower, let maxPower):
+            
+            let power = GameControllerValueAction.power(fromValue: value, minPower: minPower, maxPower: maxPower)
+            
+            if let sbrick = self.sbrick {
+                sbrick.send(command: .drive(channelId: channel, cw: cw, power: power))
+            }
+            break
+            
+        }
+        
+    }
+
+    
+    
+    
+    func loadActions() {
+        
+        buttonPressActions.removeAll()
+        buttonReleaseActions.removeAll()
+        
+        buttonValueActions[.left] = GameControllerValueAction.drive(channel: steerChannel, cw: steerCW, minPower: 0, maxPower: 0xFF)
+        buttonReleaseActions[.left] = GameControllerPressAction.stop(channel: steerChannel)
+        
+        buttonValueActions[.right] = GameControllerValueAction.drive(channel: steerChannel, cw: !steerCW, minPower: 0, maxPower: 0xFF)
+        buttonReleaseActions[.right] = GameControllerPressAction.stop(channel: steerChannel)
+        
+        buttonValueActions[.buttonA] = GameControllerValueAction.drive(channel: driveChannel, cw: false, minPower: 0, maxPower: 0xFF)
+        buttonReleaseActions[.buttonA] = GameControllerPressAction.stop(channel: driveChannel)
+        
+        buttonValueActions[.buttonB] = GameControllerValueAction.drive(channel: driveChannel, cw: true, minPower: 0, maxPower: 0xFF)
+        buttonReleaseActions[.buttonB] = GameControllerPressAction.stop(channel: driveChannel)
+
+        buttonPressActions[.leftShoulder] = GameControllerPressAction.playSound(soundName: "horn", ext: "wav")
+        buttonReleaseActions[.leftShoulder] = GameControllerPressAction.stopSound(soundName: "horn", ext: "wav")
+        
+        buttonPressActions[.rightShoulder] = GameControllerPressAction.playSound(soundName: "engine", ext: "mp3")
+        buttonReleaseActions[.rightShoulder] = GameControllerPressAction.stopSound(soundName: "engine", ext: "mp3")
+
     }
     
 }
