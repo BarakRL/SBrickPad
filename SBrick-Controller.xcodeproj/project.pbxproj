@@ -16,6 +16,7 @@
 		E59CF3151EAF17C400661A77 /* ICade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CF3111EAF17C400661A77 /* ICade.swift */; };
 		E59CF3161EAF17C400661A77 /* engine.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E59CF3131EAF17C400661A77 /* engine.mp3 */; };
 		E59CF3171EAF17C400661A77 /* horn.wav in Resources */ = {isa = PBXBuildFile; fileRef = E59CF3141EAF17C400661A77 /* horn.wav */; };
+		E5E55C471EB6E29100C4A288 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E55C461EB6E29100C4A288 /* GameController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		E59CF3111EAF17C400661A77 /* ICade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICade.swift; sourceTree = "<group>"; };
 		E59CF3131EAF17C400661A77 /* engine.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = engine.mp3; sourceTree = "<group>"; };
 		E59CF3141EAF17C400661A77 /* horn.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = horn.wav; sourceTree = "<group>"; };
+		E5E55C461EB6E29100C4A288 /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				E59CF2FF1EAF13B100661A77 /* Assets.xcassets */,
 				E59CF3011EAF13B100661A77 /* LaunchScreen.storyboard */,
 				E59CF3041EAF13B100661A77 /* Info.plist */,
+				E5E55C461EB6E29100C4A288 /* GameController.swift */,
 			);
 			path = "SBrick-Controller";
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E59CF30B1EAF140C00661A77 /* MainViewController.swift in Sources */,
+				E5E55C471EB6E29100C4A288 /* GameController.swift in Sources */,
 				E59CF2F91EAF13B100661A77 /* AppDelegate.swift in Sources */,
 				E59CF3151EAF17C400661A77 /* ICade.swift in Sources */,
 			);

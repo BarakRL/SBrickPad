@@ -8,92 +8,85 @@
 
 import UIKit
 
-public enum ICadeButton {
+public class ICadeButton {
     
-    case up
-    case down
-    case left
-    case right
-    case start
-    case select
-    case button1
-    case button2
-    case button3
-    case button4
-    case button5
-    case button6
+    let button: GameControllerButton
     
-    public var pressKey: String {
-        
-        switch self {
-        case .up:       return "w"
-        case .down:     return "x"
-        case .left:     return "a"
-        case .right:    return "d"
-        case .start:    return "o"
-        case .select:   return "l"
-        case .button1:  return "h"
-        case .button2:  return "u"
-        case .button3:  return "y"
-        case .button4:  return "j"
-        case .button5:  return "k"
-        case .button6:  return "i"
-        }
+    let pressKey: String
+    let releaseKey: String
+    
+    init?(button: GameControllerButton) {
+    
+        guard let pressKey = ICadeButton.getPressKey(button: button), let releaseKey = ICadeButton.getReleaseKey(button: button) else { return nil }
+    
+        self.button = button
+        self.pressKey = pressKey
+        self.releaseKey = releaseKey
     }
     
-    public var releaseKey: String {
+    static func getPressKey(button: GameControllerButton) -> String? {
         
-        switch self {
-        case .up:       return "e"
-        case .down:     return "z"
-        case .left:     return "q"
-        case .right:    return "c"
-        case .start:    return "g"
-        case .select:   return "v"
-        case .button1:  return "r"
-        case .button2:  return "f"
-        case .button3:  return "t"
-        case .button4:  return "n"
-        case .button5:  return "p"
-        case .button6:  return "m"
-        }
-    }
-    
-    public var name: String {
-        
-        switch self {
-        case .up:       return "Up"
-        case .down:     return "Down"
-        case .left:     return "Left"
-        case .right:    return "Right"
-        case .start:    return "Start"
-        case .select:   return "Select"
-        case .button1:  return "Button 1"
-        case .button2:  return "Button 2"
-        case .button3:  return "Button 3"
-        case .button4:  return "Button 4"
-        case .button5:  return "Button 5"
-        case .button6:  return "Button 6"
-        }
-    }
-    
-    public init?(key: String) {
-        
-        for button in ICadeButton.allButtons {
+        switch button {
+        case .up:               return "w"
+        case .down:             return "x"
+        case .left:             return "a"
+        case .right:            return "d"
+        case .start:            return "o"
+        case .select:           return "l"
+        case .buttonA:          return "h"
+        case .buttonB:          return "u"
+        case .buttonX:          return "y"
+        case .buttonY:          return "j"
+        case .leftShoulder:     return "k"
+        case .rightShoulder:    return "i"
             
-            if button.pressKey == key || button.releaseKey == key {
-                self = button
-                return
+        default: return nil
+        }
+    }
+    
+    static func getReleaseKey(button: GameControllerButton) -> String? {
+        
+        switch button {
+        case .up:               return "e"
+        case .down:             return "z"
+        case .left:             return "q"
+        case .right:            return "c"
+        case .start:            return "g"
+        case .select:           return "v"
+        case .buttonA:          return "r"
+        case .buttonB:          return "f"
+        case .buttonX:          return "t"
+        case .buttonY:          return "n"
+        case .leftShoulder:     return "p"
+        case .rightShoulder:    return "m"
+            
+        default: return nil
+        }
+    }
+    
+    static func button(forPressKey pressKey: String) -> GameControllerButton? {
+        
+        for button in GameControllerButton.allButtons {
+            
+            if self.getPressKey(button: button) == pressKey {
+                return button
             }
         }
-            
-        return nil
         
+        return nil
     }
     
-    public static let allButtons = [up, down, left, right, start, select,
-                                   button1, button2, button3, button4, button5, button6
-                                   ]
+    static func button(forReleaseKey releaseKey: String) -> GameControllerButton? {
+        
+        for button in GameControllerButton.allButtons {
+            
+            if self.getReleaseKey(button: button) == releaseKey {
+                return button
+            }
+        }
+        
+        return nil
+    }
 }
 
 public class ICade: NSObject {
@@ -102,8 +95,10 @@ public class ICade: NSObject {
         
         var pressCommands: [UIKeyCommand] = []
         
-        for button in ICadeButton.allButtons {
-            pressCommands.append(UIKeyCommand(input: button.pressKey, modifierFlags: [], action: action))
+        for button in GameControllerButton.allButtons {
+            if let iCadeButton = ICadeButton(button: button) {
+                pressCommands.append(UIKeyCommand(input: iCadeButton.pressKey, modifierFlags: [], action: action))
+            }
         }
         
         return pressCommands
@@ -113,8 +108,10 @@ public class ICade: NSObject {
         
         var releaseCommands: [UIKeyCommand] = []
         
-        for button in ICadeButton.allButtons {
-            releaseCommands.append(UIKeyCommand(input: button.releaseKey, modifierFlags: [], action: action))
+        for button in GameControllerButton.allButtons {
+            if let iCadeButton = ICadeButton(button: button) {
+                releaseCommands.append(UIKeyCommand(input: iCadeButton.releaseKey, modifierFlags: [], action: action))
+            }
         }
         
         return releaseCommands

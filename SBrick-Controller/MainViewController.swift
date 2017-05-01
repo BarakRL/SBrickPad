@@ -10,6 +10,7 @@ import UIKit
 import SBrick
 import CoreBluetooth
 import AVFoundation
+import GameController
 
 class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDelegate {
 
@@ -34,6 +35,102 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         
         statusLabel.text = "Discovering..."
         manager.startDiscovery()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(gameControllerConnected(notification:)), name: .GCControllerDidConnect, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(gameControllerDisconnected(notification:)), name: .GCControllerDidDisconnect, object: nil)
+        
+        if let gameController = GCController.controllers().first {
+            self.gameController = gameController
+        }
+    }
+    
+    var gameController: GCController? {
+        didSet {
+            
+            guard let gameController = gameController else { return }
+            
+            gameController.controllerPausedHandler = { controller in
+                self.onButton(.start, pressed: true)
+                self.onButton(.start, pressed: false)
+            }
+            
+            gameController.gamepad?.buttonA.pressedChangedHandler = { button, value, pressed in
+                print(value)
+                self.onButton(.buttonA, pressed: pressed)
+            }
+            
+            gameController.gamepad?.buttonB.pressedChangedHandler = { button, value, pressed in
+                self.onButton(.buttonB, pressed: pressed)
+            }
+            
+            gameController.gamepad?.buttonX.pressedChangedHandler = { button, value, pressed in
+                self.onButton(.buttonX, pressed: pressed)
+            }
+            
+            gameController.gamepad?.buttonY.pressedChangedHandler = { button, value, pressed in
+                self.onButton(.buttonY, pressed: pressed)
+            }
+            
+            gameController.gamepad?.dpad.up.pressedChangedHandler = { button, value, pressed in
+                self.onButton(.up, pressed: pressed)
+            }
+            
+            gameController.gamepad?.dpad.down.pressedChangedHandler = { button, value, pressed in
+                self.onButton(.down, pressed: pressed)
+            }
+            
+            gameController.gamepad?.dpad.left.pressedChangedHandler = { button, value, pressed in
+                self.onButton(.left, pressed: pressed)
+            }
+            
+            gameController.gamepad?.dpad.right.pressedChangedHandler = { button, value, pressed in
+                self.onButton(.right, pressed: pressed)
+            }
+            
+            gameController.gamepad?.leftShoulder.pressedChangedHandler = { button, value, pressed in
+                self.onButton(.leftShoulder, pressed: pressed)
+            }
+
+            gameController.gamepad?.rightShoulder.pressedChangedHandler = { button, value, pressed in
+                self.onButton(.rightShoulder, pressed: pressed)
+            }
+            
+            gameController.extendedGamepad?.leftThumbstick.xAxis.valueChangedHandler = { input, value in
+                print(value)
+            }
+            
+            gameController.extendedGamepad?.leftThumbstick.yAxis.valueChangedHandler = { input, value in
+                print(value)
+            }
+            
+            gameController.extendedGamepad?.rightThumbstick.xAxis.valueChangedHandler = { input, value in
+                print(value)
+            }
+            
+            gameController.extendedGamepad?.rightThumbstick.yAxis.valueChangedHandler = { input, value in
+                print(value)
+            }
+        }
+    }
+    
+    
+    func gameControllerConnected(notification: NSNotification) {
+     
+        guard let gameController = notification.object as? GCController else { return }
+        self.gameController = gameController
+        
+        print("connected: \(gameController)")
+    }
+    
+    func gameControllerDisconnected(notification: NSNotification) {
+        
+        guard let gameController = notification.object as? GCController else { return }
+        if self.gameController == gameController {
+            self.gameController = nil
+        }
+        
+        print("disconnected: \(gameController)")
     }
     
     override var canBecomeFirstResponder: Bool {
@@ -112,12 +209,12 @@ extension MainViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ICadeButton.allButtons.count
+        return GameControllerButton.allButtons.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let button = ICadeButton.allButtons[indexPath.row]
+        let button = GameControllerButton.allButtons[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.textLabel?.text = button.name
         cell.detailTextLabel?.text = "No action"
@@ -146,23 +243,23 @@ extension MainViewController {
     func keyReleased(sender: UIKeyCommand) {
         
         self.becomeFirstResponder()
-        guard let button = ICadeButton(key: sender.input) else { print("Unknown key: \(sender.input)"); return }
+        guard let button = ICadeButton.button(forReleaseKey: sender.input) else { print("Unknown key: \(sender.input)"); return }
         onButton(button, pressed: false)
     }
     
     func keyPressed(sender: UIKeyCommand) {
         
         self.becomeFirstResponder()
-        guard let button = ICadeButton(key: sender.input) else { print("Unknown key: \(sender.input)"); return }
+        guard let button = ICadeButton.button(forPressKey: sender.input) else { print("Unknown key: \(sender.input)"); return }
         onButton(button, pressed: true)
     }
     
     
-    func onButton(_ button: ICadeButton, pressed: Bool) {
+    func onButton(_ button: GameControllerButton, pressed: Bool) {
         
         print("\(button) \(pressed ? "pressed" : "released")")
         
-        if let index = ICadeButton.allButtons.index(of: button) {
+        if let index = GameControllerButton.allButtons.index(of: button) {
             let indexPath = IndexPath(row: index, section: 0)
             if pressed {
                 tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
@@ -195,7 +292,7 @@ extension MainViewController {
                 sbrick.send(command: .stop(channelId: steerChannel))
             }
             
-        case .button1:
+        case .buttonA:
             
             if pressed {
                 sbrick.send(command: .drive(channelId: driveChannel, cw: false, power: 0xFF))
@@ -204,7 +301,7 @@ extension MainViewController {
                 sbrick.send(command: .stop(channelId: driveChannel))
             }
             
-        case .button2:
+        case .buttonB:
             
             if pressed {
                 accPower = 100
@@ -220,7 +317,7 @@ extension MainViewController {
                 accTimer?.invalidate()
             }
             
-        case .button3:
+        case .buttonX:
             
             if pressed {
                 sbrick.send(command: .drive(channelId: driveChannel, cw: true, power: 0xFF))
@@ -229,7 +326,7 @@ extension MainViewController {
                 sbrick.send(command: .stop(channelId: driveChannel))
             }
             
-        case .button4:
+        case .buttonY:
             
             if pressed {
                 accPower = 100
@@ -245,7 +342,7 @@ extension MainViewController {
                 accTimer?.invalidate()
             }
             
-        case .button5:
+        case .leftShoulder:
             
             if pressed {
                 playSound(name: "horn", withExtension: "wav")
@@ -254,7 +351,7 @@ extension MainViewController {
                 stopSound()
             }
         
-        case .button6:
+        case .rightShoulder:
             
             
             if pressed {
