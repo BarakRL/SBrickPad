@@ -20,8 +20,7 @@ enum GameControllerPressAction: GameControllerAction {
     case playSound(soundName: String, ext: String)
     case stopSound(soundName: String, ext: String)
     case drive(channel: UInt8, cw: Bool, power: UInt8)
-    case stop(channel: UInt8)
-    
+    case stop(channel: UInt8)    
     
     var name: String {
         

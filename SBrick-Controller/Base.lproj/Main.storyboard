@@ -144,12 +144,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Wq-G7-CXj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1197.5999999999999" y="858.62068965517244"/>
+            <point key="canvasLocation" x="991" y="859"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Select Action View Controller-->
         <scene sceneID="YvH-jz-GL5">
             <objects>
-                <tableViewController id="zih-EQ-dya" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SelectActionViewController" id="zih-EQ-dya" customClass="SelectActionViewController" customModule="SBrick_Controller" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Nfg-vv-GUN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -172,7 +172,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xtc-vu-fH5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1908" y="859"/>
+            <point key="canvasLocation" x="1780" y="859"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8VE-G0-oLW">

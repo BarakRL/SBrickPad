@@ -8,7 +8,14 @@
 
 import UIKit
 
+protocol ButtonActionsViewControllerDelegate: class {
+    
+    func buttonActionsViewController(_ buttonActionsViewController: ButtonActionsViewController, shouldSaveActionsFor button: GameControllerButton)
+}
+
 class ButtonActionsViewController: UITableViewController {
+    
+    weak var delegate: ButtonActionsViewControllerDelegate?
     
     var button: GameControllerButton!
     
@@ -82,22 +89,15 @@ class ButtonActionsViewController: UITableViewController {
         //deselect
         tableView.deselectRow(at: indexPath, animated: true)
         
-        //TBD
     }
 
     @IBAction func cancelPressed(_ sender: UIBarButtonItem) {
         
-        //TO DO: notify delegate
-        dismiss()
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func savePressed(_ sender: UIBarButtonItem) {
         
-        //TO DO: notify delegate
-        dismiss()
-    }
-    
-    private func dismiss() {
-        self.presentingViewController?.dismiss(animated: true, completion: nil)
+        self.delegate?.buttonActionsViewController(self, shouldSaveActionsFor: self.button)
     }
 }

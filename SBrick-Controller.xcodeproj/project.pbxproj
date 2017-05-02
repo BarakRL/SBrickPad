@@ -14,6 +14,7 @@
 		06B865761EB8262F002FFD0A /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865751EB8262F002FFD0A /* ButtonCell.swift */; };
 		95618F03D266FD67E59D72C1 /* Pods_SBrick_Controller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2356330B8EE1F431B7A0BC /* Pods_SBrick_Controller.framework */; };
 		E532F0E51EB6F68C0061D4E8 /* GameControllerAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E532F0E41EB6F68C0061D4E8 /* GameControllerAction.swift */; };
+		E532F0E71EB85E840061D4E8 /* SelectActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E532F0E61EB85E840061D4E8 /* SelectActionViewController.swift */; };
 		E59CF2F91EAF13B100661A77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CF2F81EAF13B100661A77 /* AppDelegate.swift */; };
 		E59CF2FE1EAF13B100661A77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E59CF2FC1EAF13B100661A77 /* Main.storyboard */; };
 		E59CF3001EAF13B100661A77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E59CF2FF1EAF13B100661A77 /* Assets.xcassets */; };
@@ -34,6 +35,7 @@
 		A0F527C52523843D3F9F9343 /* Pods-SBrick-Controller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBrick-Controller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SBrick-Controller/Pods-SBrick-Controller.debug.xcconfig"; sourceTree = "<group>"; };
 		AE2356330B8EE1F431B7A0BC /* Pods_SBrick_Controller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SBrick_Controller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E532F0E41EB6F68C0061D4E8 /* GameControllerAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerAction.swift; sourceTree = "<group>"; };
+		E532F0E61EB85E840061D4E8 /* SelectActionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectActionViewController.swift; sourceTree = "<group>"; };
 		E59CF2F51EAF13B100661A77 /* SBrick-Controller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SBrick-Controller.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E59CF2F81EAF13B100661A77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E59CF2FD1EAF13B100661A77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 				06B8656D1EB7EC9C002FFD0A /* Cells */,
 				06B865671EB7D7FF002FFD0A /* MainViewController.swift */,
 				06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */,
+				E532F0E61EB85E840061D4E8 /* SelectActionViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 			files = (
 				06B865711EB7EF71002FFD0A /* ActionCell.swift in Sources */,
 				E532F0E51EB6F68C0061D4E8 /* GameControllerAction.swift in Sources */,
+				E532F0E71EB85E840061D4E8 /* SelectActionViewController.swift in Sources */,
 				06B865761EB8262F002FFD0A /* ButtonCell.swift in Sources */,
 				E5E55C471EB6E29100C4A288 /* GameController.swift in Sources */,
 				06B8656C1EB7E585002FFD0A /* ButtonActionsViewController.swift in Sources */,
@@ -416,6 +420,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = T9FT44P7KA;
 				INFOPLIST_FILE = "SBrick-Controller/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.barakharel.SBrick-Controller";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -430,6 +435,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = T9FT44P7KA;
 				INFOPLIST_FILE = "SBrick-Controller/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.barakharel.SBrick-Controller";
 				PRODUCT_NAME = "$(TARGET_NAME)";
