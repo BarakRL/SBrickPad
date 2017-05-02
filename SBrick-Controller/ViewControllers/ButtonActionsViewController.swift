@@ -54,17 +54,10 @@ class ButtonActionsViewController: UITableViewController {
             break
         }
         
-        if action == nil {
-            
-            return tableView.dequeueReusableCell(withIdentifier: NoActionCell.reuseIdentifier, for: indexPath)
-        }
-        else {
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: ActionCell.reuseIdentifier, for: indexPath) as! ActionCell
-            cell.action = action
-            
-            return cell
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: ActionCell.reuseIdentifier, for: indexPath) as! ActionCell
+        cell.action = action
+        
+        return cell
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

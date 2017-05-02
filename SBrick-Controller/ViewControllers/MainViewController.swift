@@ -12,27 +12,6 @@ import CoreBluetooth
 import AVFoundation
 import GameController
 
-class ButtonCell: UITableViewCell {
-    
-    let progressView = UIProgressView(progressViewStyle: .default)
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        contentView.addSubview(progressView)
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-15-[progress(64)]", options: [], metrics: nil, views: ["progress":self.progressView]))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[progress]-10-|", options: [], metrics: nil, views: ["progress":self.progressView]))
-        
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        progressView.setProgress(0, animated: false)
-    }
-}
-
 class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDelegate {
 
     var manager: SBrickManager!
@@ -245,7 +224,7 @@ extension MainViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let button = GameControllerButton.allButtons[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ButtonCell.reuseIdentifier, for: indexPath)
         cell.textLabel?.text = button.name
         
         let pressAction = self.buttonPressActions[button]

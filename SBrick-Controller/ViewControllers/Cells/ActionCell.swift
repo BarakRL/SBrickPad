@@ -12,12 +12,17 @@ class ActionCell: UITableViewCell {
 
     static let reuseIdentifier = "ActionCell"
     
-    var action: GameControllerAction! {
+    var action: GameControllerAction? {
         didSet {
-            guard let action = action else { return }
             
-            self.textLabel?.text = action.name
-            self.detailTextLabel?.text = action.description
+            if let action = action {
+                self.textLabel?.text = action.name
+                self.detailTextLabel?.text = action.description
+            }
+            else {
+                self.textLabel?.text = "No Action"
+                self.detailTextLabel?.text = nil
+            }
         }
     }
     

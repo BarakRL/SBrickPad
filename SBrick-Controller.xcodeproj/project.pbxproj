@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		06B865681EB7D7FF002FFD0A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865671EB7D7FF002FFD0A /* MainViewController.swift */; };
 		06B8656C1EB7E585002FFD0A /* ButtonActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */; };
-		06B8656F1EB7EE26002FFD0A /* NoActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B8656E1EB7EE26002FFD0A /* NoActionCell.swift */; };
 		06B865711EB7EF71002FFD0A /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865701EB7EF70002FFD0A /* ActionCell.swift */; };
 		06B865741EB81EED002FFD0A /* UIStoryboard+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865731EB81EED002FFD0A /* UIStoryboard+Ext.swift */; };
+		06B865761EB8262F002FFD0A /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865751EB8262F002FFD0A /* ButtonCell.swift */; };
 		95618F03D266FD67E59D72C1 /* Pods_SBrick_Controller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2356330B8EE1F431B7A0BC /* Pods_SBrick_Controller.framework */; };
 		E532F0E51EB6F68C0061D4E8 /* GameControllerAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E532F0E41EB6F68C0061D4E8 /* GameControllerAction.swift */; };
 		E59CF2F91EAF13B100661A77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CF2F81EAF13B100661A77 /* AppDelegate.swift */; };
@@ -27,9 +27,9 @@
 /* Begin PBXFileReference section */
 		06B865671EB7D7FF002FFD0A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonActionsViewController.swift; sourceTree = "<group>"; };
-		06B8656E1EB7EE26002FFD0A /* NoActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoActionCell.swift; sourceTree = "<group>"; };
 		06B865701EB7EF70002FFD0A /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
 		06B865731EB81EED002FFD0A /* UIStoryboard+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Ext.swift"; sourceTree = "<group>"; };
+		06B865751EB8262F002FFD0A /* ButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		2FBE4A2E1AB5D2A34581299D /* Pods-SBrick-Controller.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBrick-Controller.release.xcconfig"; path = "Pods/Target Support Files/Pods-SBrick-Controller/Pods-SBrick-Controller.release.xcconfig"; sourceTree = "<group>"; };
 		A0F527C52523843D3F9F9343 /* Pods-SBrick-Controller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBrick-Controller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SBrick-Controller/Pods-SBrick-Controller.debug.xcconfig"; sourceTree = "<group>"; };
 		AE2356330B8EE1F431B7A0BC /* Pods_SBrick_Controller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SBrick_Controller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,7 +61,6 @@
 		06B865661EB7D7EE002FFD0A /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				06B865721EB81ED0002FFD0A /* Helpers */,
 				06B8656D1EB7EC9C002FFD0A /* Cells */,
 				06B865671EB7D7FF002FFD0A /* MainViewController.swift */,
 				06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */,
@@ -72,8 +71,8 @@
 		06B8656D1EB7EC9C002FFD0A /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				06B8656E1EB7EE26002FFD0A /* NoActionCell.swift */,
 				06B865701EB7EF70002FFD0A /* ActionCell.swift */,
+				06B865751EB8262F002FFD0A /* ButtonCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -118,6 +117,7 @@
 			children = (
 				E59CF3101EAF17C400661A77 /* iCade */,
 				E59CF3121EAF17C400661A77 /* Resources */,
+				06B865721EB81ED0002FFD0A /* Helpers */,
 				06B865661EB7D7EE002FFD0A /* ViewControllers */,
 				E59CF2F81EAF13B100661A77 /* AppDelegate.swift */,
 				E59CF2FC1EAF13B100661A77 /* Main.storyboard */,
@@ -284,11 +284,11 @@
 			files = (
 				06B865711EB7EF71002FFD0A /* ActionCell.swift in Sources */,
 				E532F0E51EB6F68C0061D4E8 /* GameControllerAction.swift in Sources */,
+				06B865761EB8262F002FFD0A /* ButtonCell.swift in Sources */,
 				E5E55C471EB6E29100C4A288 /* GameController.swift in Sources */,
 				06B8656C1EB7E585002FFD0A /* ButtonActionsViewController.swift in Sources */,
 				E59CF2F91EAF13B100661A77 /* AppDelegate.swift in Sources */,
 				06B865741EB81EED002FFD0A /* UIStoryboard+Ext.swift in Sources */,
-				06B8656F1EB7EE26002FFD0A /* NoActionCell.swift in Sources */,
 				E59CF3151EAF17C400661A77 /* ICade.swift in Sources */,
 				06B865681EB7D7FF002FFD0A /* MainViewController.swift in Sources */,
 			);
