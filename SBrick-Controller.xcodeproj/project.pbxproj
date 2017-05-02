@@ -7,13 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06B865681EB7D7FF002FFD0A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865671EB7D7FF002FFD0A /* MainViewController.swift */; };
+		06B8656C1EB7E585002FFD0A /* ButtonActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */; };
+		06B8656F1EB7EE26002FFD0A /* NoActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B8656E1EB7EE26002FFD0A /* NoActionCell.swift */; };
+		06B865711EB7EF71002FFD0A /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865701EB7EF70002FFD0A /* ActionCell.swift */; };
+		06B865741EB81EED002FFD0A /* UIStoryboard+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865731EB81EED002FFD0A /* UIStoryboard+Ext.swift */; };
 		95618F03D266FD67E59D72C1 /* Pods_SBrick_Controller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2356330B8EE1F431B7A0BC /* Pods_SBrick_Controller.framework */; };
 		E532F0E51EB6F68C0061D4E8 /* GameControllerAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E532F0E41EB6F68C0061D4E8 /* GameControllerAction.swift */; };
 		E59CF2F91EAF13B100661A77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CF2F81EAF13B100661A77 /* AppDelegate.swift */; };
 		E59CF2FE1EAF13B100661A77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E59CF2FC1EAF13B100661A77 /* Main.storyboard */; };
 		E59CF3001EAF13B100661A77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E59CF2FF1EAF13B100661A77 /* Assets.xcassets */; };
 		E59CF3031EAF13B100661A77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E59CF3011EAF13B100661A77 /* LaunchScreen.storyboard */; };
-		E59CF30B1EAF140C00661A77 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CF30A1EAF140C00661A77 /* MainViewController.swift */; };
 		E59CF3151EAF17C400661A77 /* ICade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CF3111EAF17C400661A77 /* ICade.swift */; };
 		E59CF3161EAF17C400661A77 /* engine.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E59CF3131EAF17C400661A77 /* engine.mp3 */; };
 		E59CF3171EAF17C400661A77 /* horn.wav in Resources */ = {isa = PBXBuildFile; fileRef = E59CF3141EAF17C400661A77 /* horn.wav */; };
@@ -21,6 +25,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06B865671EB7D7FF002FFD0A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonActionsViewController.swift; sourceTree = "<group>"; };
+		06B8656E1EB7EE26002FFD0A /* NoActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoActionCell.swift; sourceTree = "<group>"; };
+		06B865701EB7EF70002FFD0A /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
+		06B865731EB81EED002FFD0A /* UIStoryboard+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Ext.swift"; sourceTree = "<group>"; };
 		2FBE4A2E1AB5D2A34581299D /* Pods-SBrick-Controller.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBrick-Controller.release.xcconfig"; path = "Pods/Target Support Files/Pods-SBrick-Controller/Pods-SBrick-Controller.release.xcconfig"; sourceTree = "<group>"; };
 		A0F527C52523843D3F9F9343 /* Pods-SBrick-Controller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBrick-Controller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SBrick-Controller/Pods-SBrick-Controller.debug.xcconfig"; sourceTree = "<group>"; };
 		AE2356330B8EE1F431B7A0BC /* Pods_SBrick_Controller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SBrick_Controller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,7 +40,6 @@
 		E59CF2FF1EAF13B100661A77 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E59CF3021EAF13B100661A77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E59CF3041EAF13B100661A77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E59CF30A1EAF140C00661A77 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		E59CF3111EAF17C400661A77 /* ICade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICade.swift; sourceTree = "<group>"; };
 		E59CF3131EAF17C400661A77 /* engine.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = engine.mp3; sourceTree = "<group>"; };
 		E59CF3141EAF17C400661A77 /* horn.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = horn.wav; sourceTree = "<group>"; };
@@ -50,6 +58,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06B865661EB7D7EE002FFD0A /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				06B865721EB81ED0002FFD0A /* Helpers */,
+				06B8656D1EB7EC9C002FFD0A /* Cells */,
+				06B865671EB7D7FF002FFD0A /* MainViewController.swift */,
+				06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		06B8656D1EB7EC9C002FFD0A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				06B8656E1EB7EE26002FFD0A /* NoActionCell.swift */,
+				06B865701EB7EF70002FFD0A /* ActionCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		06B865721EB81ED0002FFD0A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				06B865731EB81EED002FFD0A /* UIStoryboard+Ext.swift */,
+			);
+			name = Helpers;
+			path = "SBrick-Controller/Helpers";
+			sourceTree = SOURCE_ROOT;
+		};
 		D87322A04A213A8D791202B5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -81,8 +118,8 @@
 			children = (
 				E59CF3101EAF17C400661A77 /* iCade */,
 				E59CF3121EAF17C400661A77 /* Resources */,
+				06B865661EB7D7EE002FFD0A /* ViewControllers */,
 				E59CF2F81EAF13B100661A77 /* AppDelegate.swift */,
-				E59CF30A1EAF140C00661A77 /* MainViewController.swift */,
 				E59CF2FC1EAF13B100661A77 /* Main.storyboard */,
 				E59CF2FF1EAF13B100661A77 /* Assets.xcassets */,
 				E59CF3011EAF13B100661A77 /* LaunchScreen.storyboard */,
@@ -205,7 +242,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		7B7BE9C0273B2085F07FD571 /* [CP] Copy Pods Resources */ = {
@@ -245,11 +282,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06B865711EB7EF71002FFD0A /* ActionCell.swift in Sources */,
 				E532F0E51EB6F68C0061D4E8 /* GameControllerAction.swift in Sources */,
-				E59CF30B1EAF140C00661A77 /* MainViewController.swift in Sources */,
 				E5E55C471EB6E29100C4A288 /* GameController.swift in Sources */,
+				06B8656C1EB7E585002FFD0A /* ButtonActionsViewController.swift in Sources */,
 				E59CF2F91EAF13B100661A77 /* AppDelegate.swift in Sources */,
+				06B865741EB81EED002FFD0A /* UIStoryboard+Ext.swift in Sources */,
+				06B8656F1EB7EE26002FFD0A /* NoActionCell.swift in Sources */,
 				E59CF3151EAF17C400661A77 /* ICade.swift in Sources */,
+				06B865681EB7D7FF002FFD0A /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

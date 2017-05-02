@@ -247,14 +247,31 @@ extension MainViewController {
         let button = GameControllerButton.allButtons[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.textLabel?.text = button.name
-        cell.detailTextLabel?.text = "No action"
+        
+        let pressAction = self.buttonPressActions[button]
+        let releaseAction = self.buttonReleaseActions[button]
+        let valueAction = self.buttonValueActions[button]
+        
+        let none = "-"
+        
+        cell.detailTextLabel?.text = "\(pressAction?.name ?? none) / \(releaseAction?.name ?? none) / \(valueAction?.name ?? none)"
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //TBD
+        //deselect
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let button = GameControllerButton.allButtons[indexPath.row]
+        
+        let vc = ButtonActionsViewController.instantiate()
+        vc.pressAction = self.buttonPressActions[button]
+        vc.releaseAction = self.buttonReleaseActions[button]
+        vc.valueAction = self.buttonValueActions[button]
+        
+        let nav = UINavigationController(rootViewController: vc)
+        present(nav, animated: true, completion: nil)
     }
     
 }
