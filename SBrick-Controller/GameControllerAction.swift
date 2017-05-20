@@ -62,10 +62,16 @@ enum GameControllerPressAction: GameControllerAction {
 
 enum GameControllerValueAction: GameControllerAction {
     
-    case drive(channel: UInt8, cw: Bool, minPower: UInt8, maxPower: UInt8)
+    case drive(channel: UInt8, cw: Bool, minPower: UInt8, maxPower: UInt8, easing: Easing)
         
     //MARK: - Helpers
-    static func power(fromValue value: Float, minPower: UInt8, maxPower: UInt8) -> UInt8 {
+    static func power(fromValue inValue: Float, minPower: UInt8, maxPower: UInt8, easing: Easing = .linear) -> (value: UInt8, isNegative: Bool) {
+        
+        //keep polarity, but calculate as UInt8
+        let isNegative: Bool = (inValue < 0)
+        let value = easing.curve(abs(inValue))
+        
+        //print("\(inValue) -> \(isNegative ? "-" : "+")\(value))")
         
         //protect (if min = 100, max = 50 -> min = 50)
         let minPower = min(maxPower, minPower)
@@ -74,14 +80,15 @@ enum GameControllerValueAction: GameControllerAction {
         let relativePower = UInt(Float(maxPower - minPower) * value) + UInt(minPower)
         
         //protect and cast
-        return UInt8(min(relativePower, UInt(0xFF)))
+        let power = UInt8(min(relativePower, UInt(0xFF)))
+        return (value: power, isNegative: isNegative)
     }
     
     var name: String {
         
         switch self {
             
-        case .drive(_,_,_,_):
+        case .drive(_,_,_,_,_):
             return "Drive"
             
         }
@@ -92,11 +99,54 @@ enum GameControllerValueAction: GameControllerAction {
         
         switch self {
             
-        case .drive(let channel, let cw, let minPower, let maxPower):
-            return "Channel: \(channel), Power: \(minPower)-\(maxPower) \(cw ? "CW" : "CCW")"
+        case let .drive(channel, cw, minPower, maxPower, easing):
+            return "Channel: \(channel), Power: \(minPower)-\(maxPower) \(cw ? "CW" : "CCW") \(easing.description)"
             
         }
     }
 
-    
+    enum Easing {
+        
+        case linear
+        case easeIn
+        case easeOut
+        case easeInOut
+        
+        var curve: ((Float)->Float) {
+            
+            switch self {
+            case .linear:
+                return { $0 }
+                
+            case .easeIn:
+                return { $0 * $0 }
+                
+            case .easeOut:
+                return { $0 * (2 - $0) }
+                
+            case .easeInOut:
+                return {
+                    if $0 < 0.5 {
+                        return 2 * $0 * $0
+                    }
+                    else {
+                        return -1 + (4 - 2 * $0) * $0
+                    }
+                }
+                
+            }
+        }
+        
+        var description: String {
+            
+            switch self {
+            case .linear:       return "Linear"
+            case .easeIn:       return "Ease In"
+            case .easeOut:      return "Ease Out"
+            case .easeInOut:    return "Ease In Out"
+            }
+        }
+    }
 }
+
+

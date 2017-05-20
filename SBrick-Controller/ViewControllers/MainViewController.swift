@@ -19,7 +19,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     
     let driveChannel: UInt8 = 2
     let steerChannel: UInt8 = 0
-    let steerCW: Bool = true
+    let steerCW: Bool = false
     
     var buttonPressActions =    [GameControllerButton: GameControllerPressAction]()
     var buttonReleaseActions =  [GameControllerButton: GameControllerPressAction]()
@@ -63,39 +63,37 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
                 self.onButton(.start, pressed: false)
             }
             
-            linkInput(gameController.gamepad?.buttonA, button: .buttonA)
-            linkInput(gameController.gamepad?.buttonB, button: .buttonB)
-            linkInput(gameController.gamepad?.buttonX, button: .buttonX)
-            linkInput(gameController.gamepad?.buttonY, button: .buttonY)
-            linkInput(gameController.gamepad?.leftShoulder, button: .leftShoulder)
-            linkInput(gameController.gamepad?.rightShoulder, button: .rightShoulder)
-            linkInput(gameController.gamepad?.dpad.up, button: .up)
-            linkInput(gameController.gamepad?.dpad.down, button: .down)
-            linkInput(gameController.gamepad?.dpad.left, button: .left)
-            linkInput(gameController.gamepad?.dpad.right, button: .right)
-            linkInput(gameController.extendedGamepad?.leftTrigger, button: .leftTrigger)
-            linkInput(gameController.extendedGamepad?.rightTrigger, button: .rightTrigger)
+            linkButton(gameController.gamepad?.buttonA, to: .buttonA)
+            linkButton(gameController.gamepad?.buttonB, to: .buttonB)
+            linkButton(gameController.gamepad?.buttonX, to: .buttonX)
+            linkButton(gameController.gamepad?.buttonY, to: .buttonY)
+            linkButton(gameController.gamepad?.leftShoulder, to: .leftShoulder)
+            linkButton(gameController.gamepad?.rightShoulder, to: .rightShoulder)
+            linkButton(gameController.gamepad?.dpad.up, to: .up)
+            linkButton(gameController.gamepad?.dpad.down, to: .down)
+            linkButton(gameController.gamepad?.dpad.left, to: .left)
+            linkButton(gameController.gamepad?.dpad.right, to: .right)
+            linkButton(gameController.extendedGamepad?.leftTrigger, to: .leftTrigger)
+            linkButton(gameController.extendedGamepad?.rightTrigger, to: .rightTrigger)
             
+            linkAxis(gameController.extendedGamepad?.leftThumbstick.xAxis, to: .leftThumbstickX)
+            linkAxis(gameController.extendedGamepad?.leftThumbstick.yAxis, to: .leftThumbstickY)
+            linkAxis(gameController.extendedGamepad?.rightThumbstick.xAxis, to: .rightThumbstickX)
+            linkAxis(gameController.extendedGamepad?.rightThumbstick.yAxis, to: .rightThumbstickY)
             
-            gameController.extendedGamepad?.leftThumbstick.xAxis.valueChangedHandler = { input, value in
-                print(value)
-            }
-            
-            gameController.extendedGamepad?.leftThumbstick.yAxis.valueChangedHandler = { input, value in
-                print(value)
-            }
-            
-            gameController.extendedGamepad?.rightThumbstick.xAxis.valueChangedHandler = { input, value in
-                print(value)
-            }
-            
-            gameController.extendedGamepad?.rightThumbstick.yAxis.valueChangedHandler = { input, value in
-                print(value)
-            }
         }
     }
     
-    func linkInput(_ input: GCControllerButtonInput?, button: GameControllerButton) {
+    func linkAxis(_ axis: GCControllerAxisInput?, to button: GameControllerButton) {
+        
+        guard let axis = axis else { return }
+        
+        axis.valueChangedHandler = { [unowned self] axis, value in
+            self.onButton(button, value: value)
+        }
+    }
+    
+    func linkButton(_ input: GCControllerButtonInput?,to button: GameControllerButton) {
         
         guard let input = input else { return }
         
@@ -151,6 +149,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     func sbrickConnected(_ sbrick: SBrick) {
         statusLabel.text = "SBrick connected!"
         self.sbrick = sbrick
+        sbrick.channels[Int(driveChannel)].drivePowerThreshold = 32
     }
     
     func sbrickDisconnected(_ sbrick: SBrick) {
@@ -285,9 +284,10 @@ extension MainViewController {
         let actionDict = pressed ? self.buttonPressActions : self.buttonReleaseActions
         guard let action = actionDict[button] else { return }
         
-        print("\(button) \(pressed ? "pressed" : "released")")
+        //print("\(button) \(pressed ? "pressed" : "released")")
         
         if let index = GameControllerButton.allButtons.index(of: button) {
+            
             let indexPath = IndexPath(row: index, section: 0)
             if pressed {
                 self.scrollToIfNeeded(indexPath, andSelect: true)
@@ -299,27 +299,21 @@ extension MainViewController {
         
         
         switch action {
+            
         case .playSound(let soundName, let ext):
             self.playSound(name: soundName, withExtension: ext)
-            break
         
-        case .stopSound(let soundName, let ext):
+        case .stopSound(_,_):
             self.stopSound()
-            break
             
         case .drive(let channel, let cw, let power):
+            guard let sbrick = self.sbrick else { return }
+            sbrick.channels[Int(channel)].drive(power: power, isCW: cw)
             
-            if let sbrick = self.sbrick {
-               sbrick.send(command: .drive(channelId: channel, cw: cw, power: power))
-            }
-            break
             
         case .stop(let channel):
-            
-            if let sbrick = self.sbrick {
-                sbrick.send(command: .stop(channelId: channel))
-            }
-            break
+            guard let sbrick = self.sbrick else { return }
+            sbrick.channels[Int(channel)].stop()
             
         }
         
@@ -329,27 +323,31 @@ extension MainViewController {
         
         guard let action = buttonValueActions[button] else { return }
         
-        print("\(button) value: \(value)")
+        //print("\(button) value: \(value)")
         
         if let index = GameControllerButton.allButtons.index(of: button) {
             let indexPath = IndexPath(row: index, section: 0)
             scrollToIfNeeded(indexPath, andSelect: false)
             
             if let cell = self.tableView.cellForRow(at: indexPath) as? ButtonCell {
-                cell.progressView.progress = value
+                cell.progressView.progress = abs(value)
             }
         }
         
         switch action {
             
-        case .drive(let channel, let cw, let minPower, let maxPower):
+        case let .drive(channel, cw, minPower, maxPower, easing):
+            guard let sbrick = self.sbrick else { return }
             
-            let power = GameControllerValueAction.power(fromValue: value, minPower: minPower, maxPower: maxPower)
+            let power = GameControllerValueAction.power(fromValue: value, minPower: minPower, maxPower: maxPower, easing: easing)
             
-            if let sbrick = self.sbrick {
-                sbrick.send(command: .drive(channelId: channel, cw: cw, power: power))
+            if power.value == 0 {
+                sbrick.channels[Int(channel)].stop()
             }
-            break
+            else {
+                let isCW = power.isNegative ? !cw : cw
+                sbrick.channels[Int(channel)].drive(power: power.value, isCW: isCW)
+            }
             
         }
         
@@ -363,17 +361,18 @@ extension MainViewController {
         buttonPressActions.removeAll()
         buttonReleaseActions.removeAll()
         
-        buttonValueActions[.left] = GameControllerValueAction.drive(channel: steerChannel, cw: steerCW, minPower: 0, maxPower: 0xFF)
+        buttonValueActions[.leftThumbstickX] = GameControllerValueAction.drive(channel: steerChannel, cw: steerCW, minPower: 0, maxPower: 0xFF, easing: .easeIn)
+        
+        buttonValueActions[.rightThumbstickY] = GameControllerValueAction.drive(channel: driveChannel, cw: false, minPower: 0, maxPower: 0xFF, easing: .easeIn)
+        
+        buttonPressActions[.left]   = GameControllerPressAction.drive(channel: steerChannel, cw: !steerCW, power: 0xFF)
         buttonReleaseActions[.left] = GameControllerPressAction.stop(channel: steerChannel)
         
-        buttonValueActions[.right] = GameControllerValueAction.drive(channel: steerChannel, cw: !steerCW, minPower: 0, maxPower: 0xFF)
+        buttonPressActions[.right]   = GameControllerPressAction.drive(channel: steerChannel, cw: steerCW, power: 0xFF)
         buttonReleaseActions[.right] = GameControllerPressAction.stop(channel: steerChannel)
         
-        buttonValueActions[.buttonA] = GameControllerValueAction.drive(channel: driveChannel, cw: false, minPower: 0, maxPower: 0xFF)
-        buttonReleaseActions[.buttonA] = GameControllerPressAction.stop(channel: driveChannel)
-        
-        buttonValueActions[.buttonB] = GameControllerValueAction.drive(channel: driveChannel, cw: true, minPower: 0, maxPower: 0xFF)
-        buttonReleaseActions[.buttonB] = GameControllerPressAction.stop(channel: driveChannel)
+        buttonValueActions[.buttonA] = GameControllerValueAction.drive(channel: driveChannel, cw: false, minPower: 0, maxPower: 0xFF, easing: .linear)
+        buttonValueActions[.buttonB] = GameControllerValueAction.drive(channel: driveChannel, cw: true, minPower: 0, maxPower: 0xFF, easing: .linear)
 
         buttonPressActions[.leftShoulder] = GameControllerPressAction.playSound(soundName: "horn", ext: "wav")
         buttonReleaseActions[.leftShoulder] = GameControllerPressAction.stopSound(soundName: "horn", ext: "wav")
@@ -386,86 +385,3 @@ extension MainViewController {
 }
 
 
-
-
-
-extension MainViewController {
-    
-    /*
-    enum State {
-        case idle
-        case driving
-        case stopped
-        case reversing
-    }
-    
-    var didReverseCW = false
-    var state = State.idle {
-     
-        didSet {
-     
-            guard let sbrick = self.sbrick else { return }
-            
-            switch state {
-                
-            case .idle:
-                sbrick.send(command: .stop(channelId: 0x02))
-                sbrick.send(command: .stop(channelId: 0x03))
-                
-            case .driving:
-                self.didReverseCW = false
-                sbrick.send(command: .drive(channelId: 0x02, cw: false, power: 255))
-                
-            case .stopped:
-                sbrick.send(command: .stop(channelId: 0x02))
-                
-            case .reversing:
-                self.didReverseCW = !self.didReverseCW
-                sbrick.send(command: .stop(channelId: 0x02))
-                sbrick.send(command: .drive(channelId: 0x03, cw: didReverseCW, power: 255))
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                    sbrick.send(command: .drive(channelId: 0x02, cw: true, power: 255))
-                })
-                
-            }
-        }
-        
-    }
-    
-    
-    var adcTimer: Timer?
-    func startAutodrive() {
-        
-        guard let sbrick = self.sbrick else { return }
-        
-        sbrick.send(command: .write(bytes: [0x2C,0x01]))
-        
-        adcTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { [weak self] (timer) in
-            
-            guard let _self = self else { return }
-            guard let sbrick = _self.manager.sbricks.first else { return }
-            
-            
-            sbrick.send(command: .queryADC(channelId: 0x01)) { (bytes) in
-                
-                let adcValue = bytes.uint16littleEndianValue()/16
-                
-                print("ADC 01: \(adcValue)")
-                
-                if adcValue > 250 && _self.state == .idle {
-                    _self.state = .driving
-                    
-                }
-                else if adcValue < 250 && _self.state != .reversing {
-                    _self.state = .reversing
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                        _self.state = .idle
-                    })
-                }
-            }
-        })
-    }
-    */
-    
-}

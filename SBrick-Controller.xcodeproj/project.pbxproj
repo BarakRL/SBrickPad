@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		066373F11ECFF262001B0ACA /* AutodriveLogic.txt in Resources */ = {isa = PBXBuildFile; fileRef = 066373F01ECFF262001B0ACA /* AutodriveLogic.txt */; };
 		06B865681EB7D7FF002FFD0A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865671EB7D7FF002FFD0A /* MainViewController.swift */; };
 		06B8656C1EB7E585002FFD0A /* ButtonActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */; };
 		06B865711EB7EF71002FFD0A /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865701EB7EF70002FFD0A /* ActionCell.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		066373F01ECFF262001B0ACA /* AutodriveLogic.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AutodriveLogic.txt; sourceTree = "<group>"; };
 		06B865671EB7D7FF002FFD0A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonActionsViewController.swift; sourceTree = "<group>"; };
 		06B865701EB7EF70002FFD0A /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			children = (
 				E59CF3131EAF17C400661A77 /* engine.mp3 */,
 				E59CF3141EAF17C400661A77 /* horn.wav */,
+				066373F01ECFF262001B0ACA /* AutodriveLogic.txt */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -223,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E59CF3171EAF17C400661A77 /* horn.wav in Resources */,
+				066373F11ECFF262001B0ACA /* AutodriveLogic.txt in Resources */,
 				E59CF3031EAF13B100661A77 /* LaunchScreen.storyboard in Resources */,
 				E59CF3001EAF13B100661A77 /* Assets.xcassets in Resources */,
 				E59CF3161EAF17C400661A77 /* engine.mp3 in Resources */,

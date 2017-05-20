@@ -25,6 +25,11 @@ public enum GameControllerButton {
     case leftTrigger
     case rightTrigger
     
+    case leftThumbstickX
+    case leftThumbstickY
+    case rightThumbstickX
+    case rightThumbstickY
+    
     public var name: String {
         
         switch self {
@@ -42,11 +47,16 @@ public enum GameControllerButton {
         case .rightShoulder:    return "Right Shoulder"
         case .leftTrigger:      return "Left Trigger"
         case .rightTrigger:     return "Right Trigger"
+        case .leftThumbstickX:  return "Left Thumbstick X Axis"
+        case .leftThumbstickY:  return "Left Thumbstick Y Axis"
+        case .rightThumbstickX: return "Right Thumbstick X Axis"
+        case .rightThumbstickY: return "Right Thumbstick Y Axis"
             
         }
     }
     
     public static let allButtons = [up, down, left, right, start, select,
                                     buttonA, buttonB, buttonX, buttonY,
-                                    leftShoulder, rightShoulder, leftTrigger, rightTrigger]
+                                    leftShoulder, rightShoulder, leftTrigger, rightTrigger,
+                                    leftThumbstickX, leftThumbstickY, rightThumbstickX, rightThumbstickY]
 }
