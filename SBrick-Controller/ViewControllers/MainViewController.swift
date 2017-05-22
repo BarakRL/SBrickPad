@@ -11,6 +11,7 @@ import SBrick
 import CoreBluetooth
 import AVFoundation
 import GameController
+import JSONCodable
 
 class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDelegate {
 
@@ -191,7 +192,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         }
     }
     
-    func stopSound() {
+    func stopSound(name soundName: String, withExtension ext: String) {
         player?.stop()
     }
     
@@ -298,23 +299,23 @@ extension MainViewController {
         }
         
         
-        switch action {
+        if let action = action as? PlaySoundAction {
             
-        case .playSound(let soundName, let ext):
-            self.playSound(name: soundName, withExtension: ext)
-        
-        case .stopSound(_,_):
-            self.stopSound()
+            self.playSound(name: action.soundName, withExtension: action.ext)
+        }
+        else if let action = action as? StopSoundAction {
             
-        case .drive(let channel, let cw, let power):
+            self.stopSound(name: action.soundName, withExtension: action.ext)
+        }
+        else if let action = action as? DriveAction {
+            
             guard let sbrick = self.sbrick else { return }
-            sbrick.channels[Int(channel)].drive(power: power, isCW: cw)
+            sbrick.channels[Int(action.channel)].drive(power: action.power, isCW: action.isCW)
+        }
+        else if let action = action as? StopAction {
             
-            
-        case .stop(let channel):
             guard let sbrick = self.sbrick else { return }
-            sbrick.channels[Int(channel)].stop()
-            
+            sbrick.channels[Int(action.channel)].stop()
         }
         
     }
@@ -334,23 +335,20 @@ extension MainViewController {
             }
         }
         
-        switch action {
+        if let action = action as? DriveValueAction {
             
-        case let .drive(channel, cw, minPower, maxPower, easing):
             guard let sbrick = self.sbrick else { return }
             
-            let power = GameControllerValueAction.power(fromValue: value, minPower: minPower, maxPower: maxPower, easing: easing)
+            let power = action.relativePower(fromValue: value)
             
             if power.value == 0 {
-                sbrick.channels[Int(channel)].stop()
+                sbrick.channels[Int(action.channel)].stop()
             }
             else {
-                let isCW = power.isNegative ? !cw : cw
-                sbrick.channels[Int(channel)].drive(power: power.value, isCW: isCW)
+                let isCW = power.isNegative ? !action.isCW : action.isCW
+                sbrick.channels[Int(action.channel)].drive(power: power.value, isCW: isCW)
             }
-            
         }
-        
     }
 
     
@@ -361,25 +359,32 @@ extension MainViewController {
         buttonPressActions.removeAll()
         buttonReleaseActions.removeAll()
         
-        buttonValueActions[.leftThumbstickX] = GameControllerValueAction.drive(channel: steerChannel, cw: steerCW, minPower: 0, maxPower: 0xFF, easing: .easeIn)
+        buttonValueActions[.leftThumbstickX] = DriveValueAction(channel: steerChannel, minPower: 0, maxPower: 0xFF, isCW: steerCW, easing: .easeIn)
+        buttonValueActions[.rightThumbstickY] = DriveValueAction(channel: driveChannel, minPower: 0, maxPower: 0xFF, isCW: false, easing: .easeIn)
         
-        buttonValueActions[.rightThumbstickY] = GameControllerValueAction.drive(channel: driveChannel, cw: false, minPower: 0, maxPower: 0xFF, easing: .easeIn)
+        buttonPressActions[.left]   = DriveAction(channel: steerChannel, power: 0xFF, isCW: !steerCW)
+        buttonReleaseActions[.left] = StopAction(channel: steerChannel)
         
-        buttonPressActions[.left]   = GameControllerPressAction.drive(channel: steerChannel, cw: !steerCW, power: 0xFF)
-        buttonReleaseActions[.left] = GameControllerPressAction.stop(channel: steerChannel)
+        buttonPressActions[.right]   = DriveAction(channel: steerChannel, power: 0xFF, isCW: steerCW)
+        buttonReleaseActions[.right] = StopAction(channel: steerChannel)
         
-        buttonPressActions[.right]   = GameControllerPressAction.drive(channel: steerChannel, cw: steerCW, power: 0xFF)
-        buttonReleaseActions[.right] = GameControllerPressAction.stop(channel: steerChannel)
-        
-        buttonValueActions[.buttonA] = GameControllerValueAction.drive(channel: driveChannel, cw: false, minPower: 0, maxPower: 0xFF, easing: .linear)
-        buttonValueActions[.buttonB] = GameControllerValueAction.drive(channel: driveChannel, cw: true, minPower: 0, maxPower: 0xFF, easing: .linear)
+        buttonValueActions[.buttonA] = DriveValueAction(channel: driveChannel, minPower: 0, maxPower: 0xFF, isCW: false)
+        buttonValueActions[.buttonB] = DriveValueAction(channel: driveChannel, minPower: 0, maxPower: 0xFF, isCW: true)
 
-        buttonPressActions[.leftShoulder] = GameControllerPressAction.playSound(soundName: "horn", ext: "wav")
-        buttonReleaseActions[.leftShoulder] = GameControllerPressAction.stopSound(soundName: "horn", ext: "wav")
+        buttonPressActions[.leftShoulder] = PlaySoundAction(soundName: "horn", ext: "wav")
+        buttonReleaseActions[.leftShoulder] = StopSoundAction(soundName: "horn", ext: "wav")
         
-        buttonPressActions[.rightShoulder] = GameControllerPressAction.playSound(soundName: "engine", ext: "mp3")
-        buttonReleaseActions[.rightShoulder] = GameControllerPressAction.stopSound(soundName: "engine", ext: "mp3")
-
+        buttonPressActions[.rightShoulder] = PlaySoundAction(soundName: "engine", ext: "mp3")
+        buttonReleaseActions[.rightShoulder] = StopSoundAction(soundName: "engine", ext: "mp3")
+        
+        
+        //TEST loading/saving:
+        
+        if let json = try? buttonPressActions.toJSON(), let buttonValueActionsJSON = json as? [String: JSONObject] {
+            
+            let buttonActions = GameControllerActionLoader.buttonActions(from: buttonValueActionsJSON)
+            print(buttonActions)
+        }
     }
     
 }

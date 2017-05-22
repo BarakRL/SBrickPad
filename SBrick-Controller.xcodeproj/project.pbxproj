@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		066373F11ECFF262001B0ACA /* AutodriveLogic.txt in Resources */ = {isa = PBXBuildFile; fileRef = 066373F01ECFF262001B0ACA /* AutodriveLogic.txt */; };
+		066373F41ED2A239001B0ACA /* GameControllerPressActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066373F31ED2A239001B0ACA /* GameControllerPressActions.swift */; };
+		066373F61ED2A291001B0ACA /* GameControllerValueActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066373F51ED2A291001B0ACA /* GameControllerValueActions.swift */; };
+		066373F81ED2A3C7001B0ACA /* GameControllerValueActionEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066373F71ED2A3C7001B0ACA /* GameControllerValueActionEasing.swift */; };
+		066373FA1ED2AB8C001B0ACA /* GameControllerActionLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066373F91ED2AB8C001B0ACA /* GameControllerActionLoader.swift */; };
 		06B865681EB7D7FF002FFD0A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865671EB7D7FF002FFD0A /* MainViewController.swift */; };
 		06B8656C1EB7E585002FFD0A /* ButtonActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */; };
 		06B865711EB7EF71002FFD0A /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865701EB7EF70002FFD0A /* ActionCell.swift */; };
@@ -28,6 +32,10 @@
 
 /* Begin PBXFileReference section */
 		066373F01ECFF262001B0ACA /* AutodriveLogic.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AutodriveLogic.txt; sourceTree = "<group>"; };
+		066373F31ED2A239001B0ACA /* GameControllerPressActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerPressActions.swift; sourceTree = "<group>"; };
+		066373F51ED2A291001B0ACA /* GameControllerValueActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerValueActions.swift; sourceTree = "<group>"; };
+		066373F71ED2A3C7001B0ACA /* GameControllerValueActionEasing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerValueActionEasing.swift; sourceTree = "<group>"; };
+		066373F91ED2AB8C001B0ACA /* GameControllerActionLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerActionLoader.swift; sourceTree = "<group>"; };
 		06B865671EB7D7FF002FFD0A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonActionsViewController.swift; sourceTree = "<group>"; };
 		06B865701EB7EF70002FFD0A /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
@@ -36,7 +44,7 @@
 		2FBE4A2E1AB5D2A34581299D /* Pods-SBrick-Controller.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBrick-Controller.release.xcconfig"; path = "Pods/Target Support Files/Pods-SBrick-Controller/Pods-SBrick-Controller.release.xcconfig"; sourceTree = "<group>"; };
 		A0F527C52523843D3F9F9343 /* Pods-SBrick-Controller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBrick-Controller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SBrick-Controller/Pods-SBrick-Controller.debug.xcconfig"; sourceTree = "<group>"; };
 		AE2356330B8EE1F431B7A0BC /* Pods_SBrick_Controller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SBrick_Controller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E532F0E41EB6F68C0061D4E8 /* GameControllerAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerAction.swift; sourceTree = "<group>"; };
+		E532F0E41EB6F68C0061D4E8 /* GameControllerAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameControllerAction.swift; path = ../GameControllerAction.swift; sourceTree = "<group>"; };
 		E532F0E61EB85E840061D4E8 /* ActionParametersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionParametersViewController.swift; sourceTree = "<group>"; };
 		E59CF2F51EAF13B100661A77 /* SBrick-Controller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SBrick-Controller.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E59CF2F81EAF13B100661A77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +70,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		066373F21ED2A1FF001B0ACA /* GameControllerActions */ = {
+			isa = PBXGroup;
+			children = (
+				E532F0E41EB6F68C0061D4E8 /* GameControllerAction.swift */,
+				066373F31ED2A239001B0ACA /* GameControllerPressActions.swift */,
+				066373F51ED2A291001B0ACA /* GameControllerValueActions.swift */,
+				066373F71ED2A3C7001B0ACA /* GameControllerValueActionEasing.swift */,
+				066373F91ED2AB8C001B0ACA /* GameControllerActionLoader.swift */,
+			);
+			path = GameControllerActions;
+			sourceTree = "<group>";
+		};
 		06B865661EB7D7EE002FFD0A /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				E59CF3101EAF17C400661A77 /* iCade */,
+				066373F21ED2A1FF001B0ACA /* GameControllerActions */,
 				E59CF3121EAF17C400661A77 /* Resources */,
 				06B865721EB81ED0002FFD0A /* Helpers */,
 				06B865661EB7D7EE002FFD0A /* ViewControllers */,
@@ -130,7 +151,6 @@
 				E59CF3011EAF13B100661A77 /* LaunchScreen.storyboard */,
 				E59CF3041EAF13B100661A77 /* Info.plist */,
 				E5E55C461EB6E29100C4A288 /* GameController.swift */,
-				E532F0E41EB6F68C0061D4E8 /* GameControllerAction.swift */,
 			);
 			path = "SBrick-Controller";
 			sourceTree = "<group>";
@@ -289,6 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				066373F81ED2A3C7001B0ACA /* GameControllerValueActionEasing.swift in Sources */,
 				06B865711EB7EF71002FFD0A /* ActionCell.swift in Sources */,
 				E532F0E51EB6F68C0061D4E8 /* GameControllerAction.swift in Sources */,
 				E532F0E71EB85E840061D4E8 /* ActionParametersViewController.swift in Sources */,
@@ -296,8 +317,11 @@
 				E5E55C471EB6E29100C4A288 /* GameController.swift in Sources */,
 				06B8656C1EB7E585002FFD0A /* ButtonActionsViewController.swift in Sources */,
 				E59CF2F91EAF13B100661A77 /* AppDelegate.swift in Sources */,
+				066373FA1ED2AB8C001B0ACA /* GameControllerActionLoader.swift in Sources */,
+				066373F41ED2A239001B0ACA /* GameControllerPressActions.swift in Sources */,
 				06B865741EB81EED002FFD0A /* UIStoryboard+Ext.swift in Sources */,
 				E59CF3151EAF17C400661A77 /* ICade.swift in Sources */,
+				066373F61ED2A291001B0ACA /* GameControllerValueActions.swift in Sources */,
 				06B865681EB7D7FF002FFD0A /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
