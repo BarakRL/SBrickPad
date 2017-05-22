@@ -7,5 +7,6 @@ target 'SBrick-Controller' do
 
   # Pods for SBrick-Controller
   pod 'SBrick-iOS'
+  pod 'JSONCodable'
 
 end

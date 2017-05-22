@@ -17,7 +17,7 @@ class ActionCell: UITableViewCell {
             
             if let action = action {
                 self.textLabel?.text = action.name
-                self.detailTextLabel?.text = action.description
+                self.detailTextLabel?.text = action.info
             }
             else {
                 self.textLabel?.text = "No Action"
