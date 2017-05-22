@@ -20,7 +20,7 @@ class ActionCell: UITableViewCell {
                 self.detailTextLabel?.text = action.info
             }
             else {
-                self.textLabel?.text = "No Action"
+                self.textLabel?.text = "No Actions"
                 self.detailTextLabel?.text = nil
             }
         }

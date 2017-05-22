@@ -19,9 +19,9 @@ class ButtonActionsViewController: UITableViewController {
     
     var button: GameControllerButton!
     
-    var pressAction: GameControllerPressAction?
-    var releaseAction: GameControllerPressAction?
-    var valueAction: GameControllerValueAction?
+    var pressedActions: [GameControllerAction]!
+    var releasedActions: [GameControllerAction]!
+    var valueChangedActions: [GameControllerAction]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,43 +41,53 @@ class ButtonActionsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        let actions = self.actions(forSection: section)
+        return actions.count > 0 ? actions.count : 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var action: GameControllerAction?
-        switch indexPath.section {
-        case 0:
-            action = self.pressAction
-        
-        case 1:
-            action = self.releaseAction
-            
-        case 2:
-            action = self.valueAction
-            
-        default:
-            break
-        }
+        let actions = self.actions(forSection: indexPath.section)
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ActionCell.reuseIdentifier, for: indexPath) as! ActionCell
-        cell.action = action
+        if indexPath.row < actions.count {
+            cell.action = actions[indexPath.row]
+        }
+        else {
+            cell.action = nil
+        }
         
         return cell
+    }
+    
+    private func actions(forSection section: Int) -> [GameControllerAction] {
+        
+        switch section {
+        case 0:
+            return self.pressedActions
+            
+        case 1:
+            return self.releasedActions
+            
+        case 2:
+            return self.valueChangedActions
+            
+        default:
+            fatalError("Unknown section")
+        }
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         switch section {
         case 0:
-           return "Press Action"
+           return "On Press"
             
         case 1:
-            return "Release Action"
+            return "On Release"
             
         case 2:
-            return "Value Action"
+            return "On Value Change"
             
         default:
             return nil

@@ -14,39 +14,19 @@ enum GameControllerActionLoaderError: Error {
 }
 
 class GameControllerActionLoader {
-    
-    static func buttonActions(from object: [String: JSONObject]) -> [GameControllerButton: GameControllerAction] {
         
-        var buttonActions = [GameControllerButton: GameControllerAction]()        
-        for (key,value) in object {
-            
-            if let button =  GameControllerButton(rawValue: key),
-                let action = self.action(from: value) {
-                
-                buttonActions[button] = action
-            }
-        }
-        
-        return buttonActions
-     }
-    
     //MARK: - Helpers
     
-    static func action(from object: JSONObject) -> GameControllerAction? {
+    static func action(from object: JSONObject) throws -> GameControllerAction {
         
-        do {
-            let decoder = JSONDecoder(object: object)
-            let type: String = try decoder.decode("type")
-            
-            if let actionClass = self.actionClass(forType: type) {
-                return try actionClass.init(object: object)
-            }
-        }
-        catch {
-            print("JSON Error: \(error)")
+        let decoder = JSONDecoder(object: object)
+        let type: String = try decoder.decode("type")
+        
+        if let actionClass = self.actionClass(forType: type) {
+            return try actionClass.init(object: object)
         }
         
-        return nil
+        throw GameControllerActionLoaderError.UnknownAction
     }
     
     static func object(from JSONString: String) -> JSONObject? {
