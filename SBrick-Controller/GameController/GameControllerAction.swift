@@ -25,4 +25,3 @@ extension GameControllerAction {
 extension GameControllerAction {
     var description: String { return "\(name) (\(info))" }
 }
-

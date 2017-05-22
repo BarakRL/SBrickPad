@@ -1,5 +1,5 @@
 //
-//  GameController.swift
+//  GameControllerButton.swift
 //  SBrick-Controller
 //
 //  Created by Barak Harel on 4/30/17.
@@ -10,6 +10,17 @@ import Foundation
 import JSONCodable
 
 public enum GameControllerButton: String, JSONEncodable {
+    
+    enum Event: String, JSONEncodable {
+        
+        case pressed
+        case released
+        case valueChanged
+        
+        func toJSON() throws -> Any {
+            return self.rawValue
+        }
+    }
     
     case up
     case down

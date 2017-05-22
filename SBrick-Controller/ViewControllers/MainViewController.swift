@@ -22,9 +22,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     let steerChannel: UInt8 = 0
     let steerCW: Bool = false
     
-    var buttonPressActions =    [GameControllerButton: GameControllerPressAction]()
-    var buttonReleaseActions =  [GameControllerButton: GameControllerPressAction]()
-    var buttonValueActions =    [GameControllerButton: GameControllerValueAction]()
+    var buttonActions = [GameControllerButtonAction]()
     
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
@@ -227,13 +225,15 @@ extension MainViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: ButtonCell.reuseIdentifier, for: indexPath)
         cell.textLabel?.text = button.name
         
-        let pressAction = self.buttonPressActions[button]
-        let releaseAction = self.buttonReleaseActions[button]
-        let valueAction = self.buttonValueActions[button]
+        let pressedActions = self.actions(for: button, event: .pressed)
+        let releasedActions = self.actions(for: button, event: .released)
+        let valueChangedActions = self.actions(for: button, event: .valueChanged)
         
-        let none = "-"
+        let pressedActionTitle      = pressedActions.count > 1      ? "Multiple" : pressedActions.first?.name       ?? "-"
+        let releasedActionTitle     = releasedActions.count > 1     ? "Multiple" : releasedActions.first?.name      ?? "-"
+        let valueChangedActionTitle = valueChangedActions.count > 1 ? "Multiple" : valueChangedActions.first?.name  ?? "-"
         
-        cell.detailTextLabel?.text = "\(pressAction?.name ?? none) / \(releaseAction?.name ?? none) / \(valueAction?.name ?? none)"
+        cell.detailTextLabel?.text = "\(pressedActionTitle) / \(releasedActionTitle) / \(valueChangedActionTitle)"
         
         return cell
     }
@@ -245,9 +245,9 @@ extension MainViewController {
         let button = GameControllerButton.allButtons[indexPath.row]
         
         let vc = ButtonActionsViewController.instantiate()
-        vc.pressAction = self.buttonPressActions[button]
-        vc.releaseAction = self.buttonReleaseActions[button]
-        vc.valueAction = self.buttonValueActions[button]
+        vc.pressedActions = self.actions(for: button, event: .pressed)
+        vc.releasedActions = self.actions(for: button, event: .released)
+        vc.valueChangedActions = self.actions(for: button, event: .valueChanged)
         
         let nav = UINavigationController(rootViewController: vc)
         present(nav, animated: true, completion: nil)
@@ -282,8 +282,8 @@ extension MainViewController {
     
     func onButton(_ button: GameControllerButton, pressed: Bool) {
         
-        let actionDict = pressed ? self.buttonPressActions : self.buttonReleaseActions
-        guard let action = actionDict[button] else { return }
+        let event: GameControllerButton.Event = pressed ? .pressed : .released
+        let actions = self.actions(for: button, event: event)
         
         //print("\(button) \(pressed ? "pressed" : "released")")
         
@@ -298,31 +298,33 @@ extension MainViewController {
             }
         }
         
+        for action in actions {
         
-        if let action = action as? PlaySoundAction {
-            
-            self.playSound(name: action.soundName, withExtension: action.ext)
-        }
-        else if let action = action as? StopSoundAction {
-            
-            self.stopSound(name: action.soundName, withExtension: action.ext)
-        }
-        else if let action = action as? DriveAction {
-            
-            guard let sbrick = self.sbrick else { return }
-            sbrick.channels[Int(action.channel)].drive(power: action.power, isCW: action.isCW)
-        }
-        else if let action = action as? StopAction {
-            
-            guard let sbrick = self.sbrick else { return }
-            sbrick.channels[Int(action.channel)].stop()
+            if let action = action as? PlaySoundAction {
+                
+                self.playSound(name: action.soundName, withExtension: action.ext)
+            }
+            else if let action = action as? StopSoundAction {
+                
+                self.stopSound(name: action.soundName, withExtension: action.ext)
+            }
+            else if let action = action as? DriveAction {
+                
+                guard let sbrick = self.sbrick else { continue }
+                sbrick.channels[Int(action.channel)].drive(power: action.power, isCW: action.isCW)
+            }
+            else if let action = action as? StopAction {
+                
+                guard let sbrick = self.sbrick else { continue }
+                sbrick.channels[Int(action.channel)].stop()
+            }
         }
         
     }
     
     func onButton(_ button: GameControllerButton, value: Float) {
         
-        guard let action = buttonValueActions[button] else { return }
+        let actions = self.actions(for: button, event: .valueChanged)
         
         //print("\(button) value: \(value)")
         
@@ -335,18 +337,21 @@ extension MainViewController {
             }
         }
         
-        if let action = action as? DriveValueAction {
+        for action in actions {
             
-            guard let sbrick = self.sbrick else { return }
-            
-            let power = action.relativePower(fromValue: value)
-            
-            if power.value == 0 {
-                sbrick.channels[Int(action.channel)].stop()
-            }
-            else {
-                let isCW = power.isNegative ? !action.isCW : action.isCW
-                sbrick.channels[Int(action.channel)].drive(power: power.value, isCW: isCW)
+            if let action = action as? DriveValueAction {
+                
+                guard let sbrick = self.sbrick else { continue }
+                
+                let power = action.relativePower(fromValue: value)
+                
+                if power.value == 0 {
+                    sbrick.channels[Int(action.channel)].stop()
+                }
+                else {
+                    let isCW = power.isNegative ? !action.isCW : action.isCW
+                    sbrick.channels[Int(action.channel)].drive(power: power.value, isCW: isCW)
+                }
             }
         }
     }
@@ -356,37 +361,90 @@ extension MainViewController {
     
     func loadActions() {
         
-        buttonPressActions.removeAll()
-        buttonReleaseActions.removeAll()
+        //buttonPressActions.removeAll()
+        //buttonReleaseActions.removeAll()
+        buttonActions.removeAll()
         
-        buttonValueActions[.leftThumbstickX] = DriveValueAction(channel: steerChannel, minPower: 0, maxPower: 0xFF, isCW: steerCW, easing: .easeIn)
-        buttonValueActions[.rightThumbstickY] = DriveValueAction(channel: driveChannel, minPower: 0, maxPower: 0xFF, isCW: false, easing: .easeIn)
+        buttonActions.append(GameControllerButtonAction(button: .leftThumbstickX,
+                                                        action: DriveValueAction(channel: steerChannel, minPower: 0, maxPower: 0xFF, isCW: steerCW, easing: .easeIn),
+                                                        forEvent: .valueChanged))
         
-        buttonPressActions[.left]   = DriveAction(channel: steerChannel, power: 0xFF, isCW: !steerCW)
-        buttonReleaseActions[.left] = StopAction(channel: steerChannel)
+        buttonActions.append(GameControllerButtonAction(button: .rightThumbstickY,
+                                                        action: DriveValueAction(channel: driveChannel, minPower: 0, maxPower: 0xFF, isCW: false, easing: .easeIn),
+                                                        forEvent: .valueChanged))
         
-        buttonPressActions[.right]   = DriveAction(channel: steerChannel, power: 0xFF, isCW: steerCW)
-        buttonReleaseActions[.right] = StopAction(channel: steerChannel)
+        buttonActions.append(GameControllerButtonAction(button: .left,
+                                                        action: DriveAction(channel: steerChannel, power: 0xFF, isCW: !steerCW),
+                                                        forEvent: .pressed))
         
-        buttonValueActions[.buttonA] = DriveValueAction(channel: driveChannel, minPower: 0, maxPower: 0xFF, isCW: false)
-        buttonValueActions[.buttonB] = DriveValueAction(channel: driveChannel, minPower: 0, maxPower: 0xFF, isCW: true)
-
-        buttonPressActions[.leftShoulder] = PlaySoundAction(soundName: "horn", ext: "wav")
-        buttonReleaseActions[.leftShoulder] = StopSoundAction(soundName: "horn", ext: "wav")
+        buttonActions.append(GameControllerButtonAction(button: .left,
+                                                        action: StopAction(channel: steerChannel),
+                                                        forEvent: .released))
         
-        buttonPressActions[.rightShoulder] = PlaySoundAction(soundName: "engine", ext: "mp3")
-        buttonReleaseActions[.rightShoulder] = StopSoundAction(soundName: "engine", ext: "mp3")
+        buttonActions.append(GameControllerButtonAction(button: .right,
+                                                        action: DriveAction(channel: steerChannel, power: 0xFF, isCW: steerCW),
+                                                        forEvent: .pressed))
         
+        buttonActions.append(GameControllerButtonAction(button: .right,
+                                                        action: StopAction(channel: steerChannel),
+                                                        forEvent: .released))
+        
+        buttonActions.append(GameControllerButtonAction(button: .buttonA,
+                                                        action: DriveAction(channel: driveChannel, power: 0xFF, isCW: false),
+                                                        forEvent: .pressed))
+        
+        buttonActions.append(GameControllerButtonAction(button: .buttonA,
+                                                        action: StopAction(channel: driveChannel),
+                                                        forEvent: .released))
+        
+        buttonActions.append(GameControllerButtonAction(button: .buttonA,
+                                                        action: PlaySoundAction(soundName: "engine", ext: "mp3"),
+                                                        forEvent: .pressed))
+        
+        buttonActions.append(GameControllerButtonAction(button: .buttonA,
+                                                        action: StopSoundAction(soundName: "engine", ext: "mp3"),
+                                                        forEvent: .released))
+        
+        buttonActions.append(GameControllerButtonAction(button: .buttonB,
+                                                        action: DriveValueAction(channel: driveChannel, minPower: 0, maxPower: 0xFF, isCW: true),
+                                                        forEvent: .valueChanged))
+        
+        buttonActions.append(GameControllerButtonAction(button: .leftShoulder,
+                                                        action: PlaySoundAction(soundName: "horn", ext: "wav"),
+                                                        forEvent: .pressed))
+        
+        buttonActions.append(GameControllerButtonAction(button: .leftShoulder,
+                                                        action: StopSoundAction(soundName: "horn", ext: "wav"),
+                                                        forEvent: .released))
+        
+        buttonActions.append(GameControllerButtonAction(button: .rightShoulder,
+                                                        action: PlaySoundAction(soundName: "engine", ext: "mp3"),
+                                                        forEvent: .pressed))
+        
+        buttonActions.append(GameControllerButtonAction(button: .rightShoulder,
+                                                        action: StopSoundAction(soundName: "engine", ext: "mp3"),
+                                                        forEvent: .released))
         
         //TEST loading/saving:
         
-        if let json = try? buttonPressActions.toJSON(), let buttonValueActionsJSON = json as? [String: JSONObject] {
+        if let json = try? buttonActions.toJSON(), let jsonArray = json as? [Any] {
             
-            let buttonActions = GameControllerActionLoader.buttonActions(from: buttonValueActionsJSON)
+            let buttonActions = try! [GameControllerButtonAction].init(JSONArray: jsonArray)
             print(buttonActions)
         }
     }
     
+    func actions(for button: GameControllerButton, event: GameControllerButton.Event) -> [GameControllerAction] {
+        
+        var actions = [GameControllerAction]()
+        for buttonAction in buttonActions {
+            if buttonAction.button == button && buttonAction.event == event {
+                actions.append(buttonAction.action)
+            }
+        }
+        
+        return actions
+    }
 }
 
 
