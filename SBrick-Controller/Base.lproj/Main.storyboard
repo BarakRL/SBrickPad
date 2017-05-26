@@ -77,7 +77,13 @@
                             <outlet property="delegate" destination="0EC-wc-XBG" id="ue8-to-RaK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="L4t-4f-dDL"/>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="L4t-4f-dDL">
+                        <barButtonItem key="rightBarButtonItem" systemItem="organize" id="fxa-4s-llK">
+                            <connections>
+                                <action selector="organizePressed" destination="0EC-wc-XBG" id="RuW-4D-5R6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="statusLabel" destination="DFE-pu-nfK" id="O8d-Ti-k6Y"/>
                     </connections>
@@ -96,7 +102,7 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ActionCell" textLabel="1Np-fG-eQE" detailTextLabel="cax-J7-ILf" rowHeight="60" style="IBUITableViewCellStyleValue1" id="a0G-hg-JyX" customClass="ActionCell" customModule="SBrick_Controller" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="56" width="375" height="60"/>
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="a0G-hg-JyX" id="oRp-Bb-cHh">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>

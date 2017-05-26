@@ -27,31 +27,6 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationItem.title = "SBrick iCade"
-        
-        tableView.allowsMultipleSelection = true
-        
-        manager = SBrickManager(delegate: self)
-        
-        statusLabel.text = "Discovering..."
-        manager.startDiscovery()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(gameControllerConnected(notification:)), name: .GCControllerDidConnect, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(gameControllerDisconnected(notification:)), name: .GCControllerDidDisconnect, object: nil)
-        
-        if let gameController = GCController.controllers().first {
-            self.gameController = gameController
-        }
-        
-        loadActions()
-    }
-    
-    
-    
     var gameController: GCController? {
         didSet {
             
@@ -83,6 +58,29 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.title = "SBrick iCade"
+        
+        tableView.allowsMultipleSelection = true
+        
+        manager = SBrickManager(delegate: self)
+        
+        statusLabel.text = "Discovering..."
+        manager.startDiscovery()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(gameControllerConnected(notification:)), name: .GCControllerDidConnect, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(gameControllerDisconnected(notification:)), name: .GCControllerDidDisconnect, object: nil)
+        
+        if let gameController = GCController.controllers().first {
+            self.gameController = gameController
+        }
+        
+        loadActions()
+    }
+    
+    //MARK: - GCController
     func linkAxis(_ axis: GCControllerAxisInput?, to button: GameControllerButton) {
         
         guard let axis = axis else { return }
@@ -106,7 +104,6 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         
     }
     
-    
     func gameControllerConnected(notification: NSNotification) {
      
         guard let gameController = notification.object as? GCController else { return }
@@ -125,10 +122,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         print("disconnected: \(gameController)")
     }
     
-    override var canBecomeFirstResponder: Bool {
-        return true
-    }
-    
+    //MARK: - SBrick
     func sbrickManager(_ sbrickManager: SBrickManager, didDiscover sbrick: SBrick) {
         
         //stop for now
@@ -172,11 +166,8 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         print("sbrick [\(sbrick.name)] did read: \([UInt8](data))")
     }
     
-    var accPower: UInt8 = 0
-    var accTimer: Timer?
-    
+    //MARK: - Actions
     var soundPlayers = [URL:AVAudioPlayer]()
-    
     func playSound(name soundName: String, withExtension ext: String) {
         guard let url = Bundle.main.url(forResource: soundName, withExtension: ext) else {
             print("url not found")
@@ -214,6 +205,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         }
     }
     
+    //MARK: - Scroll
     var lastScrolledToIndexPath: IndexPath?
     func scrollToIfNeeded(_ indexPath: IndexPath, andSelect shouldSelect: Bool) {
         
@@ -229,6 +221,91 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     }
 }
 
+
+//MARK: - Load / Save
+extension MainViewController {
+    
+    @IBAction func organizePressed() {
+        
+    }
+    
+    func loadActions() {
+        
+        //buttonPressActions.removeAll()
+        //buttonReleaseActions.removeAll()
+        buttonActions.removeAll()
+        
+        buttonActions.append(GameControllerButtonAction(button: .leftThumbstickX,
+                                                        action: DriveValueAction(channel: steerChannel, minPower: 0, maxPower: 0xFF, isCW: steerCW, easing: .easeIn),
+                                                        forEvent: .valueChanged))
+        
+        buttonActions.append(GameControllerButtonAction(button: .rightThumbstickY,
+                                                        action: DriveValueAction(channel: driveChannel, minPower: 0, maxPower: 0xFF, isCW: false, easing: .easeIn),
+                                                        forEvent: .valueChanged))
+        
+        buttonActions.append(GameControllerButtonAction(button: .left,
+                                                        action: DriveAction(channel: steerChannel, power: 0xFF, isCW: !steerCW),
+                                                        forEvent: .pressed))
+        
+        buttonActions.append(GameControllerButtonAction(button: .left,
+                                                        action: StopAction(channel: steerChannel),
+                                                        forEvent: .released))
+        
+        buttonActions.append(GameControllerButtonAction(button: .right,
+                                                        action: DriveAction(channel: steerChannel, power: 0xFF, isCW: steerCW),
+                                                        forEvent: .pressed))
+        
+        buttonActions.append(GameControllerButtonAction(button: .right,
+                                                        action: StopAction(channel: steerChannel),
+                                                        forEvent: .released))
+        
+        buttonActions.append(GameControllerButtonAction(button: .buttonA,
+                                                        action: DriveAction(channel: driveChannel, power: 0xFF, isCW: false),
+                                                        forEvent: .pressed))
+        
+        buttonActions.append(GameControllerButtonAction(button: .buttonA,
+                                                        action: StopAction(channel: driveChannel),
+                                                        forEvent: .released))
+        
+        buttonActions.append(GameControllerButtonAction(button: .buttonA,
+                                                        action: PlaySoundAction(soundName: "engine", ext: "mp3"),
+                                                        forEvent: .pressed))
+        
+        buttonActions.append(GameControllerButtonAction(button: .buttonA,
+                                                        action: StopSoundAction(soundName: "engine", ext: "mp3"),
+                                                        forEvent: .released))
+        
+        buttonActions.append(GameControllerButtonAction(button: .buttonB,
+                                                        action: DriveValueAction(channel: driveChannel, minPower: 0, maxPower: 0xFF, isCW: true),
+                                                        forEvent: .valueChanged))
+        
+        buttonActions.append(GameControllerButtonAction(button: .leftShoulder,
+                                                        action: PlaySoundAction(soundName: "horn", ext: "wav"),
+                                                        forEvent: .pressed))
+        
+        buttonActions.append(GameControllerButtonAction(button: .leftShoulder,
+                                                        action: StopSoundAction(soundName: "horn", ext: "wav"),
+                                                        forEvent: .released))
+        
+        buttonActions.append(GameControllerButtonAction(button: .rightShoulder,
+                                                        action: PlaySoundAction(soundName: "engine", ext: "mp3"),
+                                                        forEvent: .pressed))
+        
+        buttonActions.append(GameControllerButtonAction(button: .rightShoulder,
+                                                        action: StopSoundAction(soundName: "engine", ext: "mp3"),
+                                                        forEvent: .released))
+        
+        //TEST loading/saving:
+        
+        if let json = try? buttonActions.toJSON(), let jsonArray = json as? [Any] {
+            
+            let buttonActions = try! [GameControllerButtonAction].init(JSONArray: jsonArray)
+            print(buttonActions)
+        }
+    }
+}
+
+//MARK: - TableView
 extension MainViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -277,6 +354,7 @@ extension MainViewController {
     
 }
 
+//MARK: - ButtonActionsViewControllerDelegate
 extension MainViewController: ButtonActionsViewControllerDelegate {
     
     func buttonActionsViewController(_ buttonActionsViewController: ButtonActionsViewController, shouldSaveActionsFor button: GameControllerButton) {
@@ -292,7 +370,12 @@ extension MainViewController: ButtonActionsViewControllerDelegate {
     
 }
 
+//MARK: - Buttons
 extension MainViewController {
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
     
     open override var keyCommands: [UIKeyCommand]? {
         
@@ -315,6 +398,28 @@ extension MainViewController {
         self.becomeFirstResponder()
         guard let button = ICadeButton.button(forPressKey: sender.input) else { print("Unknown key: \(sender.input)"); return }
         onButton(button, pressed: true)
+    }
+    
+    
+    func buttonActions(for button: GameControllerButton, event: GameControllerButton.Event) -> [GameControllerButtonAction] {
+        
+        var actions = [GameControllerButtonAction]()
+        for buttonAction in buttonActions {
+            if buttonAction.button == button && buttonAction.event == event {
+                actions.append(buttonAction)
+            }
+        }
+        
+        return actions
+    }
+    
+    func removeButtonActions(for button: GameControllerButton) {
+        
+        for i in (0..<buttonActions.count).reversed() {
+            if buttonActions[i].button == button {
+                buttonActions.remove(at: i)
+            }
+        }
     }
     
     func onButton(_ button: GameControllerButton, pressed: Bool) {
@@ -393,105 +498,6 @@ extension MainViewController {
                     let isCW = power.isNegative ? !action.isCW : action.isCW
                     sbrick.channels[Int(action.channel)].drive(power: power.value, isCW: isCW)
                 }
-            }
-        }
-    }
-
-    
-    
-    
-    func loadActions() {
-        
-        //buttonPressActions.removeAll()
-        //buttonReleaseActions.removeAll()
-        buttonActions.removeAll()
-        
-        buttonActions.append(GameControllerButtonAction(button: .leftThumbstickX,
-                                                        action: DriveValueAction(channel: steerChannel, minPower: 0, maxPower: 0xFF, isCW: steerCW, easing: .easeIn),
-                                                        forEvent: .valueChanged))
-        
-        buttonActions.append(GameControllerButtonAction(button: .rightThumbstickY,
-                                                        action: DriveValueAction(channel: driveChannel, minPower: 0, maxPower: 0xFF, isCW: false, easing: .easeIn),
-                                                        forEvent: .valueChanged))
-        
-        buttonActions.append(GameControllerButtonAction(button: .left,
-                                                        action: DriveAction(channel: steerChannel, power: 0xFF, isCW: !steerCW),
-                                                        forEvent: .pressed))
-        
-        buttonActions.append(GameControllerButtonAction(button: .left,
-                                                        action: StopAction(channel: steerChannel),
-                                                        forEvent: .released))
-        
-        buttonActions.append(GameControllerButtonAction(button: .right,
-                                                        action: DriveAction(channel: steerChannel, power: 0xFF, isCW: steerCW),
-                                                        forEvent: .pressed))
-        
-        buttonActions.append(GameControllerButtonAction(button: .right,
-                                                        action: StopAction(channel: steerChannel),
-                                                        forEvent: .released))
-        
-        buttonActions.append(GameControllerButtonAction(button: .buttonA,
-                                                        action: DriveAction(channel: driveChannel, power: 0xFF, isCW: false),
-                                                        forEvent: .pressed))
-        
-        buttonActions.append(GameControllerButtonAction(button: .buttonA,
-                                                        action: StopAction(channel: driveChannel),
-                                                        forEvent: .released))
-        
-        buttonActions.append(GameControllerButtonAction(button: .buttonA,
-                                                        action: PlaySoundAction(soundName: "engine", ext: "mp3"),
-                                                        forEvent: .pressed))
-        
-        buttonActions.append(GameControllerButtonAction(button: .buttonA,
-                                                        action: StopSoundAction(soundName: "engine", ext: "mp3"),
-                                                        forEvent: .released))
-        
-        buttonActions.append(GameControllerButtonAction(button: .buttonB,
-                                                        action: DriveValueAction(channel: driveChannel, minPower: 0, maxPower: 0xFF, isCW: true),
-                                                        forEvent: .valueChanged))
-        
-        buttonActions.append(GameControllerButtonAction(button: .leftShoulder,
-                                                        action: PlaySoundAction(soundName: "horn", ext: "wav"),
-                                                        forEvent: .pressed))
-        
-        buttonActions.append(GameControllerButtonAction(button: .leftShoulder,
-                                                        action: StopSoundAction(soundName: "horn", ext: "wav"),
-                                                        forEvent: .released))
-        
-        buttonActions.append(GameControllerButtonAction(button: .rightShoulder,
-                                                        action: PlaySoundAction(soundName: "engine", ext: "mp3"),
-                                                        forEvent: .pressed))
-        
-        buttonActions.append(GameControllerButtonAction(button: .rightShoulder,
-                                                        action: StopSoundAction(soundName: "engine", ext: "mp3"),
-                                                        forEvent: .released))
-        
-        //TEST loading/saving:
-        
-        if let json = try? buttonActions.toJSON(), let jsonArray = json as? [Any] {
-            
-            let buttonActions = try! [GameControllerButtonAction].init(JSONArray: jsonArray)
-            print(buttonActions)
-        }
-    }
-    
-    func buttonActions(for button: GameControllerButton, event: GameControllerButton.Event) -> [GameControllerButtonAction] {
-        
-        var actions = [GameControllerButtonAction]()
-        for buttonAction in buttonActions {
-            if buttonAction.button == button && buttonAction.event == event {
-                actions.append(buttonAction)
-            }
-        }
-        
-        return actions
-    }
-    
-    func removeButtonActions(for button: GameControllerButton) {
-        
-        for i in (0..<buttonActions.count).reversed() {
-            if buttonActions[i].button == button {
-                buttonActions.remove(at: i)
             }
         }
     }
