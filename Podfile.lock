@@ -1,15 +1,18 @@
 PODS:
   - JSONCodable (3.0.1)
-  - SBrick-iOS (0.2.2)
+  - SBrick-iOS (0.2.3)
+  - SnapKit (3.2.0)
 
 DEPENDENCIES:
   - JSONCodable
   - SBrick-iOS
+  - SnapKit
 
 SPEC CHECKSUMS:
   JSONCodable: bd8616ae881befe2b82fbbf56d98b2dd377ac662
-  SBrick-iOS: b007008a8a30fe05b155a07b100cf5eb24edf851
+  SBrick-iOS: a8605304957012db0169fae0b9447fa520fbae0d
+  SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
 
-PODFILE CHECKSUM: 3c0c42ad0a4c5cf060f8ce4ece385ab849fff379
+PODFILE CHECKSUM: 57d002c815ead16cf0be7f215c416379113a19a7
 
 COCOAPODS: 1.2.1

@@ -152,8 +152,13 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     }
     
     func sbrickDisconnected(_ sbrick: SBrick) {
-        statusLabel.text = "SBrick disconnected :("
+        statusLabel.text = "SBrick disconnected :("        
         self.sbrick = nil
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.statusLabel.text = "Reconnecting: \(sbrick.manufacturerData.deviceIdentifier)"
+            self.manager.connect(to: sbrick)
+        }
     }
     
     func sbrickReady(_ sbrick: SBrick) {
@@ -170,28 +175,43 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     var accPower: UInt8 = 0
     var accTimer: Timer?
     
-    var player: AVAudioPlayer?
+    var soundPlayers = [URL:AVAudioPlayer]()
+    
     func playSound(name soundName: String, withExtension ext: String) {
         guard let url = Bundle.main.url(forResource: soundName, withExtension: ext) else {
             print("url not found")
             return
         }
         
+        //stop
+        stopSound(name: soundName, withExtension: ext)
+        
         do {
             /// this codes for making this app ready to takeover the device audio
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             try AVAudioSession.sharedInstance().setActive(true)
             
-            player = try AVAudioPlayer(contentsOf: url)
+            let player = try AVAudioPlayer(contentsOf: url)
+            player.play()
             
-            player!.play()
+            soundPlayers[url] = player
+            
         } catch let error as NSError {
             print("error: \(error.localizedDescription)")
         }
     }
     
     func stopSound(name soundName: String, withExtension ext: String) {
-        player?.stop()
+        
+        guard let url = Bundle.main.url(forResource: soundName, withExtension: ext) else {
+            print("url not found")
+            return
+        }
+        
+        //release
+        if let player = soundPlayers[url] {
+            player.stop()
+        }
     }
     
     var lastScrolledToIndexPath: IndexPath?
@@ -225,13 +245,13 @@ extension MainViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: ButtonCell.reuseIdentifier, for: indexPath)
         cell.textLabel?.text = button.name
         
-        let pressedActions = self.actions(for: button, event: .pressed)
-        let releasedActions = self.actions(for: button, event: .released)
-        let valueChangedActions = self.actions(for: button, event: .valueChanged)
+        let pressedActions      = self.buttonActions(for: button, event: .pressed)
+        let releasedActions     = self.buttonActions(for: button, event: .released)
+        let valueChangedActions = self.buttonActions(for: button, event: .valueChanged)
         
-        let pressedActionTitle      = pressedActions.count > 1      ? "Multiple" : pressedActions.first?.name       ?? "-"
-        let releasedActionTitle     = releasedActions.count > 1     ? "Multiple" : releasedActions.first?.name      ?? "-"
-        let valueChangedActionTitle = valueChangedActions.count > 1 ? "Multiple" : valueChangedActions.first?.name  ?? "-"
+        let pressedActionTitle      = pressedActions.count > 1      ? "Multiple" : pressedActions.first?.action.name       ?? "-"
+        let releasedActionTitle     = releasedActions.count > 1     ? "Multiple" : releasedActions.first?.action.name      ?? "-"
+        let valueChangedActionTitle = valueChangedActions.count > 1 ? "Multiple" : valueChangedActions.first?.action.name  ?? "-"
         
         cell.detailTextLabel?.text = "\(pressedActionTitle) / \(releasedActionTitle) / \(valueChangedActionTitle)"
         
@@ -245,12 +265,29 @@ extension MainViewController {
         let button = GameControllerButton.allButtons[indexPath.row]
         
         let vc = ButtonActionsViewController.instantiate()
-        vc.pressedActions = self.actions(for: button, event: .pressed)
-        vc.releasedActions = self.actions(for: button, event: .released)
-        vc.valueChangedActions = self.actions(for: button, event: .valueChanged)
+        vc.button = button
+        vc.pressedActions       = self.buttonActions(for: button, event: .pressed)
+        vc.releasedActions      = self.buttonActions(for: button, event: .released)
+        vc.valueChangedActions  = self.buttonActions(for: button, event: .valueChanged)
+        vc.delegate = self
         
         let nav = UINavigationController(rootViewController: vc)
         present(nav, animated: true, completion: nil)
+    }
+    
+}
+
+extension MainViewController: ButtonActionsViewControllerDelegate {
+    
+    func buttonActionsViewController(_ buttonActionsViewController: ButtonActionsViewController, shouldSaveActionsFor button: GameControllerButton) {
+        
+        removeButtonActions(for: button)
+        buttonActions.append(contentsOf: buttonActionsViewController.pressedActions)
+        buttonActions.append(contentsOf: buttonActionsViewController.releasedActions)
+        buttonActions.append(contentsOf: buttonActionsViewController.valueChangedActions)
+        
+        self.tableView.reloadData()
+        dismiss(animated: true, completion: nil)
     }
     
 }
@@ -283,7 +320,7 @@ extension MainViewController {
     func onButton(_ button: GameControllerButton, pressed: Bool) {
         
         let event: GameControllerButton.Event = pressed ? .pressed : .released
-        let actions = self.actions(for: button, event: event)
+        let buttonActions = self.buttonActions(for: button, event: event)
         
         //print("\(button) \(pressed ? "pressed" : "released")")
         
@@ -298,8 +335,10 @@ extension MainViewController {
             }
         }
         
-        for action in actions {
+        for buttonAction in buttonActions {
         
+            let action = buttonAction.action
+            
             if let action = action as? PlaySoundAction {
                 
                 self.playSound(name: action.soundName, withExtension: action.ext)
@@ -324,7 +363,7 @@ extension MainViewController {
     
     func onButton(_ button: GameControllerButton, value: Float) {
         
-        let actions = self.actions(for: button, event: .valueChanged)
+        let buttonActions = self.buttonActions(for: button, event: .valueChanged)
         
         //print("\(button) value: \(value)")
         
@@ -337,7 +376,9 @@ extension MainViewController {
             }
         }
         
-        for action in actions {
+        for buttonAction in buttonActions {
+            
+            let action = buttonAction.action
             
             if let action = action as? DriveValueAction {
                 
@@ -434,16 +475,25 @@ extension MainViewController {
         }
     }
     
-    func actions(for button: GameControllerButton, event: GameControllerButton.Event) -> [GameControllerAction] {
+    func buttonActions(for button: GameControllerButton, event: GameControllerButton.Event) -> [GameControllerButtonAction] {
         
-        var actions = [GameControllerAction]()
+        var actions = [GameControllerButtonAction]()
         for buttonAction in buttonActions {
             if buttonAction.button == button && buttonAction.event == event {
-                actions.append(buttonAction.action)
+                actions.append(buttonAction)
             }
         }
         
         return actions
+    }
+    
+    func removeButtonActions(for button: GameControllerButton) {
+        
+        for i in (0..<buttonActions.count).reversed() {
+            if buttonActions[i].button == button {
+                buttonActions.remove(at: i)
+            }
+        }
     }
 }
 

@@ -19,13 +19,13 @@ class ButtonActionsViewController: UITableViewController {
     
     var button: GameControllerButton!
     
-    var pressedActions: [GameControllerAction]!
-    var releasedActions: [GameControllerAction]!
-    var valueChangedActions: [GameControllerAction]!
+    var pressedActions = [GameControllerButtonAction]()
+    var releasedActions = [GameControllerButtonAction]()
+    var valueChangedActions = [GameControllerButtonAction]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.title = button.name
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,7 +51,7 @@ class ButtonActionsViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ActionCell.reuseIdentifier, for: indexPath) as! ActionCell
         if indexPath.row < actions.count {
-            cell.action = actions[indexPath.row]
+            cell.action = actions[indexPath.row].action
         }
         else {
             cell.action = nil
@@ -60,7 +60,7 @@ class ButtonActionsViewController: UITableViewController {
         return cell
     }
     
-    private func actions(forSection section: Int) -> [GameControllerAction] {
+    private func actions(forSection section: Int) -> [GameControllerButtonAction] {
         
         switch section {
         case 0:
@@ -71,6 +71,23 @@ class ButtonActionsViewController: UITableViewController {
             
         case 2:
             return self.valueChangedActions
+            
+        default:
+            fatalError("Unknown section")
+        }
+    }
+    
+    private func set(actions: [GameControllerButtonAction], forSection section: Int)  {
+        
+        switch section {
+        case 0:
+            self.pressedActions = actions
+            
+        case 1:
+            self.releasedActions = actions
+            
+        case 2:
+            self.valueChangedActions = actions
             
         default:
             fatalError("Unknown section")
@@ -92,7 +109,45 @@ class ButtonActionsViewController: UITableViewController {
         default:
             return nil
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = ActionHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
+        header.titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
         
+        return header
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        
+        let actions = self.actions(forSection: indexPath.section)
+        return (indexPath.row < actions.count)
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            
+            var actions = self.actions(forSection: indexPath.section)
+            actions.remove(at: indexPath.row)
+            set(actions: actions, forSection: indexPath.section)
+            
+            if actions.count > 0 {
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+            else {
+                tableView.reloadSections([indexPath.section], with: .automatic)
+            }
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 60
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.1
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
