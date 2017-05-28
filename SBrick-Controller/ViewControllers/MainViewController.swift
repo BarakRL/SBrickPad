@@ -40,8 +40,13 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         }
     }
     
+    @IBOutlet weak var statusView: UIView!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
+    
+    let connectingColor: UIColor = UIColor(red: 1, green: 1, blue: 0.5, alpha: 1)
+    let connectedColor: UIColor = UIColor(red: 0.5, green: 1, blue: 0.5, alpha: 1)
+    let disconnectedColor: UIColor = UIColor(red: 1, green: 0.5, blue: 0.5, alpha: 1)
     
     var gameController: GCController? {
         didSet {
@@ -88,6 +93,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         manager = SBrickManager(delegate: self)
         
         statusLabel.text = "Discovering..."
+        statusView.backgroundColor = connectingColor
         manager.startDiscovery()
         
         NotificationCenter.default.addObserver(self, selector: #selector(gameControllerConnected(notification:)), name: .GCControllerDidConnect, object: nil)
@@ -177,16 +183,19 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     
     func sbrickConnected(_ sbrick: SBrick) {
         statusLabel.text = "SBrick connected!"
+        statusView.backgroundColor = connectedColor
         self.sbrick = sbrick
         sbrick.channels[Int(driveChannel)].drivePowerThreshold = 32
     }
     
     func sbrickDisconnected(_ sbrick: SBrick) {
         statusLabel.text = "SBrick disconnected :("
+        statusView.backgroundColor = disconnectedColor
         self.sbrick = nil
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.statusLabel.text = "Reconnecting: \(sbrick.manufacturerData.deviceIdentifier)"
+            self.statusView.backgroundColor = self.connectingColor
             self.manager.connect(to: sbrick)
         }
     }
@@ -204,7 +213,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     
     //MARK: - Actions
     var soundPlayers = [String:AVAudioPlayer]()
-    func playSound(filename: String) {
+    func playSound(filename: String, loop: Bool) {
         
         let url = FilePickerViewController.url(forFilename: filename)
         
@@ -217,6 +226,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
             try AVAudioSession.sharedInstance().setActive(true)
             
             let player = try AVAudioPlayer(contentsOf: url)
+            player.numberOfLoops = loop ? -1 : 0
             player.play()
             
             soundPlayers[filename] = player
@@ -573,7 +583,7 @@ extension MainViewController {
             
             if let action = action as? PlaySoundAction {
                 
-                self.playSound(filename: action.fileName)
+                self.playSound(filename: action.fileName, loop: action.loop)
             }
             else if let action = action as? StopSoundAction {
                 

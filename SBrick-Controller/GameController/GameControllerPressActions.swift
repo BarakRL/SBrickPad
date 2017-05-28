@@ -17,18 +17,21 @@ protocol GameControllerPressAction: GameControllerAction {
 class PlaySoundAction: GameControllerPressAction {
     
     var fileName: String
+    var loop: Bool
     
     var type: String = PlaySoundAction.type
     var name: String { return "Play Sound" }
-    var info: String { return fileName }
+    var info: String { return "\(fileName)\(loop ? " (loop)" : "")" }
     
-    init(fileName: String) {
+    init(fileName: String, loop: Bool) {
         self.fileName = fileName
+        self.loop = loop
     }
     
     required init(object: JSONObject) throws {
         let decoder = JSONDecoder(object: object)
         self.fileName = try decoder.decode("fileName")
+        self.loop = try decoder.decode("loop")
     }
 }
 
