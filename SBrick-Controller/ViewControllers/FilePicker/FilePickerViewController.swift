@@ -54,6 +54,7 @@ protocol FilePickerViewControllerDelegate: class {
 
 class FilePickerViewController: UITableViewController {
     
+    var identifier: String = ""
     weak var delegate: FilePickerViewControllerDelegate?    
     
     var fileExtensions = [String]() {
@@ -125,14 +126,25 @@ class FilePickerViewController: UITableViewController {
 
 extension FilePickerViewController {
     
-    static func findFiles(withExtensions ext: [String]) -> [URL] {
+    static func fileExists(filename: String) -> Bool {
+        let files = findFiles(withExtensions: nil)
+        let filenames = files.map({ $0.lastPathComponent })
+        return filenames.contains(filename)
+    }
+    
+    static func findFiles(withExtensions ext: [String]?) -> [URL] {
         
         let documentsURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         
         do {
             
             let directoryContents = try FileManager.default.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil, options: [])
-            return directoryContents.filter{ ext.contains($0.pathExtension) }
+            if let ext = ext {
+                return directoryContents.filter{ ext.contains($0.pathExtension) }
+            }
+            else {
+                return directoryContents
+            }
             
         } catch {
             return []
@@ -144,7 +156,7 @@ extension FilePickerViewController {
         let documentsURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let fileManager = FileManager.default
         
-        do{
+        do {
             for filePath in filePaths {
                 let sourceURL = URL(fileURLWithPath: filePath)
                 let destURL = documentsURL.appendingPathComponent(sourceURL.lastPathComponent)
@@ -155,4 +167,62 @@ extension FilePickerViewController {
         }
     }
     
+    static func save(jsonObject: Any, asFilename filename: String) {
+     
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                save(jsonString: jsonString, asFilename: filename)
+            }
+        }
+        catch {
+            print("Error while decoding json \(filename)")
+        }
+    }
+    
+    static func load(jsonObjectNamed filename: String) -> Any? {
+     
+        if let jsonString = load(jsonStringNamed: filename), let data = jsonString.data(using: .utf8) {
+            
+            do {
+                let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
+                return jsonObject
+            }
+            catch {
+                print("Error while encoding json \(filename)")
+                return nil
+            }
+        }
+        else {
+            return nil
+        }
+    }
+    
+    static func save(jsonString: String, asFilename filename: String) {
+        
+        let documentsURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let fileURL = documentsURL.appendingPathComponent(filename)
+        
+        do {
+            try jsonString.write(to: fileURL, atomically: false, encoding: .utf8)
+        }
+        catch {
+            print("Error while saving json \(filename)")
+        }
+    }
+    
+    static func load(jsonStringNamed filename: String) -> String? {
+        
+        let documentsURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let fileURL = documentsURL.appendingPathComponent(filename)
+        
+        do {
+            let json = try String(contentsOf: fileURL, encoding: .utf8)
+            return json
+        }
+        catch {
+            print("Error while loading json \(filename)")
+            return nil
+        }
+    }
 }

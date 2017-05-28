@@ -15,7 +15,7 @@ import JSONCodable
 
 
 class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDelegate {
-
+    
     var manager: SBrickManager!
     var sbrick: SBrick?
     
@@ -23,7 +23,13 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     let steerChannel: UInt8 = 0
     let steerCW: Bool = false
     
-    var buttonActions = [GameControllerButtonAction]()
+    var buttonActions = [GameControllerButtonAction]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    var isModified:Bool = false
+    var actionsFilename: String?
     
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
@@ -115,7 +121,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     }
     
     func gameControllerConnected(notification: NSNotification) {
-     
+        
         guard let gameController = notification.object as? GCController else { return }
         self.gameController = gameController
         
@@ -156,7 +162,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     }
     
     func sbrickDisconnected(_ sbrick: SBrick) {
-        statusLabel.text = "SBrick disconnected :("        
+        statusLabel.text = "SBrick disconnected :("
         self.sbrick = nil
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -236,8 +242,106 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
 extension MainViewController: FilePickerViewControllerDelegate {
     
     @IBAction func organizePressed() {
-       
+        
+        let saveWarning = self.isModified
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Load actions set", style: .default, handler: { [weak self] (action) -> Void in
+            self?.loadActions(saveWarning: saveWarning)
+        }))
+        alert.addAction(UIAlertAction(title: "Save actions set", style: .default, handler: { [weak self] (action) -> Void in
+            self?.saveActions()
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func saveActions(andLoad: Bool = false) {
+        
+        var inputTextField: UITextField?
+        let alert = UIAlertController(title: "Save as:", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (action) -> Void in
+            self?.isModified = false
+            if let filename = inputTextField?.text, filename.characters.count > 0 {
+                self?.checkAndSave(filename: filename, onComplete: {
+                    if andLoad {
+                        self?.loadActions()
+                    }
+                })
+            }
+        }))
+        alert.addTextField(configurationHandler: { [weak self] textField in
+            textField.placeholder = "Name"
+            textField.text = self?.actionsFilename
+            textField.clearButtonMode = .always
+            inputTextField = textField
+        })
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func checkAndSave(filename: String, onComplete: @escaping (()->())) {
+        
+        var filename = filename
+        if !filename.hasSuffix(".json") {
+            filename = "\(filename).json"
+        }
+        
+        if FilePickerViewController.fileExists(filename: filename) {
+            
+            let alert = UIAlertController(title: "File already exist", message: "overwrite existing file?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { [weak self] (action) -> Void in
+                self?.saveAction(filename: filename)
+                onComplete()
+            }))
+            
+            present(alert, animated: true, completion: nil)
+        }
+        else {
+            saveAction(filename: filename)
+            onComplete()
+        }
+    }
+    
+    func saveAction(filename: String) {
+        
+        var filename = filename
+        if !filename.hasSuffix(".json") {
+            filename = "\(filename).json"
+        }
+        
+        if let json = try? buttonActions.toJSON() { //, let jsonArray = json as? [Any]
+            FilePickerViewController.save(jsonObject: json, asFilename: filename)
+        }
+    }
+    
+    func loadActions(saveWarning: Bool) {
+        
+        if saveWarning {
+            
+            let alert = UIAlertController(title: "Save actions first?", message: "unsaved changes will be lost", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "No", style: .destructive, handler: { [weak self] action in
+                self?.loadActions()
+            }))
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [weak self] action in
+                self?.saveActions(andLoad: true)
+            }))
+            
+            present(alert, animated: true, completion: nil)
+        }
+        else {
+            loadActions()
+        }
+    }
+    
+    func loadActions() {
+        
         let filePicker = FilePickerViewController.instantiate()
+        filePicker.identifier = "loadActions"
         filePicker.title = "Load Actions"
         filePicker.fileExtensions = ["json"]
         filePicker.delegate = self
@@ -246,18 +350,35 @@ extension MainViewController: FilePickerViewControllerDelegate {
         present(nav, animated: true, completion: nil)
     }
     
+    func loadActions(file: URL) {
+        
+        let filename = file.lastPathComponent
+        
+        if let json = FilePickerViewController.load(jsonObjectNamed: filename),
+            let jsonArray = json as? [Any],
+            let buttonActions = try? [GameControllerButtonAction].init(JSONArray: jsonArray) {
+            
+            self.buttonActions = buttonActions
+            self.isModified = false
+            self.actionsFilename = filename
+        }
+    }
+    
     func filePickerViewController(_ filePickerViewController: FilePickerViewController, didSelectFile file: URL) {
         print("file: \(file.path)")
         filePickerViewController.dismiss(animated: true, completion: nil)
+        if filePickerViewController.identifier == "loadActions" {
+            loadActions(file: file)
+        }
     }
     
     func loadLastActionsFile() {
         
         //TBD
-        loadActions()        
+        //loadDemoActions()
     }
     
-    func loadActions() {
+    func loadDemoActions() {
         
         //buttonPressActions.removeAll()
         //buttonReleaseActions.removeAll()
@@ -387,6 +508,8 @@ extension MainViewController: ButtonActionsViewControllerDelegate {
     
     func buttonActionsViewController(_ buttonActionsViewController: ButtonActionsViewController, shouldSaveActionsFor button: GameControllerButton) {
         
+        self.isModified = true
+        
         removeButtonActions(for: button)
         buttonActions.append(contentsOf: buttonActionsViewController.pressedActions)
         buttonActions.append(contentsOf: buttonActionsViewController.releasedActions)
@@ -469,7 +592,7 @@ extension MainViewController {
         }
         
         for buttonAction in buttonActions {
-        
+            
             let action = buttonAction.action
             
             if let action = action as? PlaySoundAction {

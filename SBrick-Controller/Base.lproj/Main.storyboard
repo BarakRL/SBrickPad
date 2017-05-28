@@ -137,7 +137,7 @@
                                 <action selector="cancelPressed:" destination="O5m-fv-Cfm" id="O9v-L6-otX"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="aio-nD-WfV">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="aio-nD-WfV">
                             <connections>
                                 <action selector="savePressed:" destination="O5m-fv-Cfm" id="oif-hN-suW"/>
                             </connections>
