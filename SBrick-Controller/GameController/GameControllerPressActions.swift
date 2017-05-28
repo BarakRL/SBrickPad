@@ -16,43 +16,37 @@ protocol GameControllerPressAction: GameControllerAction {
 
 class PlaySoundAction: GameControllerPressAction {
     
-    var soundName: String
-    var ext: String
+    var fileName: String
     
     var type: String = PlaySoundAction.type
     var name: String { return "Play Sound" }
-    var info: String { return "\(soundName).\(ext)" }
+    var info: String { return fileName }
     
-    init(soundName: String, ext: String) {
-        self.soundName = soundName
-        self.ext = ext
+    init(fileName: String) {
+        self.fileName = fileName
     }
     
     required init(object: JSONObject) throws {
         let decoder = JSONDecoder(object: object)
-        self.soundName = try decoder.decode("soundName")
-        self.ext = try decoder.decode("ext")
+        self.fileName = try decoder.decode("fileName")
     }
 }
 
 class StopSoundAction: GameControllerPressAction {
     
-    var soundName: String
-    var ext: String
+    var fileName: String
     
     var type: String = StopSoundAction.type
     var name: String { return "Stop Sound" }
-    var info: String { return "\(soundName).\(ext)" }
+    var info: String { return fileName }
     
-    init(soundName: String, ext: String) {
-        self.soundName = soundName
-        self.ext = ext
+    init(fileName: String) {
+        self.fileName = fileName
     }
     
     required init(object: JSONObject) throws {
         let decoder = JSONDecoder(object: object)
-        self.soundName = try decoder.decode("soundName")
-        self.ext = try decoder.decode("ext")
+        self.fileName = try decoder.decode("fileName")        
     }
 }
 

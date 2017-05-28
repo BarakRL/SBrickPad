@@ -29,6 +29,7 @@
 		E5A4314E1ED8F38500DA0AF1 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = E5A4314D1ED8F38500DA0AF1 /* Sounds */; };
 		E5A431531EDAA99100DA0AF1 /* FilePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A431521EDAA99100DA0AF1 /* FilePickerViewController.swift */; };
 		E5A431551EDAAA5C00DA0AF1 /* FileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A431541EDAAA5C00DA0AF1 /* FileCell.swift */; };
+		E5A431571EDB534B00DA0AF1 /* Actions in Resources */ = {isa = PBXBuildFile; fileRef = E5A431561EDB534B00DA0AF1 /* Actions */; };
 		E5DC82E81ED8BECD007B9D5E /* ActionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DC82E71ED8BECD007B9D5E /* ActionHeaderView.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		E5A4314D1ED8F38500DA0AF1 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		E5A431521EDAA99100DA0AF1 /* FilePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilePickerViewController.swift; sourceTree = "<group>"; };
 		E5A431541EDAAA5C00DA0AF1 /* FileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCell.swift; sourceTree = "<group>"; };
+		E5A431561EDB534B00DA0AF1 /* Actions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Actions; sourceTree = "<group>"; };
 		E5DC82E71ED8BECD007B9D5E /* ActionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionHeaderView.swift; sourceTree = "<group>"; };
 		E5DC82E91ED8D9F7007B9D5E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -174,6 +176,7 @@
 		E59CF3121EAF17C400661A77 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E5A431561EDB534B00DA0AF1 /* Actions */,
 				E5A4314D1ED8F38500DA0AF1 /* Sounds */,
 				066373F01ECFF262001B0ACA /* AutodriveLogic.txt */,
 			);
@@ -261,6 +264,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5A431571EDB534B00DA0AF1 /* Actions in Resources */,
 				E5A4314E1ED8F38500DA0AF1 /* Sounds in Resources */,
 				066373F11ECFF262001B0ACA /* AutodriveLogic.txt in Resources */,
 				E59CF3031EAF13B100661A77 /* LaunchScreen.storyboard in Resources */,

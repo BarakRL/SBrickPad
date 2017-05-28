@@ -126,6 +126,12 @@ class FilePickerViewController: UITableViewController {
 
 extension FilePickerViewController {
     
+    static func url(forFilename filename: String) -> URL {
+    
+        let documentsURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return documentsURL.appendingPathComponent(filename)
+    }
+    
     static func fileExists(filename: String) -> Bool {
         let files = findFiles(withExtensions: nil)
         let filenames = files.map({ $0.lastPathComponent })
@@ -200,8 +206,7 @@ extension FilePickerViewController {
     
     static func save(jsonString: String, asFilename filename: String) {
         
-        let documentsURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let fileURL = documentsURL.appendingPathComponent(filename)
+        let fileURL = url(forFilename: filename)
         
         do {
             try jsonString.write(to: fileURL, atomically: false, encoding: .utf8)
@@ -212,9 +217,8 @@ extension FilePickerViewController {
     }
     
     static func load(jsonStringNamed filename: String) -> String? {
-        
-        let documentsURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let fileURL = documentsURL.appendingPathComponent(filename)
+                
+        let fileURL = url(forFilename: filename)
         
         do {
             let json = try String(contentsOf: fileURL, encoding: .utf8)

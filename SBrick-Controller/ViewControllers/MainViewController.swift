@@ -29,7 +29,11 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         }
     }
     var isModified:Bool = false
-    var actionsFilename: String?
+    var actionsFilename: String? {
+        didSet {
+            UserDefaults.standard.set(actionsFilename, forKey: "actionsFilename")
+        }
+    }
     
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
@@ -93,6 +97,11 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         if FilePickerViewController.findFiles(withExtensions: ["mp3","wav"]).count == 0 {
             let sounds = Bundle.main.paths(forResourcesOfType: nil, inDirectory: "Sounds")
             FilePickerViewController.install(filePaths: sounds)
+        }
+        
+        if FilePickerViewController.findFiles(withExtensions: ["json"]).count == 0 {
+            let actions = Bundle.main.paths(forResourcesOfType: nil, inDirectory: "Actions")
+            FilePickerViewController.install(filePaths: actions)
         }
     }
     
@@ -183,15 +192,13 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     }
     
     //MARK: - Actions
-    var soundPlayers = [URL:AVAudioPlayer]()
-    func playSound(name soundName: String, withExtension ext: String) {
-        guard let url = Bundle.main.url(forResource: soundName, withExtension: ext) else {
-            print("url not found")
-            return
-        }
+    var soundPlayers = [String:AVAudioPlayer]()
+    func playSound(filename: String) {
+        
+        let url = FilePickerViewController.url(forFilename: filename)
         
         //stop
-        stopSound(name: soundName, withExtension: ext)
+        stopSound(filename: filename)
         
         do {
             /// this codes for making this app ready to takeover the device audio
@@ -201,22 +208,17 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
             let player = try AVAudioPlayer(contentsOf: url)
             player.play()
             
-            soundPlayers[url] = player
+            soundPlayers[filename] = player
             
         } catch let error as NSError {
             print("error: \(error.localizedDescription)")
         }
     }
     
-    func stopSound(name soundName: String, withExtension ext: String) {
-        
-        guard let url = Bundle.main.url(forResource: soundName, withExtension: ext) else {
-            print("url not found")
-            return
-        }
+    func stopSound(filename: String) {
         
         //release
-        if let player = soundPlayers[url] {
+        if let player = soundPlayers[filename] {
             player.stop()
         }
     }
@@ -250,14 +252,14 @@ extension MainViewController: FilePickerViewControllerDelegate {
             self?.loadActions(saveWarning: saveWarning)
         }))
         alert.addAction(UIAlertAction(title: "Save actions set", style: .default, handler: { [weak self] (action) -> Void in
-            self?.saveActions()
+            self?.saveActions(onComplete: nil)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         present(alert, animated: true, completion: nil)
     }
     
-    func saveActions(andLoad: Bool = false) {
+    func saveActions(onComplete: (()->())?) {
         
         var inputTextField: UITextField?
         let alert = UIAlertController(title: "Save as:", message: nil, preferredStyle: UIAlertControllerStyle.alert)
@@ -265,11 +267,7 @@ extension MainViewController: FilePickerViewControllerDelegate {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (action) -> Void in
             self?.isModified = false
             if let filename = inputTextField?.text, filename.characters.count > 0 {
-                self?.checkAndSave(filename: filename, onComplete: {
-                    if andLoad {
-                        self?.loadActions()
-                    }
-                })
+                self?.checkAndSave(filename: filename, onComplete: onComplete)
             }
         }))
         alert.addTextField(configurationHandler: { [weak self] textField in
@@ -282,7 +280,7 @@ extension MainViewController: FilePickerViewControllerDelegate {
         present(alert, animated: true, completion: nil)
     }
     
-    func checkAndSave(filename: String, onComplete: @escaping (()->())) {
+    func checkAndSave(filename: String, onComplete: (()->())?) {
         
         var filename = filename
         if !filename.hasSuffix(".json") {
@@ -295,14 +293,14 @@ extension MainViewController: FilePickerViewControllerDelegate {
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { [weak self] (action) -> Void in
                 self?.saveAction(filename: filename)
-                onComplete()
+                onComplete?()
             }))
             
             present(alert, animated: true, completion: nil)
         }
         else {
             saveAction(filename: filename)
-            onComplete()
+            onComplete?()
         }
     }
     
@@ -322,20 +320,28 @@ extension MainViewController: FilePickerViewControllerDelegate {
         
         if saveWarning {
             
-            let alert = UIAlertController(title: "Save actions first?", message: "unsaved changes will be lost", preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "No", style: .destructive, handler: { [weak self] action in
+            showSaveWarning(onComplete: { [weak self] in
                 self?.loadActions()
-            }))
-            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [weak self] action in
-                self?.saveActions(andLoad: true)
-            }))
-            
-            present(alert, animated: true, completion: nil)
+            })
         }
         else {
             loadActions()
         }
+    }
+    
+    func showSaveWarning(onComplete: @escaping ()->()) {
+        
+        let alert = UIAlertController(title: "Save actions first?", message: "unsaved changes will be lost", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "No", style: .destructive, handler: { action in
+            onComplete()
+        }))
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [weak self] action in
+            self?.saveActions(onComplete: onComplete)
+        }))
+        
+        present(alert, animated: true, completion: nil)
+        
     }
     
     func loadActions() {
@@ -350,9 +356,7 @@ extension MainViewController: FilePickerViewControllerDelegate {
         present(nav, animated: true, completion: nil)
     }
     
-    func loadActions(file: URL) {
-        
-        let filename = file.lastPathComponent
+    func loadActions(filename: String) {
         
         if let json = FilePickerViewController.load(jsonObjectNamed: filename),
             let jsonArray = json as? [Any],
@@ -362,96 +366,30 @@ extension MainViewController: FilePickerViewControllerDelegate {
             self.isModified = false
             self.actionsFilename = filename
         }
+        else {
+            
+            let alert = UIAlertController(title: "Could not load \(filename)", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
     }
     
     func filePickerViewController(_ filePickerViewController: FilePickerViewController, didSelectFile file: URL) {
         print("file: \(file.path)")
         filePickerViewController.dismiss(animated: true, completion: nil)
         if filePickerViewController.identifier == "loadActions" {
-            loadActions(file: file)
+            let filename = file.lastPathComponent
+            loadActions(filename: filename)
         }
     }
     
     func loadLastActionsFile() {
         
-        //TBD
-        //loadDemoActions()
-    }
-    
-    func loadDemoActions() {
-        
-        //buttonPressActions.removeAll()
-        //buttonReleaseActions.removeAll()
-        buttonActions.removeAll()
-        
-        buttonActions.append(GameControllerButtonAction(button: .leftThumbstickX,
-                                                        action: DriveValueAction(channel: steerChannel, minPower: 0, maxPower: 0xFF, isCW: steerCW, easing: .easeIn),
-                                                        forEvent: .valueChanged))
-        
-        buttonActions.append(GameControllerButtonAction(button: .rightThumbstickY,
-                                                        action: DriveValueAction(channel: driveChannel, minPower: 0, maxPower: 0xFF, isCW: false, easing: .easeIn),
-                                                        forEvent: .valueChanged))
-        
-        buttonActions.append(GameControllerButtonAction(button: .left,
-                                                        action: DriveAction(channel: steerChannel, power: 0xFF, isCW: !steerCW),
-                                                        forEvent: .pressed))
-        
-        buttonActions.append(GameControllerButtonAction(button: .left,
-                                                        action: StopAction(channel: steerChannel),
-                                                        forEvent: .released))
-        
-        buttonActions.append(GameControllerButtonAction(button: .right,
-                                                        action: DriveAction(channel: steerChannel, power: 0xFF, isCW: steerCW),
-                                                        forEvent: .pressed))
-        
-        buttonActions.append(GameControllerButtonAction(button: .right,
-                                                        action: StopAction(channel: steerChannel),
-                                                        forEvent: .released))
-        
-        buttonActions.append(GameControllerButtonAction(button: .buttonA,
-                                                        action: DriveAction(channel: driveChannel, power: 0xFF, isCW: false),
-                                                        forEvent: .pressed))
-        
-        buttonActions.append(GameControllerButtonAction(button: .buttonA,
-                                                        action: StopAction(channel: driveChannel),
-                                                        forEvent: .released))
-        
-        buttonActions.append(GameControllerButtonAction(button: .buttonA,
-                                                        action: PlaySoundAction(soundName: "engine", ext: "mp3"),
-                                                        forEvent: .pressed))
-        
-        buttonActions.append(GameControllerButtonAction(button: .buttonA,
-                                                        action: StopSoundAction(soundName: "engine", ext: "mp3"),
-                                                        forEvent: .released))
-        
-        buttonActions.append(GameControllerButtonAction(button: .buttonB,
-                                                        action: DriveValueAction(channel: driveChannel, minPower: 0, maxPower: 0xFF, isCW: true),
-                                                        forEvent: .valueChanged))
-        
-        buttonActions.append(GameControllerButtonAction(button: .leftShoulder,
-                                                        action: PlaySoundAction(soundName: "horn", ext: "wav"),
-                                                        forEvent: .pressed))
-        
-        buttonActions.append(GameControllerButtonAction(button: .leftShoulder,
-                                                        action: StopSoundAction(soundName: "horn", ext: "wav"),
-                                                        forEvent: .released))
-        
-        buttonActions.append(GameControllerButtonAction(button: .rightShoulder,
-                                                        action: PlaySoundAction(soundName: "engine", ext: "mp3"),
-                                                        forEvent: .pressed))
-        
-        buttonActions.append(GameControllerButtonAction(button: .rightShoulder,
-                                                        action: StopSoundAction(soundName: "engine", ext: "mp3"),
-                                                        forEvent: .released))
-        
-        //TEST loading/saving:
-        
-        if let json = try? buttonActions.toJSON(), let jsonArray = json as? [Any] {
-            
-            let buttonActions = try! [GameControllerButtonAction].init(JSONArray: jsonArray)
-            print(buttonActions)
+        if let filename = UserDefaults.standard.string(forKey: "actionsFilename") {
+            loadActions(filename: filename)
         }
     }
+    
 }
 
 //MARK: - TableView
@@ -597,11 +535,11 @@ extension MainViewController {
             
             if let action = action as? PlaySoundAction {
                 
-                self.playSound(name: action.soundName, withExtension: action.ext)
+                self.playSound(filename: action.fileName)
             }
             else if let action = action as? StopSoundAction {
                 
-                self.stopSound(name: action.soundName, withExtension: action.ext)
+                self.stopSound(filename: action.fileName)
             }
             else if let action = action as? DriveAction {
                 
