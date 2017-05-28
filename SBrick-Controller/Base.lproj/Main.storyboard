@@ -148,6 +148,73 @@
             </objects>
             <point key="canvasLocation" x="868" y="854.1229385307347"/>
         </scene>
+        <!--Select File...-->
+        <scene sceneID="MUd-AM-jD6">
+            <objects>
+                <tableViewController storyboardIdentifier="FilePickerViewController" id="GLi-Ud-qVy" customClass="FilePickerViewController" customModule="SBrick_Controller" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="60" sectionHeaderHeight="18" sectionFooterHeight="1" id="syx-C2-AAB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FileCell" textLabel="aBx-oR-DPI" detailTextLabel="0JJ-MI-4R8" rowHeight="60" style="IBUITableViewCellStyleSubtitle" id="Arj-ly-rvT" customClass="FileCell" customModule="SBrick_Controller" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Arj-ly-rvT" id="2pe-ls-hDj">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="File" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aBx-oR-DPI">
+                                            <rect key="frame" x="15" y="13" width="26" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="info" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0JJ-MI-4R8">
+                                            <rect key="frame" x="15" y="33.5" width="21" height="14.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
+                                            <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="GLi-Ud-qVy" id="Pcl-zd-3EO"/>
+                            <outlet property="delegate" destination="GLi-Ud-qVy" id="cag-5V-cT5"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Select File..." id="FOX-rm-nrq">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="q4I-5E-HG8">
+                            <connections>
+                                <action selector="cancelPressed:" destination="GLi-Ud-qVy" id="VrP-nx-Yoe"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5L4-lG-roS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-682.39999999999998" y="856.82158920539734"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="955-EV-hMr">
+            <objects>
+                <navigationController storyboardIdentifier="dummyNAV2" id="Jbz-nx-wZU" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="zNT-dd-ggK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="GLi-Ud-qVy" kind="relationship" relationship="rootViewController" id="sdS-2D-YMM"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V2B-Nj-wHD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1426" y="857"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="8VE-G0-oLW">
             <objects>

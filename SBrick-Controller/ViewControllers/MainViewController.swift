@@ -13,6 +13,7 @@ import AVFoundation
 import GameController
 import JSONCodable
 
+
 class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDelegate {
 
     var manager: SBrickManager!
@@ -77,7 +78,16 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
             self.gameController = gameController
         }
         
-        loadActions()
+        installRecourcesIfNeeded()
+        loadLastActionsFile()
+    }
+    
+    func installRecourcesIfNeeded() {
+        
+        if FilePickerViewController.findFiles(withExtensions: ["mp3","wav"]).count == 0 {
+            let sounds = Bundle.main.paths(forResourcesOfType: nil, inDirectory: "Sounds")
+            FilePickerViewController.install(filePaths: sounds)
+        }
     }
     
     //MARK: - GCController
@@ -223,10 +233,28 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
 
 
 //MARK: - Load / Save
-extension MainViewController {
+extension MainViewController: FilePickerViewControllerDelegate {
     
     @IBAction func organizePressed() {
+       
+        let filePicker = FilePickerViewController.instantiate()
+        filePicker.title = "Load Actions"
+        filePicker.fileExtensions = ["json"]
+        filePicker.delegate = self
         
+        let nav = UINavigationController(rootViewController: filePicker)
+        present(nav, animated: true, completion: nil)
+    }
+    
+    func filePickerViewController(_ filePickerViewController: FilePickerViewController, didSelectFile file: URL) {
+        print("file: \(file.path)")
+        filePickerViewController.dismiss(animated: true, completion: nil)
+    }
+    
+    func loadLastActionsFile() {
+        
+        //TBD
+        loadActions()        
     }
     
     func loadActions() {
