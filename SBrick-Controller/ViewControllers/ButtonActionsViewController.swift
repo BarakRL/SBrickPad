@@ -94,6 +94,10 @@ class ButtonActionsViewController: UITableViewController {
         }
     }
 
+    func addAction(toSection section: Int) {
+                
+    }
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         switch section {
@@ -114,7 +118,10 @@ class ButtonActionsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = ActionHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
         header.titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
-        
+        header.section = section
+        header.onAddButtonPressed = { [weak self] actionHeader in
+            self?.addAction(toSection: actionHeader.section)
+        }
         return header
     }
     

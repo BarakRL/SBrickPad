@@ -12,7 +12,10 @@ import SnapKit
 class ActionHeaderView: UIView {
 
     let titleLabel = UILabel(frame: .zero)
-    let addActionButton = UIButton(type: .contactAdd)
+    private let addActionButton = UIButton(type: .contactAdd)
+    
+    var section: Int = 0
+    var onAddButtonPressed: ((ActionHeaderView)->())?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,6 +43,11 @@ class ActionHeaderView: UIView {
             make.right.equalTo(-15)
             make.bottom.equalTo(-15)
         }
+     
+        addActionButton.addTarget(self, action: #selector(addButtonpRessed), for: .touchUpInside)
     }
 
+    @objc private func addButtonpRessed() {
+        onAddButtonPressed?(self)
+    }
 }

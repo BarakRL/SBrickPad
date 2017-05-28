@@ -28,10 +28,15 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
             tableView.reloadData()
         }
     }
-    var isModified:Bool = false
+    var isModified:Bool = false {
+        didSet {
+            updateTitle()
+        }
+    }
     var actionsFilename: String? {
         didSet {
             UserDefaults.standard.set(actionsFilename, forKey: "actionsFilename")
+            updateTitle()
         }
     }
     
@@ -69,9 +74,14 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         }
     }
     
+    func updateTitle() {
+        
+        let title = self.actionsFilename ?? "Button Actions"
+        self.title = "\(title)\(isModified ? "*" : "")"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "SBrick iCade"
         
         tableView.allowsMultipleSelection = true
         
@@ -90,6 +100,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         
         installRecourcesIfNeeded()
         loadLastActionsFile()
+        updateTitle()
     }
     
     func installRecourcesIfNeeded() {
@@ -245,15 +256,21 @@ extension MainViewController: FilePickerViewControllerDelegate {
     
     @IBAction func organizePressed() {
         
-        let saveWarning = self.isModified
+        let isModified = self.isModified
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Load actions set", style: .default, handler: { [weak self] (action) -> Void in
-            self?.loadActions(saveWarning: saveWarning)
+        alert.addAction(UIAlertAction(title: "Load actions", style: .default, handler: { [weak self] (action) -> Void in
+            self?.loadActions(saveWarning: isModified)
         }))
-        alert.addAction(UIAlertAction(title: "Save actions set", style: .default, handler: { [weak self] (action) -> Void in
+        
+        alert.addAction(UIAlertAction(title: "Save actions", style: .default, handler: { [weak self] (action) -> Void in
             self?.saveActions(onComplete: nil)
         }))
+        
+        alert.addAction(UIAlertAction(title: "Clear all", style: .destructive, handler: { [weak self] (action) -> Void in
+            self?.clearActions(saveWarning: isModified)
+        }))
+        
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         present(alert, animated: true, completion: nil)
@@ -314,6 +331,27 @@ extension MainViewController: FilePickerViewControllerDelegate {
         if let json = try? buttonActions.toJSON() { //, let jsonArray = json as? [Any]
             FilePickerViewController.save(jsonObject: json, asFilename: filename)
         }
+    }
+    
+    func clearActions(saveWarning: Bool) {
+        
+        if saveWarning {
+            
+            showSaveWarning(onComplete: { [weak self] in
+                self?.clearActions()
+            })
+        }
+        else {
+            clearActions()
+        }
+    }
+    
+    func clearActions() {
+        
+        buttonActions = []
+        isModified = false
+        actionsFilename = nil
+        
     }
     
     func loadActions(saveWarning: Bool) {
