@@ -23,9 +23,16 @@ class ButtonActionsViewController: UITableViewController {
     var releasedActions = [GameControllerButtonAction]()
     var valueChangedActions = [GameControllerButtonAction]()
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = button.name
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -160,6 +167,16 @@ class ButtonActionsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //deselect
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let actions = self.actions(forSection: indexPath.section)
+        if indexPath.row < actions.count {
+            
+            let action = actions[indexPath.row].action
+            let editVC = EditActionViewController(action: action)
+            
+            navigationController?.pushViewController(editVC, animated: true)
+            
+        }
         
     }
 

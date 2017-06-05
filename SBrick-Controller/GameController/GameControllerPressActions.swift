@@ -33,6 +33,25 @@ class PlaySoundAction: GameControllerPressAction {
         self.fileName = try decoder.decode("fileName")
         self.loop = try decoder.decode("loop")
     }
+    
+    var editCells: [GameControllerActionEditCell.Type] {
+        return [SelectSoundEditCell.self]
+    }
+    
+    func bind(to editCell: GameControllerActionEditCell) {
+                
+        if let cell = editCell as? SelectSoundEditCell {
+            
+            cell.fileName = self.fileName
+            cell.loop = self.loop
+            
+            cell.onChange = {
+                
+                self.fileName = cell.fileName
+                self.loop = cell.loop
+            }            
+        }
+    }
 }
 
 class StopSoundAction: GameControllerPressAction {
