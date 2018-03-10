@@ -336,7 +336,10 @@ extension MainViewController: FilePickerViewControllerDelegate {
             filename = "\(filename).json"
         }
         
-        if let jsonData = try? JSONEncoder().encode(buttonActions) {
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.outputFormatting = .prettyPrinted
+        
+        if let jsonData = try? jsonEncoder.encode(buttonActions) {
             FilePickerViewController.save(jsonData, asFilename: filename)
         }
     }
