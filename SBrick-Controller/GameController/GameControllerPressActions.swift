@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import JSONCodable
 
 protocol GameControllerPressAction: GameControllerAction {
 }
@@ -26,12 +25,6 @@ class PlaySoundAction: GameControllerPressAction {
     init(fileName: String, loop: Bool) {
         self.fileName = fileName
         self.loop = loop
-    }
-    
-    required init(object: JSONObject) throws {
-        let decoder = JSONDecoder(object: object)
-        self.fileName = try decoder.decode("fileName")
-        self.loop = try decoder.decode("loop")
     }
     
     var editCells: [GameControllerActionEditCell.Type] {
@@ -65,11 +58,6 @@ class StopSoundAction: GameControllerPressAction {
     init(fileName: String) {
         self.fileName = fileName
     }
-    
-    required init(object: JSONObject) throws {
-        let decoder = JSONDecoder(object: object)
-        self.fileName = try decoder.decode("fileName")        
-    }
 }
 
 class DriveAction: GameControllerPressAction {
@@ -87,13 +75,6 @@ class DriveAction: GameControllerPressAction {
         self.power = power
         self.isCW = isCW
     }
-    
-    required init(object: JSONObject) throws {
-        let decoder = JSONDecoder(object: object)
-        self.channel = try decoder.decode("channel")
-        self.power = try decoder.decode("power")
-        self.isCW = try decoder.decode("isCW")
-    }
 }
 
 class StopAction: GameControllerPressAction {
@@ -106,11 +87,6 @@ class StopAction: GameControllerPressAction {
     
     init(channel: UInt8) {
         self.channel = channel
-    }
-    
-    required init(object: JSONObject) throws {
-        let decoder = JSONDecoder(object: object)
-        self.channel = try decoder.decode("channel")
     }
 }
 

@@ -7,9 +7,23 @@
 //
 
 import Foundation
-import JSONCodable
 
-class GameControllerButtonAction: JSONCodable, JSONDecodable, CustomStringConvertible {
+enum GameControllerButtonActionError: Error {
+    case unknownAction
+}
+
+class GameControllerButtonAction: Codable, CustomStringConvertible {
+    
+    enum CodingKeys: String, CodingKey { // declaring our keys
+        case button = "button"
+        case action = "action"
+        case event = "event"
+    }
+    
+    enum ActionKeys: String, CodingKey {
+        //we only need type to choose action class
+        case type = "type"
+    }
     
     var button: GameControllerButton
     var action: GameControllerAction
@@ -21,17 +35,68 @@ class GameControllerButtonAction: JSONCodable, JSONDecodable, CustomStringConver
         self.event = event
     }
     
-    required init(object: JSONObject) throws {
-        let decoder = JSONDecoder(object: object)
+    required init(from decoder: Decoder) throws {
         
-        self.button = try decoder.decode("button")
-        self.event = try decoder.decode("event")
+        let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        guard let actionObject = object["action"] as? JSONObject else {
-            throw GameControllerActionLoaderError.UnknownAction
+        self.button = try container.decode(GameControllerButton.self, forKey: .button)
+        self.event = try container.decode(GameControllerButton.Event.self, forKey: .event)
+        
+        let actionContainer = try container.nestedContainer(keyedBy: ActionKeys.self, forKey: .action)
+        let actionType = try actionContainer.decode(String.self, forKey: ActionKeys.type)
+        
+        switch actionType {
+            
+        //press actions
+        case PlaySoundAction.type:
+            self.action = try container.decode(PlaySoundAction.self, forKey: .action)
+            
+        case StopSoundAction.type:
+            self.action = try container.decode(StopSoundAction.self, forKey: .action)
+            
+        case DriveAction.type:
+            self.action = try container.decode(DriveAction.self, forKey: .action)
+            
+        case StopAction.type:
+            self.action = try container.decode(StopAction.self, forKey: .action)
+            
+        //value actions
+        case DriveValueAction.type:
+            self.action = try container.decode(DriveValueAction.self, forKey: .action)
+            
+        default:
+            throw GameControllerButtonActionError.unknownAction
         }
+    }
+    
+    func encode(to encoder: Encoder) throws {
         
-        self.action = try GameControllerActionLoader.action(from: actionObject)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(button, forKey: .button)
+        try container.encode(event, forKey: .event)
+        
+        switch action.type {
+            
+        //press actions
+        case PlaySoundAction.type:
+            try container.encode(action as? PlaySoundAction, forKey: .action)
+            
+        case StopSoundAction.type:
+            try container.encode(action as? StopSoundAction, forKey: .action)
+            
+        case DriveAction.type:
+            try container.encode(action as? DriveAction, forKey: .action)
+            
+        case StopAction.type:
+            try container.encode(action as? StopAction, forKey: .action)
+            
+        //value actions
+        case DriveValueAction.type:
+            try container.encode(action as? DriveValueAction, forKey: .action)
+            
+        default:
+            throw GameControllerButtonActionError.unknownAction
+        }
     }
     
     var description: String { return "On \(button) \(event): \(action)" }

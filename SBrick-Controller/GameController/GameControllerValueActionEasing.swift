@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import JSONCodable
 
-enum GameControllerValueActionEasing: String, JSONEncodable {
+enum GameControllerValueActionEasing: String, Codable {
     
     case linear
     case easeIn
@@ -49,10 +48,6 @@ enum GameControllerValueActionEasing: String, JSONEncodable {
         case .easeOut:      return "Ease Out"
         case .easeInOut:    return "Ease In Out"
         }
-    }
-    
-    func toJSON() throws -> Any {
-        return self.rawValue
-    }
+    }    
 }
 

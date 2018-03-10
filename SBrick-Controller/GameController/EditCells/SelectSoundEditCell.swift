@@ -56,13 +56,13 @@ class SelectSoundEditCell: GameControllerActionEditCell, FilePickerViewControlle
         }
     }
     
-    func onLoopSwitchChange() {
+    @objc private func onLoopSwitchChange() {
         
         self.loop = self.loopSwitch.isOn
         onChange()
     }
     
-    func onSelectSoundButtonPress() {
+    @objc private func onSelectSoundButtonPress() {
         
         let filePicker = FilePickerViewController.instantiate()
         filePicker.identifier = "pickSound"

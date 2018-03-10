@@ -6,12 +6,11 @@
 //  Copyright © 2017 Barak Harel. All rights reserved.
 //
 
-import Foundation
-import JSONCodable
+import UIKit
 
-extension UInt8: JSONCompatible {}
+//extension UInt8: JSONCompatible {}
 
-protocol GameControllerAction: JSONCodable, JSONDecodable, CustomStringConvertible {
+protocol GameControllerAction: Codable, CustomStringConvertible {
     
     var type: String { set get } //required for encode and decode match, should always be = 'Self'.type
     var name: String { get }

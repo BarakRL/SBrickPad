@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import JSONCodable
 
 protocol GameControllerValueAction: GameControllerAction {
 }
@@ -32,15 +31,6 @@ class DriveValueAction: GameControllerValueAction {
         self.maxPower = maxPower
         self.isCW = isCW
         self.easing = easing
-    }
-    
-    required init(object: JSONObject) throws {
-        let decoder = JSONDecoder(object: object)
-        self.channel = try decoder.decode("channel")
-        self.minPower = try decoder.decode("minPower")
-        self.maxPower = try decoder.decode("maxPower")
-        self.isCW = try decoder.decode("isCW")
-        self.easing = try decoder.decode("easing")
     }
     
     func relativePower(fromValue inValue: Float) -> (value: UInt8, isNegative: Bool) {

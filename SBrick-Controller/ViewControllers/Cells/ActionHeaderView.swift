@@ -32,7 +32,7 @@ class ActionHeaderView: UIView {
         addSubview(titleLabel)
         addSubview(addActionButton)
         
-        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightLight)
+        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .light)
         
         titleLabel.snp.makeConstraints { (make) in
             make.left.equalTo(15)

@@ -11,8 +11,6 @@ import SBrick
 import CoreBluetooth
 import AVFoundation
 import GameController
-import JSONCodable
-
 
 class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDelegate {
     
@@ -146,7 +144,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         
     }
     
-    func gameControllerConnected(notification: NSNotification) {
+    @objc func gameControllerConnected(notification: NSNotification) {
         
         guard let gameController = notification.object as? GCController else { return }
         self.gameController = gameController
@@ -154,7 +152,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         print("connected: \(gameController)")
     }
     
-    func gameControllerDisconnected(notification: NSNotification) {
+    @objc func gameControllerDisconnected(notification: NSNotification) {
         
         guard let gameController = notification.object as? GCController else { return }
         if self.gameController == gameController {
@@ -293,7 +291,7 @@ extension MainViewController: FilePickerViewControllerDelegate {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (action) -> Void in
             self?.isModified = false
-            if let filename = inputTextField?.text, filename.characters.count > 0 {
+            if let filename = inputTextField?.text, filename.count > 0 {
                 self?.checkAndSave(filename: filename, onComplete: onComplete)
             }
         }))
@@ -338,8 +336,8 @@ extension MainViewController: FilePickerViewControllerDelegate {
             filename = "\(filename).json"
         }
         
-        if let json = try? buttonActions.toJSON() { //, let jsonArray = json as? [Any]
-            FilePickerViewController.save(jsonObject: json, asFilename: filename)
+        if let jsonData = try? JSONEncoder().encode(buttonActions) {
+            FilePickerViewController.save(jsonData, asFilename: filename)
         }
     }
     
@@ -405,10 +403,9 @@ extension MainViewController: FilePickerViewControllerDelegate {
     }
     
     func loadActions(filename: String) {
-        
-        if let json = FilePickerViewController.load(jsonObjectNamed: filename),
-            let jsonArray = json as? [Any],
-            let buttonActions = try? [GameControllerButtonAction].init(JSONArray: jsonArray) {
+                
+        if let jsonData = FilePickerViewController.load(filename: filename),
+            let buttonActions = try? JSONDecoder().decode([GameControllerButtonAction].self, from: jsonData) {
             
             self.buttonActions = buttonActions
             self.isModified = false
@@ -523,17 +520,17 @@ extension MainViewController {
         return keyCommands
     }
     
-    func keyReleased(sender: UIKeyCommand) {
+    @objc func keyReleased(sender: UIKeyCommand) {
         
         self.becomeFirstResponder()
-        guard let button = ICadeButton.button(forReleaseKey: sender.input) else { print("Unknown key: \(sender.input)"); return }
+        guard let button = ICadeButton.button(forReleaseKey: sender.input!) else { print("Unknown key: \(String(describing: sender.input))"); return }
         onButton(button, pressed: false)
     }
     
-    func keyPressed(sender: UIKeyCommand) {
+    @objc func keyPressed(sender: UIKeyCommand) {
         
         self.becomeFirstResponder()
-        guard let button = ICadeButton.button(forPressKey: sender.input) else { print("Unknown key: \(sender.input)"); return }
+        guard let button = ICadeButton.button(forPressKey: sender.input!) else { print("Unknown key: \(String(describing: sender.input))"); return }
         onButton(button, pressed: true)
     }
     
