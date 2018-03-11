@@ -14,17 +14,17 @@ class ActionHeaderView: UIView {
     let titleLabel = UILabel(frame: .zero)
     private let addActionButton = UIButton(type: .contactAdd)
     
-    var section: Int = 0
+    var event: GameControllerButton.Event
     var onAddButtonPressed: ((ActionHeaderView)->())?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(event: GameControllerButton.Event) {
+        self.event = event
+        super.init(frame: .zero)
         setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setup()
+        fatalError("use init(event: GameControllerButton.Event)")
     }
     
     func setup() {

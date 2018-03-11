@@ -11,13 +11,14 @@ import SnapKit
 
 class SelectSoundEditCell: GameControllerActionEditCell, FilePickerViewControllerDelegate {
 
-    var fileName: String = "" {
+    var filename: String? {
         didSet {
-            selectSoundButton.setTitle(fileName, for: .normal)
+            selectSoundButton.setTitle(filename ?? "(none)", for: .normal)
         }
     }
     
     var selectSoundButton = UIButton(type: .system)
+    var clearSoundButton = UIButton(type: .system)
     
     override func setup() {
         super.setup()
@@ -27,13 +28,33 @@ class SelectSoundEditCell: GameControllerActionEditCell, FilePickerViewControlle
         selectSoundButton.layer.borderWidth = 1
         selectSoundButton.addTarget(self, action: #selector(onSelectSoundButtonPress), for: .touchUpInside)
         addSubview(selectSoundButton)
+                
+        clearSoundButton.setTitle("X", for: .normal)
+        clearSoundButton.layer.cornerRadius = 5
+        clearSoundButton.layer.borderColor = clearSoundButton.tintColor.cgColor
+        clearSoundButton.layer.borderWidth = 1
+        clearSoundButton.addTarget(self, action: #selector(onClearSoundButtonPress), for: .touchUpInside)
+        addSubview(clearSoundButton)
         
         selectSoundButton.snp.makeConstraints { (make) in
             make.left.equalTo(12)
-            make.right.equalTo(-12)
+            make.right.equalTo(clearSoundButton.snp.left).offset(-6)
             make.top.equalTo(6)
             make.bottom.equalTo(-6)
         }
+        
+        clearSoundButton.snp.makeConstraints { (make) in
+            make.right.equalTo(-12)
+            make.top.equalTo(6)
+            make.bottom.equalTo(-6)
+            make.height.equalTo(clearSoundButton.snp.width) //square
+        }
+    }
+    
+    @objc private func onClearSoundButtonPress() {
+        
+        self.filename = nil
+        self.onChange()
     }
     
     @objc private func onSelectSoundButtonPress() {
@@ -51,7 +72,7 @@ class SelectSoundEditCell: GameControllerActionEditCell, FilePickerViewControlle
     func filePickerViewController(_ filePickerViewController: FilePickerViewController, didSelectFile file: URL) {
         
         filePickerViewController.dismiss(animated: true, completion: nil)
-        self.fileName = file.lastPathComponent
+        self.filename = file.lastPathComponent
         self.onChange()
     }
 

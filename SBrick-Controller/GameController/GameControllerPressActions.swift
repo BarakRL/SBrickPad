@@ -16,16 +16,16 @@ protocol GameControllerPressAction: GameControllerAction {
 
 class PlaySoundAction: GameControllerPressAction {
     
-    var fileName: String
-    var loop: Bool
+    var filename: String?
+    var loop: Bool = false
     
     var type: String = PlaySoundAction.type
     var name: String { return "Play Sound" }
-    var info: String { return "\(fileName)\(loop ? " (loop)" : "")" }
+    var info: String { return "\(filename ?? "(none)"), Loop: \(loop ? "Yes" : "No")" }
     
-    init(fileName: String, loop: Bool) {
-        self.fileName = fileName
-        self.loop = loop
+    init() {
+        self.filename = nil
+        self.loop = false
     }
     
     var editCellsCount: Int { return 2 }
@@ -44,9 +44,9 @@ class PlaySoundAction: GameControllerPressAction {
         switch index {
         case 0:
             guard let cell = editCell as? SelectSoundEditCell else { return }
-            cell.fileName = self.fileName
+            cell.filename = self.filename
             cell.onChange = {
-                self.fileName = cell.fileName
+                self.filename = cell.filename
             }
             
         case 1:
@@ -65,14 +65,14 @@ class PlaySoundAction: GameControllerPressAction {
 
 class StopSoundAction: GameControllerPressAction {
     
-    var fileName: String
+    var filename: String?
     
     var type: String = StopSoundAction.type
     var name: String { return "Stop Sound" }
-    var info: String { return fileName }
+    var info: String { return filename ?? "All Sounds" }
     
-    init(fileName: String) {
-        self.fileName = fileName
+    init() {
+        self.filename = nil
     }
     
     var editCellsCount: Int { return 1 }
@@ -83,9 +83,9 @@ class StopSoundAction: GameControllerPressAction {
     
     func bind(to editCell: GameControllerActionEditCell, at index: Int) {
         guard let cell = editCell as? SelectSoundEditCell else { return }
-        cell.fileName = self.fileName
+        cell.filename = self.filename
         cell.onChange = {
-            self.fileName = cell.fileName
+            self.filename = cell.filename
         }
     }
 }

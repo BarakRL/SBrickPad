@@ -25,6 +25,18 @@ class GameControllerButtonAction: Codable, CustomStringConvertible {
         case type = "type"
     }
     
+    func copy() -> Self? {
+        
+        do {
+            let data = try JSONEncoder().encode(self)
+            let copy = try JSONDecoder().decode(type(of: self), from: data)
+            return copy
+        }
+        catch {
+            return nil
+        }        
+    }
+    
     var button: GameControllerButton
     var action: GameControllerAction
     var event: GameControllerButton.Event

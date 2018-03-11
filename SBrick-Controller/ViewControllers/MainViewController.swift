@@ -206,7 +206,9 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     
     //MARK: - Actions
     var soundPlayers = [String:AVAudioPlayer]()
-    func playSound(filename: String, loop: Bool) {
+    func playSound(filename: String?, loop: Bool) {
+        
+        guard let filename = filename else { return }
         
         let url = FilePickerViewController.url(forFilename: filename)
         
@@ -229,11 +231,20 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         }
     }
     
-    func stopSound(filename: String) {
+    func stopSound(filename: String?) {
         
-        //release
-        if let player = soundPlayers[filename] {
-            player.stop()
+        if let filename = filename { //stop single player
+            
+            if let player = soundPlayers[filename] {
+                player.stop()
+            }
+            
+        }
+        else { //nil => stop all
+            
+            for (_, player) in soundPlayers {
+                player.stop()
+            }
         }
     }
     
@@ -473,9 +484,9 @@ extension MainViewController {
         
         let vc = ButtonActionsViewController.instantiate()
         vc.button = button
-        vc.pressedActions       = self.buttonActions(for: button, event: .pressed)
-        vc.releasedActions      = self.buttonActions(for: button, event: .released)
-        vc.valueChangedActions  = self.buttonActions(for: button, event: .valueChanged)
+        vc.pressedActions       = self.buttonActions(for: button, event: .pressed, copy: true)
+        vc.releasedActions      = self.buttonActions(for: button, event: .released, copy: true)
+        vc.valueChangedActions  = self.buttonActions(for: button, event: .valueChanged, copy: true)
         vc.delegate = self
         
         let nav = UINavigationController(rootViewController: vc)
@@ -533,12 +544,20 @@ extension MainViewController {
     }
     
     
-    func buttonActions(for button: GameControllerButton, event: GameControllerButton.Event) -> [GameControllerButtonAction] {
+    func buttonActions(for button: GameControllerButton, event: GameControllerButton.Event, copy: Bool = false) -> [GameControllerButtonAction] {
         
         var actions = [GameControllerButtonAction]()
         for buttonAction in buttonActions {
             if buttonAction.button == button && buttonAction.event == event {
-                actions.append(buttonAction)
+                
+                if copy {
+                    if let buttonActionCopy = buttonAction.copy() {
+                        actions.append(buttonActionCopy)
+                    }
+                }
+                else {
+                    actions.append(buttonAction)
+                }
             }
         }
         
@@ -578,11 +597,11 @@ extension MainViewController {
             
             if let action = action as? PlaySoundAction {
                 
-                self.playSound(filename: action.fileName, loop: action.loop)
+                self.playSound(filename: action.filename, loop: action.loop)
             }
             else if let action = action as? StopSoundAction {
                 
-                self.stopSound(filename: action.fileName)
+                self.stopSound(filename: action.filename)
             }
             else if let action = action as? DriveAction {
                 

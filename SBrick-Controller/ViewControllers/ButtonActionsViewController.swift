@@ -23,6 +23,9 @@ class ButtonActionsViewController: UITableViewController {
     var releasedActions = [GameControllerButtonAction]()
     var valueChangedActions = [GameControllerButtonAction]()
     
+    let sectionPressed = 0
+    let sectionReleased = 1
+    let sectionValueChanged = 2
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -48,17 +51,21 @@ class ButtonActionsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let actions = self.actions(forSection: section)
-        return actions.count > 0 ? actions.count : 1
+        
+        let event = self.event(forSection: section)
+        let buttonActions = self.buttonActions(for: event)
+        
+        return buttonActions.count > 0 ? buttonActions.count : 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let actions = self.actions(forSection: indexPath.section)
+        let event = self.event(forSection: indexPath.section)
+        let buttonActions = self.buttonActions(for: event)
         
         let cell = ActionCell.dequeue(for: tableView, at: indexPath)
-        if indexPath.row < actions.count {
-            cell.action = actions[indexPath.row].action
+        if indexPath.row < buttonActions.count {
+            cell.action = buttonActions[indexPath.row].action
         }
         else {
             cell.action = nil
@@ -67,42 +74,50 @@ class ButtonActionsViewController: UITableViewController {
         return cell
     }
     
-    private func actions(forSection section: Int) -> [GameControllerButtonAction] {
+    private func buttonActions(for event: GameControllerButton.Event) -> [GameControllerButtonAction] {
         
-        switch section {
-        case 0:
-            return self.pressedActions
-            
-        case 1:
-            return self.releasedActions
-            
-        case 2:
-            return self.valueChangedActions
-            
-        default:
-            fatalError("Unknown section")
+        switch event {
+        case .pressed:      return self.pressedActions
+        case .released:     return self.releasedActions
+        case .valueChanged: return self.valueChangedActions
         }
     }
     
-    private func set(actions: [GameControllerButtonAction], forSection section: Int)  {
+    func event(forSection section: Int) -> GameControllerButton.Event {
         
         switch section {
-        case 0:
-            self.pressedActions = actions
+        case sectionPressed:      return .pressed
+        case sectionReleased:     return .released
+        case sectionValueChanged: return .valueChanged
             
-        case 1:
-            self.releasedActions = actions
+        default: fatalError("Unknown section")
+        }
+    }
+    
+    private func set(buttonActions: [GameControllerButtonAction], for event: GameControllerButton.Event)  {
+        
+        switch event {
+        case .pressed:
+            self.pressedActions = buttonActions
             
-        case 2:
-            self.valueChangedActions = actions
+        case .released:
+            self.releasedActions = buttonActions
             
-        default:
-            fatalError("Unknown section")
+        case .valueChanged:
+            self.valueChangedActions = buttonActions
         }
     }
 
-    func addAction(toSection section: Int) {
-                
+    func addButtonAction(to event: GameControllerButton.Event) {
+        
+        let action = StopSoundAction() //TO DO: select action
+        
+        var buttonActions = self.buttonActions(for: event)
+        let buttonAction = GameControllerButtonAction(button: self.button, action: action, forEvent: event)
+        buttonActions.append(buttonAction)
+        set(buttonActions: buttonActions, for: event)
+        
+        tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -123,19 +138,24 @@ class ButtonActionsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = ActionHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
+        
+        let event = self.event(forSection: section)
+        let header = ActionHeaderView(event: event)        
         header.titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
-        header.section = section
+        
         header.onAddButtonPressed = { [weak self] actionHeader in
-            self?.addAction(toSection: actionHeader.section)
+            
+            self?.addButtonAction(to: actionHeader.event)
         }
         return header
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         
-        let actions = self.actions(forSection: indexPath.section)
-        return (indexPath.row < actions.count)
+        let event = self.event(forSection: indexPath.section)
+        let buttonActions = self.buttonActions(for: event)
+        
+        return (indexPath.row < buttonActions.count)
         
     }
     
@@ -143,11 +163,14 @@ class ButtonActionsViewController: UITableViewController {
         
         if editingStyle == .delete {
             
-            var actions = self.actions(forSection: indexPath.section)
-            actions.remove(at: indexPath.row)
-            set(actions: actions, forSection: indexPath.section)
             
-            if actions.count > 0 {
+            let event = self.event(forSection: indexPath.section)
+            var buttonActions = self.buttonActions(for: event)
+            
+            buttonActions.remove(at: indexPath.row)
+            set(buttonActions: buttonActions, for: event)
+            
+            if buttonActions.count > 0 {
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             }
             else {
@@ -168,10 +191,12 @@ class ButtonActionsViewController: UITableViewController {
         //deselect
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let actions = self.actions(forSection: indexPath.section)
-        if indexPath.row < actions.count {
+        let event = self.event(forSection: indexPath.section)
+        let buttonActions = self.buttonActions(for: event)
+        
+        if indexPath.row < buttonActions.count {
             
-            let action = actions[indexPath.row].action
+            let action = buttonActions[indexPath.row].action
             let editVC = EditActionViewController(action: action)
             
             navigationController?.pushViewController(editVC, animated: true)
