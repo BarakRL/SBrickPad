@@ -17,10 +17,6 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     var manager: SBrickManager!
     var sbrick: SBrick?
     
-    let driveChannel: UInt8 = 2
-    let steerChannel: UInt8 = 0
-    let steerCW: Bool = false
-    
     var buttonActions = [GameControllerButtonAction]() {
         didSet {
             tableView.reloadData()
@@ -183,7 +179,6 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         statusLabel.text = "SBrick connected!"
         statusView.backgroundColor = connectedColor
         self.sbrick = sbrick
-        sbrick.channels[Int(driveChannel)].drivePowerThreshold = 32
     }
     
     func sbrickDisconnected(_ sbrick: SBrick) {
@@ -592,12 +587,12 @@ extension MainViewController {
             else if let action = action as? DriveAction {
                 
                 guard let sbrick = self.sbrick else { continue }
-                sbrick.channels[Int(action.channel)].drive(power: action.power, isCW: action.isCW)
+                sbrick.managedPort(for: action.port).drive(power: action.power, isCW: action.isCW)
             }
             else if let action = action as? StopAction {
                 
                 guard let sbrick = self.sbrick else { continue }
-                sbrick.channels[Int(action.channel)].stop()
+                sbrick.managedPort(for: action.port).stop()
             }
         }
         
@@ -629,11 +624,11 @@ extension MainViewController {
                 let power = action.relativePower(fromValue: value)
                 
                 if power.value == 0 {
-                    sbrick.channels[Int(action.channel)].stop()
+                    sbrick.managedPort(for: action.port).stop()
                 }
                 else {
                     let isCW = power.isNegative ? !action.isCW : action.isCW
-                    sbrick.channels[Int(action.channel)].drive(power: power.value, isCW: isCW)
+                    sbrick.managedPort(for: action.port).drive(power: power.value, isCW: isCW)
                 }
             }
         }

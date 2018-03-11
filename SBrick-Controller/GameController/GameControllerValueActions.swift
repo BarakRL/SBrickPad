@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SBrick
 
 protocol GameControllerValueAction: GameControllerAction {
 }
@@ -15,7 +16,7 @@ protocol GameControllerValueAction: GameControllerAction {
 
 class DriveValueAction: GameControllerValueAction {
     
-    var channel: UInt8
+    var port: SBrickPort
     var minPower: UInt8
     var maxPower: UInt8
     var isCW: Bool
@@ -23,10 +24,10 @@ class DriveValueAction: GameControllerValueAction {
     
     var type: String = DriveValueAction.type
     var name: String { return "Drive Value" }
-    var info: String { return "Channel: \(self.channel), Power: \(self.minPower)-\(self.maxPower) \(self.isCW ? "CW" : "CCW")" }
+    var info: String { return "Port: \(self.port), Power: \(self.minPower)-\(self.maxPower) \(self.isCW ? "CW" : "CCW")" }
     
-    init(channel: UInt8, minPower: UInt8, maxPower: UInt8, isCW: Bool, easing: GameControllerValueActionEasing = .linear) {
-        self.channel = channel
+    init(port: SBrickPort, minPower: UInt8, maxPower: UInt8, isCW: Bool, easing: GameControllerValueActionEasing = .linear) {
+        self.port = port
         self.minPower = minPower
         self.maxPower = maxPower
         self.isCW = isCW

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SBrick
 
 protocol GameControllerPressAction: GameControllerAction {
 }
@@ -62,16 +63,16 @@ class StopSoundAction: GameControllerPressAction {
 
 class DriveAction: GameControllerPressAction {
     
-    var channel: UInt8
+    var port: SBrickPort
     var power: UInt8
     var isCW: Bool
     
     var type: String = DriveAction.type
     var name: String { return "Drive" }
-    var info: String { return "Channel: \(channel), Power: \(power) \(isCW ? "CW" : "CCW")" }
+    var info: String { return "Port: \(port), Power: \(power) \(isCW ? "CW" : "CCW")" }
     
-    init(channel: UInt8, power: UInt8, isCW: Bool) {
-        self.channel = channel
+    init(port: SBrickPort, power: UInt8, isCW: Bool) {
+        self.port = port
         self.power = power
         self.isCW = isCW
     }
@@ -79,14 +80,14 @@ class DriveAction: GameControllerPressAction {
 
 class StopAction: GameControllerPressAction {
     
-    var channel: UInt8
+    var port: SBrickPort
     
     var type: String = StopAction.type
     var name: String { return "Stop" }
-    var info: String { return "Channel: \(channel)" }
+    var info: String { return "Port: \(port)" }
     
-    init(channel: UInt8) {
-        self.channel = channel
+    init(port: SBrickPort) {
+        self.port = port
     }
 }
 

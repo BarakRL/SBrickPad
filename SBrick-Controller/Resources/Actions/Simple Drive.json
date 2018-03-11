@@ -3,7 +3,7 @@
     "button" : "leftThumbstickX",
     "action" : {
       "type" : "DriveValueAction",
-      "channel" : 0,
+      "port" : 1,
       "maxPower" : 255,
       "isCW" : false,
       "minPower" : 0,
@@ -15,7 +15,7 @@
     "button" : "rightThumbstickY",
     "action" : {
       "type" : "DriveValueAction",
-      "channel" : 2,
+      "port" : 3,
       "maxPower" : 255,
       "isCW" : false,
       "minPower" : 0,
@@ -26,7 +26,7 @@
   {
     "button" : "left",
     "action" : {
-      "channel" : 0,
+      "port" : 1,
       "isCW" : true,
       "type" : "DriveAction",
       "power" : 255
@@ -37,14 +37,14 @@
     "button" : "left",
     "action" : {
       "type" : "StopAction",
-      "channel" : 0
+      "port" : 1
     },
     "event" : "released"
   },
   {
     "button" : "right",
     "action" : {
-      "channel" : 0,
+      "port" : 1,
       "isCW" : false,
       "type" : "DriveAction",
       "power" : 255
@@ -55,14 +55,14 @@
     "button" : "right",
     "action" : {
       "type" : "StopAction",
-      "channel" : 0
+      "port" : 1
     },
     "event" : "released"
   },
   {
     "button" : "buttonA",
     "action" : {
-      "channel" : 2,
+      "port" : 3,
       "isCW" : false,
       "type" : "DriveAction",
       "power" : 255
@@ -73,7 +73,7 @@
     "button" : "buttonA",
     "action" : {
       "type" : "StopAction",
-      "channel" : 2
+      "port" : 3
     },
     "event" : "released"
   },
@@ -97,7 +97,7 @@
   {
     "button" : "buttonB",
     "action" : {
-      "channel" : 2,
+      "port" : 3,
       "isCW" : true,
       "type" : "DriveAction",
       "power" : 255
@@ -108,7 +108,7 @@
     "button" : "buttonB",
     "action" : {
       "type" : "StopAction",
-      "channel" : 2
+      "port" : 3
     },
     "event" : "released"
   },
