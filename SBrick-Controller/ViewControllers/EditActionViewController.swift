@@ -18,8 +18,9 @@ class EditActionViewController: UITableViewController, PresentationDelegate {
         
         self.navigationItem.title = action.name
         
-        for cellType in action.editCells {
-            tableView.register(cellType, forCellReuseIdentifier: cellType.reuseIdentifier)
+        for index in 0..<action.editCellsCount {
+            let cellType = action.editCellType(at: index)
+            cellType.register(in: tableView)
         }
     }
     
@@ -54,18 +55,17 @@ class EditActionViewController: UITableViewController, PresentationDelegate {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return action.editCells.count
+        return action.editCellsCount
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cellType = action.editCells[indexPath.row]
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellType.reuseIdentifier, for: indexPath) as! GameControllerActionEditCell
+        let cellType = action.editCellType(at: indexPath.row)
+        let cell = cellType.dequeue(for: tableView, at: indexPath)
         
         cell.presentationDelegate = self
-        action.bind(to: cell)
+        action.bind(to: cell, at: indexPath.row)
 
         return cell
     }

@@ -11,24 +11,13 @@ import SnapKit
 
 class SelectSoundEditCell: GameControllerActionEditCell, FilePickerViewControllerDelegate {
 
-    override class var reuseIdentifier: String {
-        return "SelectSoundEditCell"
-    }
-    
     var fileName: String = "" {
         didSet {
             selectSoundButton.setTitle(fileName, for: .normal)
         }
     }
     
-    var loop: Bool = false {
-        didSet {
-            loopSwitch.isOn = loop
-        }
-    }
-    
     var selectSoundButton = UIButton(type: .system)
-    var loopSwitch = UISwitch()
     
     override func setup() {
         super.setup()
@@ -37,29 +26,14 @@ class SelectSoundEditCell: GameControllerActionEditCell, FilePickerViewControlle
         selectSoundButton.layer.borderColor = selectSoundButton.tintColor.cgColor
         selectSoundButton.layer.borderWidth = 1
         selectSoundButton.addTarget(self, action: #selector(onSelectSoundButtonPress), for: .touchUpInside)
-        
         addSubview(selectSoundButton)
-        
-        loopSwitch.addTarget(self, action: #selector(onLoopSwitchChange), for: .valueChanged)
-        addSubview(loopSwitch)
         
         selectSoundButton.snp.makeConstraints { (make) in
             make.left.equalTo(12)
-            make.right.equalTo(loopSwitch.snp.left).offset(-12)
+            make.right.equalTo(-12)
             make.top.equalTo(6)
             make.bottom.equalTo(-6)
         }
-        
-        loopSwitch.snp.makeConstraints { (make) in
-            make.right.equalTo(-12)
-            make.centerY.equalTo(self)
-        }
-    }
-    
-    @objc private func onLoopSwitchChange() {
-        
-        self.loop = self.loopSwitch.isOn
-        onChange()
     }
     
     @objc private func onSelectSoundButtonPress() {

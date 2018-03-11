@@ -28,23 +28,38 @@ class PlaySoundAction: GameControllerPressAction {
         self.loop = loop
     }
     
-    var editCells: [GameControllerActionEditCell.Type] {
-        return [SelectSoundEditCell.self]
+    var editCellsCount: Int { return 2 }
+    
+    func editCellType(at index: Int) -> GameControllerActionEditCell.Type {
+        
+        switch index {
+        case 0: return SelectSoundEditCell.self
+        case 1: return SwitchEditCell.self
+        default: return GameControllerActionEditCell.self
+        }
     }
     
-    func bind(to editCell: GameControllerActionEditCell) {
-                
-        if let cell = editCell as? SelectSoundEditCell {
-            
+    func bind(to editCell: GameControllerActionEditCell, at index: Int) {
+        
+        switch index {
+        case 0:
+            guard let cell = editCell as? SelectSoundEditCell else { return }
             cell.fileName = self.fileName
-            cell.loop = self.loop
-            
             cell.onChange = {
-                
                 self.fileName = cell.fileName
-                self.loop = cell.loop
-            }            
-        }
+            }
+            
+        case 1:
+            guard let cell = editCell as? SwitchEditCell else { return }
+            cell.title = "Loop:"
+            cell.isOn = self.loop
+            cell.onChange = {
+                self.loop = cell.isOn
+            }
+            
+        default:
+            break
+        }        
     }
 }
 
@@ -58,6 +73,20 @@ class StopSoundAction: GameControllerPressAction {
     
     init(fileName: String) {
         self.fileName = fileName
+    }
+    
+    var editCellsCount: Int { return 1 }
+    
+    func editCellType(at index: Int) -> GameControllerActionEditCell.Type {
+        return SelectSoundEditCell.self
+    }
+    
+    func bind(to editCell: GameControllerActionEditCell, at index: Int) {
+        guard let cell = editCell as? SelectSoundEditCell else { return }
+        cell.fileName = self.fileName
+        cell.onChange = {
+            self.fileName = cell.fileName
+        }
     }
 }
 

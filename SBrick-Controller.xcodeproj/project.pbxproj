@@ -22,6 +22,8 @@
 		06B865761EB8262F002FFD0A /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865751EB8262F002FFD0A /* ButtonCell.swift */; };
 		06ECE6A41EE3CE9000397612 /* EditActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ECE6A31EE3CE9000397612 /* EditActionViewController.swift */; };
 		95618F03D266FD67E59D72C1 /* Pods_SBrick_Controller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE2356330B8EE1F431B7A0BC /* Pods_SBrick_Controller.framework */; };
+		E560FE052055CA120015C6DE /* SwitchEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E560FE042055CA120015C6DE /* SwitchEditCell.swift */; };
+		E560FE072055CAE50015C6DE /* UITable+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E560FE062055CAE50015C6DE /* UITable+Ext.swift */; };
 		E59CF2F91EAF13B100661A77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CF2F81EAF13B100661A77 /* AppDelegate.swift */; };
 		E59CF2FE1EAF13B100661A77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E59CF2FC1EAF13B100661A77 /* Main.storyboard */; };
 		E59CF3001EAF13B100661A77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E59CF2FF1EAF13B100661A77 /* Assets.xcassets */; };
@@ -52,6 +54,8 @@
 		2FBE4A2E1AB5D2A34581299D /* Pods-SBrick-Controller.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBrick-Controller.release.xcconfig"; path = "Pods/Target Support Files/Pods-SBrick-Controller/Pods-SBrick-Controller.release.xcconfig"; sourceTree = "<group>"; };
 		A0F527C52523843D3F9F9343 /* Pods-SBrick-Controller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBrick-Controller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SBrick-Controller/Pods-SBrick-Controller.debug.xcconfig"; sourceTree = "<group>"; };
 		AE2356330B8EE1F431B7A0BC /* Pods_SBrick_Controller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SBrick_Controller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E560FE042055CA120015C6DE /* SwitchEditCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchEditCell.swift; sourceTree = "<group>"; };
+		E560FE062055CAE50015C6DE /* UITable+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITable+Ext.swift"; sourceTree = "<group>"; };
 		E59CF2F51EAF13B100661A77 /* SBrick-Controller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SBrick-Controller.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E59CF2F81EAF13B100661A77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E59CF2FD1EAF13B100661A77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -83,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				0602AC9B1EE3BA2D0062F1AF /* SelectSoundEditCell.swift */,
+				E560FE042055CA120015C6DE /* SwitchEditCell.swift */,
 			);
 			path = EditCells;
 			sourceTree = "<group>";
@@ -127,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				06B865731EB81EED002FFD0A /* UIStoryboard+Ext.swift */,
+				E560FE062055CAE50015C6DE /* UITable+Ext.swift */,
 			);
 			name = Helpers;
 			path = "SBrick-Controller/Helpers";
@@ -350,10 +356,12 @@
 			files = (
 				06B865711EB7EF71002FFD0A /* ActionCell.swift in Sources */,
 				E5A431551EDAAA5C00DA0AF1 /* FileCell.swift in Sources */,
+				E560FE072055CAE50015C6DE /* UITable+Ext.swift in Sources */,
 				066374081ED36A28001B0ACA /* GameControllerButtonAction.swift in Sources */,
 				06B865761EB8262F002FFD0A /* ButtonCell.swift in Sources */,
 				066374091ED36A28001B0ACA /* GameControllerPressActions.swift in Sources */,
 				06B8656C1EB7E585002FFD0A /* ButtonActionsViewController.swift in Sources */,
+				E560FE052055CA120015C6DE /* SwitchEditCell.swift in Sources */,
 				066374051ED36A28001B0ACA /* GameControllerButton.swift in Sources */,
 				E5A431531EDAA99100DA0AF1 /* FilePickerViewController.swift in Sources */,
 				E59CF2F91EAF13B100661A77 /* AppDelegate.swift in Sources */,

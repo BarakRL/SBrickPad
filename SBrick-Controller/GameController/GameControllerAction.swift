@@ -16,15 +16,18 @@ protocol GameControllerAction: Codable, CustomStringConvertible {
     var name: String { get }
     var info: String { get }
     
-    var editCells: [GameControllerActionEditCell.Type] { get }
-    func bind(to editCell: GameControllerActionEditCell)
+    var editCellsCount: Int { get }
+    func editCellType(at index: Int) -> GameControllerActionEditCell.Type
+    func bind(to editCell: GameControllerActionEditCell, at index: Int)
 }
 
 extension GameControllerAction {
     static var type: String { return String(describing: self) }
     
-    var editCells: [GameControllerActionEditCell.Type] { return [] }
-    func bind(to editCell: GameControllerActionEditCell) { }
+    //defaults
+    var editCellsCount: Int { return 0 }
+    func editCellType(at index: Int) -> GameControllerActionEditCell.Type { return GameControllerActionEditCell.self }
+    func bind(to editCell: GameControllerActionEditCell, at index: Int) { }
 }
 
 extension GameControllerAction {
@@ -38,12 +41,9 @@ protocol PresentationDelegate: class {
 
 class GameControllerActionEditCell: UITableViewCell {
     
-    class var reuseIdentifier: String {
-        return "Cell"
-    }
-    
     weak var presentationDelegate: PresentationDelegate?
     var onChange: (() -> ()) = {}
+    var identifier: String = ""
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
