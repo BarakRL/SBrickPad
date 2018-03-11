@@ -56,7 +56,7 @@ class ButtonActionsViewController: UITableViewController {
         
         let actions = self.actions(forSection: indexPath.section)
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: ActionCell.reuseIdentifier, for: indexPath) as! ActionCell
+        let cell = ActionCell.dequeue(for: tableView, at: indexPath)
         if indexPath.row < actions.count {
             cell.action = actions[indexPath.row].action
         }

@@ -103,7 +103,7 @@ class FilePickerViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FileCell.reuseIdentifier, for: indexPath) as! FileCell
+        let cell = FileCell.dequeue(for: tableView, at: indexPath)
         
         let file = files[indexPath.row]
         cell.textLabel?.text = file.url.lastPathComponent

@@ -449,7 +449,7 @@ extension MainViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let button = GameControllerButton.allButtons[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: ButtonCell.reuseIdentifier, for: indexPath)
+        let cell = ButtonCell.dequeue(for: tableView, at: indexPath)
         cell.textLabel?.text = button.name
         
         let pressedActions      = self.buttonActions(for: button, event: .pressed)
