@@ -13,7 +13,7 @@ class SelectSoundEditCell: GameControllerActionEditCell, FilePickerViewControlle
 
     var filename: String? {
         didSet {
-            selectSoundButton.setTitle(filename ?? "(none)", for: .normal)
+            selectSoundButton.setTitle(filename ?? "Select...", for: .normal)
         }
     }
     
@@ -37,14 +37,14 @@ class SelectSoundEditCell: GameControllerActionEditCell, FilePickerViewControlle
         addSubview(clearSoundButton)
         
         selectSoundButton.snp.makeConstraints { (make) in
-            make.left.equalTo(12)
+            make.left.equalTo(20)
             make.right.equalTo(clearSoundButton.snp.left).offset(-6)
             make.top.equalTo(6)
             make.bottom.equalTo(-6)
         }
         
         clearSoundButton.snp.makeConstraints { (make) in
-            make.right.equalTo(-12)
+            make.right.equalTo(-20)
             make.top.equalTo(6)
             make.bottom.equalTo(-6)
             make.height.equalTo(clearSoundButton.snp.width) //square

@@ -83,7 +83,7 @@ class ButtonActionsViewController: UITableViewController {
         }
     }
     
-    func event(forSection section: Int) -> GameControllerButton.Event {
+    private func event(forSection section: Int) -> GameControllerButton.Event {
         
         switch section {
         case sectionPressed:      return .pressed
@@ -108,16 +108,41 @@ class ButtonActionsViewController: UITableViewController {
         }
     }
 
-    func addButtonAction(to event: GameControllerButton.Event) {
+    private func actions(for event: GameControllerButton.Event) -> [GameControllerAction] {
         
-        let action = StopSoundAction() //TO DO: select action
+        switch event {
+        case .pressed, .released:
+            return [DriveAction(), StopAction(), PlaySoundAction(), StopSoundAction()]
+        
+        case .valueChanged:
+            return [DriveValueAction()]
+        }        
+    }
+    
+    private func promptAddAction(to event: GameControllerButton.Event) {
+        
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        for action in self.actions(for: event) {
+    
+            actionSheet.addAction(UIAlertAction(title: action.name, style: .default, handler: { [weak self] _ in
+                self?.addButtonAction(action, to: event)
+            }))
+        }
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+    
+    private func addButtonAction(_ action: GameControllerAction, to event: GameControllerButton.Event) {
+        
+        let buttonAction = GameControllerButtonAction(button: self.button, action: action, forEvent: event)
         
         var buttonActions = self.buttonActions(for: event)
-        let buttonAction = GameControllerButtonAction(button: self.button, action: action, forEvent: event)
         buttonActions.append(buttonAction)
-        set(buttonActions: buttonActions, for: event)
+        self.set(buttonActions: buttonActions, for: event)
         
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -140,12 +165,11 @@ class ButtonActionsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let event = self.event(forSection: section)
-        let header = ActionHeaderView(event: event)        
+        let header = ActionHeaderView(event: event)
         header.titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
         
         header.onAddButtonPressed = { [weak self] actionHeader in
-            
-            self?.addButtonAction(to: actionHeader.event)
+            self?.promptAddAction(to: actionHeader.event)
         }
         return header
     }

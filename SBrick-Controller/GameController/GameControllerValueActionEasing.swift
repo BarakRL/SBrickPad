@@ -15,6 +15,8 @@ enum GameControllerValueActionEasing: String, Codable {
     case easeOut
     case easeInOut
     
+    static var allValues: [GameControllerValueActionEasing] = [.linear, .easeIn, .easeOut, .easeInOut]
+    
     var curve: ((Float)->Float) {
         
         switch self {

@@ -18,7 +18,7 @@ protocol GameControllerAction: Codable, CustomStringConvertible {
     
     var editCellsCount: Int { get }
     func editCellType(at index: Int) -> GameControllerActionEditCell.Type
-    func bind(to editCell: GameControllerActionEditCell, at index: Int)
+    func bind(to editCell: GameControllerActionEditCell, at index: Int)    
 }
 
 extension GameControllerAction {
