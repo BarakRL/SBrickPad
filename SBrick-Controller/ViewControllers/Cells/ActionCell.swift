@@ -9,8 +9,6 @@
 import UIKit
 
 class ActionCell: UITableViewCell {
-
-    static let reuseIdentifier = "ActionCell"
     
     var action: GameControllerAction? {
         didSet {

@@ -7,19 +7,14 @@
 //
 
 import Foundation
-import JSONCodable
 
-public enum GameControllerButton: String, JSONEncodable {
+public enum GameControllerButton: String, Codable {
     
-    enum Event: String, JSONEncodable {
+    enum Event: String, Codable {
         
         case pressed
         case released
-        case valueChanged
-        
-        func toJSON() throws -> Any {
-            return self.rawValue
-        }
+        case valueChanged        
     }
     
     case up
@@ -71,8 +66,4 @@ public enum GameControllerButton: String, JSONEncodable {
                                     buttonA, buttonB, buttonX, buttonY,
                                     leftShoulder, rightShoulder, leftTrigger, rightTrigger,
                                     leftThumbstickX, leftThumbstickY, rightThumbstickX, rightThumbstickY]
-    
-    public func toJSON() throws -> Any {
-        return self.rawValue
-    }
 }

@@ -9,9 +9,7 @@
 import UIKit
 
 class FileCell: UITableViewCell {
-    
-    static let reuseIdentifier = "FileCell"
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

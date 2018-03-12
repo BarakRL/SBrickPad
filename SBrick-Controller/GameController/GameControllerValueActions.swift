@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import JSONCodable
+import SBrick
 
 protocol GameControllerValueAction: GameControllerAction {
 }
@@ -16,35 +16,98 @@ protocol GameControllerValueAction: GameControllerAction {
 
 class DriveValueAction: GameControllerValueAction {
     
-    var channel: UInt8
-    var minPower: UInt8
-    var maxPower: UInt8
-    var isCW: Bool
-    var easing: GameControllerValueActionEasing
+    var port: SBrickPort = .port1
+    var minPower: UInt8 = UInt8.min
+    var maxPower: UInt8 = UInt8.max
+    var isCW: Bool = true
+    var easing: GameControllerValueActionEasing = .linear
     
     var type: String = DriveValueAction.type
-    var name: String { return "Drive Value" }
-    var info: String { return "Channel: \(self.channel), Power: \(self.minPower)-\(self.maxPower) \(self.isCW ? "CW" : "CCW")" }
-    
-    init(channel: UInt8, minPower: UInt8, maxPower: UInt8, isCW: Bool, easing: GameControllerValueActionEasing = .linear) {
-        self.channel = channel
-        self.minPower = minPower
-        self.maxPower = maxPower
-        self.isCW = isCW
-        self.easing = easing
-    }
-    
-    required init(object: JSONObject) throws {
-        let decoder = JSONDecoder(object: object)
-        self.channel = try decoder.decode("channel")
-        self.minPower = try decoder.decode("minPower")
-        self.maxPower = try decoder.decode("maxPower")
-        self.isCW = try decoder.decode("isCW")
-        self.easing = try decoder.decode("easing")
-    }
+    var name: String { return "Drive Motor" }
+    var info: String { return "Port: \(self.port), Power: \(self.minPower)-\(self.maxPower) \(self.isCW ? "CW" : "CCW")" }
     
     func relativePower(fromValue inValue: Float) -> (value: UInt8, isNegative: Bool) {
         return self.relativeValue(fromValue: inValue, minOutValue: minPower, maxOutValue: maxPower, easing: easing)
+    }
+    
+    var editCellsCount: Int { return 5 }
+    func editCellType(at index: Int) -> GameControllerActionEditCell.Type {
+        switch index {
+        case 0: return SegmentedControlEditCell.self
+        case 1: return SliderEditCell.self
+        case 2: return SliderEditCell.self
+        case 3: return SwitchEditCell.self
+        case 4: return SegmentedControlEditCell.self
+        default: fatalError()
+        }
+    }
+    
+    func bind(to editCell: GameControllerActionEditCell, at index: Int) {
+        
+        switch index {
+        case 0:
+            guard let cell = editCell as? SegmentedControlEditCell else { return }
+            
+            cell.title = "Port:"
+            cell.values = ["1", "2", "3", "4"]
+            cell.selectedSegmentIndex = self.port.rawValue - 1
+            
+            cell.onChange = {
+                if let port = SBrickPort(rawValue: cell.selectedSegmentIndex + 1) {
+                    self.port = port
+                }
+            }
+            
+        case 1:
+            guard let cell = editCell as? SliderEditCell else { return }
+            
+            cell.title = "Min Power:"
+            cell.value = self.minPower
+            
+            cell.onChange = {
+                if cell.value > self.maxPower {
+                    cell.value = self.maxPower
+                }
+                self.minPower = cell.value
+            }
+            
+        case 2:
+            guard let cell = editCell as? SliderEditCell else { return }
+            
+            cell.title = "Max Power:"
+            cell.value = self.maxPower
+            
+            cell.onChange = {
+                if cell.value < self.minPower {
+                    cell.value = self.minPower
+                }
+                self.maxPower = cell.value
+            }
+            
+        case 3:
+            guard let cell = editCell as? SwitchEditCell else { return }
+            cell.title = "Clockwise:"
+            cell.isOn = self.isCW
+            cell.onChange = {
+                self.isCW = cell.isOn
+            }
+            
+        case 4:
+            guard let cell = editCell as? SegmentedControlEditCell else { return }
+            
+            cell.title = "Easing:"
+            cell.values = GameControllerValueActionEasing.allValues.map { "\($0)" }
+            cell.selectedSegmentIndex = GameControllerValueActionEasing.allValues.index(of: self.easing) ?? -1
+            
+            cell.onChange = {
+                
+                let easing = GameControllerValueActionEasing.allValues[cell.selectedSegmentIndex]
+                self.easing = easing
+            }
+            
+        default:
+            break
+        }
     }
 }
 

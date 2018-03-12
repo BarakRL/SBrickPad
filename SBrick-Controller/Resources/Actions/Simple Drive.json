@@ -3,7 +3,7 @@
     "button" : "leftThumbstickX",
     "action" : {
       "type" : "DriveValueAction",
-      "channel" : 0,
+      "port" : 1,
       "maxPower" : 255,
       "isCW" : false,
       "minPower" : 0,
@@ -15,7 +15,7 @@
     "button" : "rightThumbstickY",
     "action" : {
       "type" : "DriveValueAction",
-      "channel" : 2,
+      "port" : 3,
       "maxPower" : 255,
       "isCW" : false,
       "minPower" : 0,
@@ -26,7 +26,7 @@
   {
     "button" : "left",
     "action" : {
-      "channel" : 0,
+      "port" : 1,
       "isCW" : true,
       "type" : "DriveAction",
       "power" : 255
@@ -37,14 +37,14 @@
     "button" : "left",
     "action" : {
       "type" : "StopAction",
-      "channel" : 0
+      "port" : 1
     },
     "event" : "released"
   },
   {
     "button" : "right",
     "action" : {
-      "channel" : 0,
+      "port" : 1,
       "isCW" : false,
       "type" : "DriveAction",
       "power" : 255
@@ -55,14 +55,14 @@
     "button" : "right",
     "action" : {
       "type" : "StopAction",
-      "channel" : 0
+      "port" : 1
     },
     "event" : "released"
   },
   {
     "button" : "buttonA",
     "action" : {
-      "channel" : 2,
+      "port" : 3,
       "isCW" : false,
       "type" : "DriveAction",
       "power" : 255
@@ -73,7 +73,7 @@
     "button" : "buttonA",
     "action" : {
       "type" : "StopAction",
-      "channel" : 2
+      "port" : 3
     },
     "event" : "released"
   },
@@ -81,7 +81,7 @@
     "button" : "buttonA",
     "action" : {
       "type" : "PlaySoundAction",
-      "fileName" : "engine.mp3",
+      "filename" : "engine.mp3",
       "loop" : true
     },
     "event" : "pressed"
@@ -90,14 +90,14 @@
     "button" : "buttonA",
     "action" : {
       "type" : "StopSoundAction",
-      "fileName" : "engine.mp3"
+      "filename" : "engine.mp3"
     },
     "event" : "released"
   },
   {
     "button" : "buttonB",
     "action" : {
-      "channel" : 2,
+      "port" : 3,
       "isCW" : true,
       "type" : "DriveAction",
       "power" : 255
@@ -108,7 +108,7 @@
     "button" : "buttonB",
     "action" : {
       "type" : "StopAction",
-      "channel" : 2
+      "port" : 3
     },
     "event" : "released"
   },
@@ -116,7 +116,7 @@
     "button" : "buttonB",
     "action" : {
       "type" : "PlaySoundAction",
-      "fileName" : "backup-beeps.wav",
+      "filename" : "backup-beeps.wav",
       "loop" : true
     },
     "event" : "pressed"
@@ -125,7 +125,7 @@
     "button" : "buttonB",
     "action" : {
       "type" : "StopSoundAction",
-      "fileName" : "backup-beeps.wav"
+      "filename" : "backup-beeps.wav"
     },
     "event" : "released"
   },
@@ -133,7 +133,7 @@
     "button" : "leftShoulder",
     "action" : {
       "type" : "PlaySoundAction",
-      "fileName" : "horn.wav",
+      "filename" : "horn.wav",
       "loop" : false
     },
     "event" : "pressed"
@@ -142,7 +142,7 @@
     "button" : "leftShoulder",
     "action" : {
       "type" : "StopSoundAction",
-      "fileName" : "horn.wav"
+      "filename" : "horn.wav"
     },
     "event" : "released"
   },
@@ -150,7 +150,7 @@
     "button" : "rightShoulder",
     "action" : {
       "type" : "PlaySoundAction",
-      "fileName" : "engine.mp3",
+      "filename" : "engine.mp3",
       "loop" : true
     },
     "event" : "pressed"
@@ -159,7 +159,7 @@
     "button" : "rightShoulder",
     "action" : {
       "type" : "StopSoundAction",
-      "fileName" : "engine.mp3"
+      "filename" : "engine.mp3"
     },
     "event" : "released"
   }

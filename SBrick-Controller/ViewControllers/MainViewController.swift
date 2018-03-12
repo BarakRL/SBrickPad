@@ -11,17 +11,11 @@ import SBrick
 import CoreBluetooth
 import AVFoundation
 import GameController
-import JSONCodable
-
 
 class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDelegate {
     
     var manager: SBrickManager!
     var sbrick: SBrick?
-    
-    let driveChannel: UInt8 = 2
-    let steerChannel: UInt8 = 0
-    let steerCW: Bool = false
     
     var buttonActions = [GameControllerButtonAction]() {
         didSet {
@@ -146,7 +140,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         
     }
     
-    func gameControllerConnected(notification: NSNotification) {
+    @objc func gameControllerConnected(notification: NSNotification) {
         
         guard let gameController = notification.object as? GCController else { return }
         self.gameController = gameController
@@ -154,7 +148,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         print("connected: \(gameController)")
     }
     
-    func gameControllerDisconnected(notification: NSNotification) {
+    @objc func gameControllerDisconnected(notification: NSNotification) {
         
         guard let gameController = notification.object as? GCController else { return }
         if self.gameController == gameController {
@@ -185,7 +179,6 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         statusLabel.text = "SBrick connected!"
         statusView.backgroundColor = connectedColor
         self.sbrick = sbrick
-        sbrick.channels[Int(driveChannel)].drivePowerThreshold = 32
     }
     
     func sbrickDisconnected(_ sbrick: SBrick) {
@@ -213,7 +206,9 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     
     //MARK: - Actions
     var soundPlayers = [String:AVAudioPlayer]()
-    func playSound(filename: String, loop: Bool) {
+    func playSound(filename: String?, loop: Bool) {
+        
+        guard let filename = filename else { return }
         
         let url = FilePickerViewController.url(forFilename: filename)
         
@@ -236,11 +231,20 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         }
     }
     
-    func stopSound(filename: String) {
+    func stopSound(filename: String?) {
         
-        //release
-        if let player = soundPlayers[filename] {
-            player.stop()
+        if let filename = filename { //stop single player
+            
+            if let player = soundPlayers[filename] {
+                player.stop()
+            }
+            
+        }
+        else { //nil => stop all
+            
+            for (_, player) in soundPlayers {
+                player.stop()
+            }
         }
     }
     
@@ -293,7 +297,7 @@ extension MainViewController: FilePickerViewControllerDelegate {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (action) -> Void in
             self?.isModified = false
-            if let filename = inputTextField?.text, filename.characters.count > 0 {
+            if let filename = inputTextField?.text, filename.count > 0 {
                 self?.checkAndSave(filename: filename, onComplete: onComplete)
             }
         }))
@@ -338,8 +342,11 @@ extension MainViewController: FilePickerViewControllerDelegate {
             filename = "\(filename).json"
         }
         
-        if let json = try? buttonActions.toJSON() { //, let jsonArray = json as? [Any]
-            FilePickerViewController.save(jsonObject: json, asFilename: filename)
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.outputFormatting = .prettyPrinted
+        
+        if let jsonData = try? jsonEncoder.encode(buttonActions) {
+            FilePickerViewController.save(jsonData, asFilename: filename)
         }
     }
     
@@ -405,10 +412,9 @@ extension MainViewController: FilePickerViewControllerDelegate {
     }
     
     func loadActions(filename: String) {
-        
-        if let json = FilePickerViewController.load(jsonObjectNamed: filename),
-            let jsonArray = json as? [Any],
-            let buttonActions = try? [GameControllerButtonAction].init(JSONArray: jsonArray) {
+                
+        if let jsonData = FilePickerViewController.load(filename: filename),
+            let buttonActions = try? JSONDecoder().decode([GameControllerButtonAction].self, from: jsonData) {
             
             self.buttonActions = buttonActions
             self.isModified = false
@@ -454,7 +460,7 @@ extension MainViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let button = GameControllerButton.allButtons[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: ButtonCell.reuseIdentifier, for: indexPath)
+        let cell = ButtonCell.dequeue(for: tableView, at: indexPath)
         cell.textLabel?.text = button.name
         
         let pressedActions      = self.buttonActions(for: button, event: .pressed)
@@ -478,9 +484,9 @@ extension MainViewController {
         
         let vc = ButtonActionsViewController.instantiate()
         vc.button = button
-        vc.pressedActions       = self.buttonActions(for: button, event: .pressed)
-        vc.releasedActions      = self.buttonActions(for: button, event: .released)
-        vc.valueChangedActions  = self.buttonActions(for: button, event: .valueChanged)
+        vc.pressedActions       = self.buttonActions(for: button, event: .pressed, copy: true)
+        vc.releasedActions      = self.buttonActions(for: button, event: .released, copy: true)
+        vc.valueChangedActions  = self.buttonActions(for: button, event: .valueChanged, copy: true)
         vc.delegate = self
         
         let nav = UINavigationController(rootViewController: vc)
@@ -523,27 +529,35 @@ extension MainViewController {
         return keyCommands
     }
     
-    func keyReleased(sender: UIKeyCommand) {
+    @objc func keyReleased(sender: UIKeyCommand) {
         
         self.becomeFirstResponder()
-        guard let button = ICadeButton.button(forReleaseKey: sender.input) else { print("Unknown key: \(sender.input)"); return }
+        guard let button = ICadeButton.button(forReleaseKey: sender.input!) else { print("Unknown key: \(String(describing: sender.input))"); return }
         onButton(button, pressed: false)
     }
     
-    func keyPressed(sender: UIKeyCommand) {
+    @objc func keyPressed(sender: UIKeyCommand) {
         
         self.becomeFirstResponder()
-        guard let button = ICadeButton.button(forPressKey: sender.input) else { print("Unknown key: \(sender.input)"); return }
+        guard let button = ICadeButton.button(forPressKey: sender.input!) else { print("Unknown key: \(String(describing: sender.input))"); return }
         onButton(button, pressed: true)
     }
     
     
-    func buttonActions(for button: GameControllerButton, event: GameControllerButton.Event) -> [GameControllerButtonAction] {
+    func buttonActions(for button: GameControllerButton, event: GameControllerButton.Event, copy: Bool = false) -> [GameControllerButtonAction] {
         
         var actions = [GameControllerButtonAction]()
         for buttonAction in buttonActions {
             if buttonAction.button == button && buttonAction.event == event {
-                actions.append(buttonAction)
+                
+                if copy {
+                    if let buttonActionCopy = buttonAction.copy() {
+                        actions.append(buttonActionCopy)
+                    }
+                }
+                else {
+                    actions.append(buttonAction)
+                }
             }
         }
         
@@ -583,21 +597,21 @@ extension MainViewController {
             
             if let action = action as? PlaySoundAction {
                 
-                self.playSound(filename: action.fileName, loop: action.loop)
+                self.playSound(filename: action.filename, loop: action.loop)
             }
             else if let action = action as? StopSoundAction {
                 
-                self.stopSound(filename: action.fileName)
+                self.stopSound(filename: action.filename)
             }
             else if let action = action as? DriveAction {
                 
                 guard let sbrick = self.sbrick else { continue }
-                sbrick.channels[Int(action.channel)].drive(power: action.power, isCW: action.isCW)
+                sbrick.managedPort(for: action.port).drive(power: action.power, isCW: action.isCW)
             }
             else if let action = action as? StopAction {
                 
                 guard let sbrick = self.sbrick else { continue }
-                sbrick.channels[Int(action.channel)].stop()
+                sbrick.managedPort(for: action.port).stop()
             }
         }
         
@@ -629,11 +643,11 @@ extension MainViewController {
                 let power = action.relativePower(fromValue: value)
                 
                 if power.value == 0 {
-                    sbrick.channels[Int(action.channel)].stop()
+                    sbrick.managedPort(for: action.port).stop()
                 }
                 else {
                     let isCW = power.isNegative ? !action.isCW : action.isCW
-                    sbrick.channels[Int(action.channel)].drive(power: power.value, isCW: isCW)
+                    sbrick.managedPort(for: action.port).drive(power: power.value, isCW: isCW)
                 }
             }
         }

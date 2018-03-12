@@ -10,7 +10,6 @@ import UIKit
 
 class ButtonCell: UITableViewCell {
     
-    static let reuseIdentifier = "ButtonCell"
     let progressView = UIProgressView(progressViewStyle: .default)
     
     override func awakeFromNib() {

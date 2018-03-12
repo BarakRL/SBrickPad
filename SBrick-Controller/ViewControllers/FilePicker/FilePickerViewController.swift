@@ -76,7 +76,7 @@ class FilePickerViewController: UITableViewController {
         
         self.view.addSubview(self.noFilesLabel)
         self.noFilesLabel.text = "No files found matching \(fileExtensions.map({ "*.\($0)" }).joined(separator: "/"))"
-        self.noFilesLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightLight)
+        self.noFilesLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.light)
         self.noFilesLabel.textAlignment = .center
         
         self.noFilesLabel.snp.makeConstraints { (make) in
@@ -103,7 +103,7 @@ class FilePickerViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FileCell.reuseIdentifier, for: indexPath) as! FileCell
+        let cell = FileCell.dequeue(for: tableView, at: indexPath)
         
         let file = files[indexPath.row]
         cell.textLabel?.text = file.url.lastPathComponent
@@ -173,56 +173,25 @@ extension FilePickerViewController {
         }
     }
     
-    static func save(jsonObject: Any, asFilename filename: String) {
-     
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                save(jsonString: jsonString, asFilename: filename)
-            }
-        }
-        catch {
-            print("Error while decoding json \(filename)")
-        }
-    }
-    
-    static func load(jsonObjectNamed filename: String) -> Any? {
-     
-        if let jsonString = load(jsonStringNamed: filename), let data = jsonString.data(using: .utf8) {
-            
-            do {
-                let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
-                return jsonObject
-            }
-            catch {
-                print("Error while encoding json \(filename)")
-                return nil
-            }
-        }
-        else {
-            return nil
-        }
-    }
-    
-    static func save(jsonString: String, asFilename filename: String) {
+    static func save(_ data: Data, asFilename filename: String) {
         
         let fileURL = url(forFilename: filename)
         
         do {
-            try jsonString.write(to: fileURL, atomically: false, encoding: .utf8)
+            try data.write(to: fileURL, options: .atomic)
         }
         catch {
             print("Error while saving json \(filename)")
         }
     }
     
-    static func load(jsonStringNamed filename: String) -> String? {
+    static func load(filename: String) -> Data? {
                 
         let fileURL = url(forFilename: filename)
         
         do {
-            let json = try String(contentsOf: fileURL, encoding: .utf8)
-            return json
+            let data = try Data(contentsOf: fileURL)
+            return data
         }
         catch {
             print("Error while loading json \(filename)")
