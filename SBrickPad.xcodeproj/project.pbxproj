@@ -1,0 +1,560 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0602AC9C1EE3BA2D0062F1AF /* SelectSoundEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0602AC9B1EE3BA2D0062F1AF /* SelectSoundEditCell.swift */; };
+		066373F11ECFF262001B0ACA /* AutodriveLogic.txt in Resources */ = {isa = PBXBuildFile; fileRef = 066373F01ECFF262001B0ACA /* AutodriveLogic.txt */; };
+		066374051ED36A28001B0ACA /* GameControllerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066373FE1ED36A28001B0ACA /* GameControllerButton.swift */; };
+		066374061ED36A28001B0ACA /* GameControllerAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066373FF1ED36A28001B0ACA /* GameControllerAction.swift */; };
+		066374081ED36A28001B0ACA /* GameControllerButtonAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066374011ED36A28001B0ACA /* GameControllerButtonAction.swift */; };
+		066374091ED36A28001B0ACA /* GameControllerPressActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066374021ED36A28001B0ACA /* GameControllerPressActions.swift */; };
+		0663740A1ED36A28001B0ACA /* GameControllerValueActionEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066374031ED36A28001B0ACA /* GameControllerValueActionEasing.swift */; };
+		0663740B1ED36A28001B0ACA /* GameControllerValueActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066374041ED36A28001B0ACA /* GameControllerValueActions.swift */; };
+		06831B84205745B100C632E5 /* UIFont+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06831B83205745B100C632E5 /* UIFont+Ext.swift */; };
+		06B865681EB7D7FF002FFD0A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865671EB7D7FF002FFD0A /* MainViewController.swift */; };
+		06B8656C1EB7E585002FFD0A /* ButtonActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */; };
+		06B865711EB7EF71002FFD0A /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865701EB7EF70002FFD0A /* ActionCell.swift */; };
+		06B865741EB81EED002FFD0A /* UIStoryboard+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865731EB81EED002FFD0A /* UIStoryboard+Ext.swift */; };
+		06B865761EB8262F002FFD0A /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865751EB8262F002FFD0A /* ButtonCell.swift */; };
+		06ECE6A41EE3CE9000397612 /* EditActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ECE6A31EE3CE9000397612 /* EditActionViewController.swift */; };
+		27D731775795EF75FB5335D5 /* Pods_SBrickPad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394572F87D6195F7259A79F5 /* Pods_SBrickPad.framework */; };
+		E560FE052055CA120015C6DE /* SwitchEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E560FE042055CA120015C6DE /* SwitchEditCell.swift */; };
+		E560FE072055CAE50015C6DE /* UITable+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E560FE062055CAE50015C6DE /* UITable+Ext.swift */; };
+		E560FE0920561D250015C6DE /* SegmentedControlEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E560FE0820561D250015C6DE /* SegmentedControlEditCell.swift */; };
+		E560FE0B2056233C0015C6DE /* SliderEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E560FE0A2056233C0015C6DE /* SliderEditCell.swift */; };
+		E59CF2F91EAF13B100661A77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CF2F81EAF13B100661A77 /* AppDelegate.swift */; };
+		E59CF2FE1EAF13B100661A77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E59CF2FC1EAF13B100661A77 /* Main.storyboard */; };
+		E59CF3001EAF13B100661A77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E59CF2FF1EAF13B100661A77 /* Assets.xcassets */; };
+		E59CF3031EAF13B100661A77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E59CF3011EAF13B100661A77 /* LaunchScreen.storyboard */; };
+		E59CF3151EAF17C400661A77 /* ICade.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CF3111EAF17C400661A77 /* ICade.swift */; };
+		E5A4314E1ED8F38500DA0AF1 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = E5A4314D1ED8F38500DA0AF1 /* Sounds */; };
+		E5A431531EDAA99100DA0AF1 /* FilePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A431521EDAA99100DA0AF1 /* FilePickerViewController.swift */; };
+		E5A431551EDAAA5C00DA0AF1 /* FileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A431541EDAAA5C00DA0AF1 /* FileCell.swift */; };
+		E5A431571EDB534B00DA0AF1 /* Actions in Resources */ = {isa = PBXBuildFile; fileRef = E5A431561EDB534B00DA0AF1 /* Actions */; };
+		E5DC82E81ED8BECD007B9D5E /* ActionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5DC82E71ED8BECD007B9D5E /* ActionHeaderView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0602AC9B1EE3BA2D0062F1AF /* SelectSoundEditCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectSoundEditCell.swift; sourceTree = "<group>"; };
+		066373F01ECFF262001B0ACA /* AutodriveLogic.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AutodriveLogic.txt; sourceTree = "<group>"; };
+		066373FE1ED36A28001B0ACA /* GameControllerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerButton.swift; sourceTree = "<group>"; };
+		066373FF1ED36A28001B0ACA /* GameControllerAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerAction.swift; sourceTree = "<group>"; };
+		066374011ED36A28001B0ACA /* GameControllerButtonAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerButtonAction.swift; sourceTree = "<group>"; };
+		066374021ED36A28001B0ACA /* GameControllerPressActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerPressActions.swift; sourceTree = "<group>"; };
+		066374031ED36A28001B0ACA /* GameControllerValueActionEasing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerValueActionEasing.swift; sourceTree = "<group>"; };
+		066374041ED36A28001B0ACA /* GameControllerValueActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerValueActions.swift; sourceTree = "<group>"; };
+		06831B83205745B100C632E5 /* UIFont+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Ext.swift"; sourceTree = "<group>"; };
+		06B865671EB7D7FF002FFD0A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonActionsViewController.swift; sourceTree = "<group>"; };
+		06B865701EB7EF70002FFD0A /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
+		06B865731EB81EED002FFD0A /* UIStoryboard+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Ext.swift"; sourceTree = "<group>"; };
+		06B865751EB8262F002FFD0A /* ButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
+		06ECE6A31EE3CE9000397612 /* EditActionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditActionViewController.swift; sourceTree = "<group>"; };
+		394572F87D6195F7259A79F5 /* Pods_SBrickPad.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SBrickPad.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EDA8037B9DA2552D828C090 /* Pods-SBrickPad.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBrickPad.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SBrickPad/Pods-SBrickPad.debug.xcconfig"; sourceTree = "<group>"; };
+		E560FE042055CA120015C6DE /* SwitchEditCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchEditCell.swift; sourceTree = "<group>"; };
+		E560FE062055CAE50015C6DE /* UITable+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITable+Ext.swift"; sourceTree = "<group>"; };
+		E560FE0820561D250015C6DE /* SegmentedControlEditCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlEditCell.swift; sourceTree = "<group>"; };
+		E560FE0A2056233C0015C6DE /* SliderEditCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderEditCell.swift; sourceTree = "<group>"; };
+		E59CF2F51EAF13B100661A77 /* SBrickPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SBrickPad.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E59CF2F81EAF13B100661A77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E59CF2FD1EAF13B100661A77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E59CF2FF1EAF13B100661A77 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E59CF3021EAF13B100661A77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E59CF3041EAF13B100661A77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E59CF3111EAF17C400661A77 /* ICade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ICade.swift; sourceTree = "<group>"; };
+		E5A4314D1ED8F38500DA0AF1 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
+		E5A431521EDAA99100DA0AF1 /* FilePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilePickerViewController.swift; sourceTree = "<group>"; };
+		E5A431541EDAAA5C00DA0AF1 /* FileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCell.swift; sourceTree = "<group>"; };
+		E5A431561EDB534B00DA0AF1 /* Actions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Actions; sourceTree = "<group>"; };
+		E5DC82E71ED8BECD007B9D5E /* ActionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionHeaderView.swift; sourceTree = "<group>"; };
+		E5DC82E91ED8D9F7007B9D5E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		ECFF7BAA22B62A6F39E7800A /* Pods-SBrickPad.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBrickPad.release.xcconfig"; path = "Pods/Target Support Files/Pods-SBrickPad/Pods-SBrickPad.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E59CF2F21EAF13B100661A77 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27D731775795EF75FB5335D5 /* Pods_SBrickPad.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0602AC9A1EE3BA0A0062F1AF /* EditCells */ = {
+			isa = PBXGroup;
+			children = (
+				0602AC9B1EE3BA2D0062F1AF /* SelectSoundEditCell.swift */,
+				E560FE042055CA120015C6DE /* SwitchEditCell.swift */,
+				E560FE0820561D250015C6DE /* SegmentedControlEditCell.swift */,
+				E560FE0A2056233C0015C6DE /* SliderEditCell.swift */,
+			);
+			path = EditCells;
+			sourceTree = "<group>";
+		};
+		066373FD1ED36A28001B0ACA /* GameController */ = {
+			isa = PBXGroup;
+			children = (
+				0602AC9A1EE3BA0A0062F1AF /* EditCells */,
+				066373FE1ED36A28001B0ACA /* GameControllerButton.swift */,
+				066374011ED36A28001B0ACA /* GameControllerButtonAction.swift */,
+				066373FF1ED36A28001B0ACA /* GameControllerAction.swift */,
+				066374021ED36A28001B0ACA /* GameControllerPressActions.swift */,
+				066374031ED36A28001B0ACA /* GameControllerValueActionEasing.swift */,
+				066374041ED36A28001B0ACA /* GameControllerValueActions.swift */,
+			);
+			path = GameController;
+			sourceTree = "<group>";
+		};
+		06B865661EB7D7EE002FFD0A /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E5A431511EDAA97A00DA0AF1 /* FilePicker */,
+				06B8656D1EB7EC9C002FFD0A /* Cells */,
+				06B865671EB7D7FF002FFD0A /* MainViewController.swift */,
+				06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */,
+				06ECE6A31EE3CE9000397612 /* EditActionViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		06B8656D1EB7EC9C002FFD0A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				06B865701EB7EF70002FFD0A /* ActionCell.swift */,
+				06B865751EB8262F002FFD0A /* ButtonCell.swift */,
+				E5DC82E71ED8BECD007B9D5E /* ActionHeaderView.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		06B865721EB81ED0002FFD0A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				06B865731EB81EED002FFD0A /* UIStoryboard+Ext.swift */,
+				E560FE062055CAE50015C6DE /* UITable+Ext.swift */,
+				06831B83205745B100C632E5 /* UIFont+Ext.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		33D1D0F0CBFEADC375BC1C20 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6EDA8037B9DA2552D828C090 /* Pods-SBrickPad.debug.xcconfig */,
+				ECFF7BAA22B62A6F39E7800A /* Pods-SBrickPad.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D87322A04A213A8D791202B5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E5DC82E91ED8D9F7007B9D5E /* AVFoundation.framework */,
+				394572F87D6195F7259A79F5 /* Pods_SBrickPad.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E59CF2EC1EAF13B100661A77 = {
+			isa = PBXGroup;
+			children = (
+				E59CF2F71EAF13B100661A77 /* SBrickPad */,
+				E59CF2F61EAF13B100661A77 /* Products */,
+				D87322A04A213A8D791202B5 /* Frameworks */,
+				33D1D0F0CBFEADC375BC1C20 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		E59CF2F61EAF13B100661A77 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E59CF2F51EAF13B100661A77 /* SBrickPad.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E59CF2F71EAF13B100661A77 /* SBrickPad */ = {
+			isa = PBXGroup;
+			children = (
+				E59CF3101EAF17C400661A77 /* iCade */,
+				E59CF3121EAF17C400661A77 /* Resources */,
+				06B865721EB81ED0002FFD0A /* Helpers */,
+				066373FD1ED36A28001B0ACA /* GameController */,
+				06B865661EB7D7EE002FFD0A /* ViewControllers */,
+				E59CF2F81EAF13B100661A77 /* AppDelegate.swift */,
+				E59CF2FC1EAF13B100661A77 /* Main.storyboard */,
+				E59CF2FF1EAF13B100661A77 /* Assets.xcassets */,
+				E59CF3011EAF13B100661A77 /* LaunchScreen.storyboard */,
+				E59CF3041EAF13B100661A77 /* Info.plist */,
+			);
+			path = SBrickPad;
+			sourceTree = "<group>";
+		};
+		E59CF3101EAF17C400661A77 /* iCade */ = {
+			isa = PBXGroup;
+			children = (
+				E59CF3111EAF17C400661A77 /* ICade.swift */,
+			);
+			path = iCade;
+			sourceTree = "<group>";
+		};
+		E59CF3121EAF17C400661A77 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E5A431561EDB534B00DA0AF1 /* Actions */,
+				E5A4314D1ED8F38500DA0AF1 /* Sounds */,
+				066373F01ECFF262001B0ACA /* AutodriveLogic.txt */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		E5A431511EDAA97A00DA0AF1 /* FilePicker */ = {
+			isa = PBXGroup;
+			children = (
+				E5A431521EDAA99100DA0AF1 /* FilePickerViewController.swift */,
+				E5A431541EDAAA5C00DA0AF1 /* FileCell.swift */,
+			);
+			path = FilePicker;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E59CF2F41EAF13B100661A77 /* SBrickPad */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E59CF3071EAF13B100661A77 /* Build configuration list for PBXNativeTarget "SBrickPad" */;
+			buildPhases = (
+				633E0FBC1E29BD5BE1126CD2 /* [CP] Check Pods Manifest.lock */,
+				E59CF2F11EAF13B100661A77 /* Sources */,
+				E59CF2F21EAF13B100661A77 /* Frameworks */,
+				E59CF2F31EAF13B100661A77 /* Resources */,
+				B2511DCBDEDD749589112092 /* [CP] Embed Pods Frameworks */,
+				2D9B127F20D65A33604E1540 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SBrickPad;
+			productName = "SBrick-Controller";
+			productReference = E59CF2F51EAF13B100661A77 /* SBrickPad.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E59CF2ED1EAF13B100661A77 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "Barak Harel";
+				TargetAttributes = {
+					E59CF2F41EAF13B100661A77 = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = T9FT44P7KA;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = E59CF2F01EAF13B100661A77 /* Build configuration list for PBXProject "SBrickPad" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E59CF2EC1EAF13B100661A77;
+			productRefGroup = E59CF2F61EAF13B100661A77 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E59CF2F41EAF13B100661A77 /* SBrickPad */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E59CF2F31EAF13B100661A77 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5A431571EDB534B00DA0AF1 /* Actions in Resources */,
+				E5A4314E1ED8F38500DA0AF1 /* Sounds in Resources */,
+				066373F11ECFF262001B0ACA /* AutodriveLogic.txt in Resources */,
+				E59CF3031EAF13B100661A77 /* LaunchScreen.storyboard in Resources */,
+				E59CF3001EAF13B100661A77 /* Assets.xcassets in Resources */,
+				E59CF2FE1EAF13B100661A77 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2D9B127F20D65A33604E1540 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SBrickPad/Pods-SBrickPad-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		633E0FBC1E29BD5BE1126CD2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SBrickPad-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B2511DCBDEDD749589112092 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-SBrickPad/Pods-SBrickPad-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SBrick-iOS/SBrick.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SBrick.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SBrickPad/Pods-SBrickPad-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E59CF2F11EAF13B100661A77 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06B865711EB7EF71002FFD0A /* ActionCell.swift in Sources */,
+				E5A431551EDAAA5C00DA0AF1 /* FileCell.swift in Sources */,
+				E560FE072055CAE50015C6DE /* UITable+Ext.swift in Sources */,
+				066374081ED36A28001B0ACA /* GameControllerButtonAction.swift in Sources */,
+				06B865761EB8262F002FFD0A /* ButtonCell.swift in Sources */,
+				066374091ED36A28001B0ACA /* GameControllerPressActions.swift in Sources */,
+				E560FE0B2056233C0015C6DE /* SliderEditCell.swift in Sources */,
+				06B8656C1EB7E585002FFD0A /* ButtonActionsViewController.swift in Sources */,
+				E560FE052055CA120015C6DE /* SwitchEditCell.swift in Sources */,
+				066374051ED36A28001B0ACA /* GameControllerButton.swift in Sources */,
+				E5A431531EDAA99100DA0AF1 /* FilePickerViewController.swift in Sources */,
+				E59CF2F91EAF13B100661A77 /* AppDelegate.swift in Sources */,
+				0663740A1ED36A28001B0ACA /* GameControllerValueActionEasing.swift in Sources */,
+				E560FE0920561D250015C6DE /* SegmentedControlEditCell.swift in Sources */,
+				06B865741EB81EED002FFD0A /* UIStoryboard+Ext.swift in Sources */,
+				E59CF3151EAF17C400661A77 /* ICade.swift in Sources */,
+				06B865681EB7D7FF002FFD0A /* MainViewController.swift in Sources */,
+				0663740B1ED36A28001B0ACA /* GameControllerValueActions.swift in Sources */,
+				E5DC82E81ED8BECD007B9D5E /* ActionHeaderView.swift in Sources */,
+				066374061ED36A28001B0ACA /* GameControllerAction.swift in Sources */,
+				06831B84205745B100C632E5 /* UIFont+Ext.swift in Sources */,
+				06ECE6A41EE3CE9000397612 /* EditActionViewController.swift in Sources */,
+				0602AC9C1EE3BA2D0062F1AF /* SelectSoundEditCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E59CF2FC1EAF13B100661A77 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E59CF2FD1EAF13B100661A77 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E59CF3011EAF13B100661A77 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E59CF3021EAF13B100661A77 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E59CF3051EAF13B100661A77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E59CF3061EAF13B100661A77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E59CF3081EAF13B100661A77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6EDA8037B9DA2552D828C090 /* Pods-SBrickPad.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = T9FT44P7KA;
+				INFOPLIST_FILE = "$(SRCROOT)/SBrickPad/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.barakharel.sbrickpad;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		E59CF3091EAF13B100661A77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ECFF7BAA22B62A6F39E7800A /* Pods-SBrickPad.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = T9FT44P7KA;
+				INFOPLIST_FILE = "$(SRCROOT)/SBrickPad/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.barakharel.sbrickpad;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E59CF2F01EAF13B100661A77 /* Build configuration list for PBXProject "SBrickPad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E59CF3051EAF13B100661A77 /* Debug */,
+				E59CF3061EAF13B100661A77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E59CF3071EAF13B100661A77 /* Build configuration list for PBXNativeTarget "SBrickPad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E59CF3081EAF13B100661A77 /* Debug */,
+				E59CF3091EAF13B100661A77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E59CF2ED1EAF13B100661A77 /* Project object */;
+}
