@@ -34,7 +34,8 @@ class SliderEditCell: GameControllerActionEditCell {
     override func setup() {
         super.setup()
         
-        titleLabel.font = UIFont.systemFont(ofSize: 12)
+        titleLabel.font = UIFont.gillSansLight(size: 14)
+        titleLabel.text = self.title
         addSubview(titleLabel)
         
         slider.minimumValue = Float(UInt8.min)
@@ -43,7 +44,7 @@ class SliderEditCell: GameControllerActionEditCell {
         slider.addTarget(self, action: #selector(onSliderChange), for: .valueChanged)
         addSubview(slider)
         
-        valueLabel.font = UIFont.systemFont(ofSize: 12)
+        valueLabel.font = UIFont.gillSansLight(size: 14)
         valueLabel.textAlignment = .right
         addSubview(valueLabel)
         

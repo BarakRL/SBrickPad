@@ -27,6 +27,9 @@ class ButtonActionsViewController: UITableViewController {
     let sectionReleased = 1
     let sectionValueChanged = 2
     
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
@@ -34,8 +37,13 @@ class ButtonActionsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
+        saveButton.setTitleTextAttributes([.foregroundColor: #colorLiteral(red: 0.9917162061, green: 0.8454038501, blue: 0.003790777875, alpha: 1), .font: UIFont.gillSans(size: 18)], for: .normal)
+        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        
         navigationItem.title = button.name
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        tableView.backgroundColor = UIColor.groupTableViewBackground
     }
 
     override func didReceiveMemoryWarning() {

@@ -26,6 +26,8 @@ class ActionCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.textLabel?.font = UIFont.gillSansLight(size: 18)
+        self.detailTextLabel?.font = UIFont.gillSansLight(size: 14)
         self.prepareForReuse()
     }
     

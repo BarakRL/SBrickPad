@@ -11,43 +11,62 @@ import SnapKit
 
 class SelectSoundEditCell: GameControllerActionEditCell, FilePickerViewControllerDelegate {
 
+    var title: String = "File:" {
+        didSet {
+            titleLabel.text = title
+        }
+    }
+    
     var filename: String? {
         didSet {
             selectSoundButton.setTitle(filename ?? "Select...", for: .normal)
         }
     }
     
+    private var titleLabel = UILabel()
     var selectSoundButton = UIButton(type: .system)
     var clearSoundButton = UIButton(type: .system)
     
     override func setup() {
         super.setup()
         
+        titleLabel.font = UIFont.gillSansLight(size: 14)
+        titleLabel.text = self.title        
+        addSubview(titleLabel)
+        
         selectSoundButton.layer.cornerRadius = 5
-        selectSoundButton.layer.borderColor = selectSoundButton.tintColor.cgColor
+        selectSoundButton.layer.borderColor = UIView.appearance().tintColor.cgColor
         selectSoundButton.layer.borderWidth = 1
+        selectSoundButton.titleLabel?.font = UIFont.gillSans(size: 16)
         selectSoundButton.addTarget(self, action: #selector(onSelectSoundButtonPress), for: .touchUpInside)
         addSubview(selectSoundButton)
                 
         clearSoundButton.setTitle("X", for: .normal)
         clearSoundButton.layer.cornerRadius = 5
-        clearSoundButton.layer.borderColor = clearSoundButton.tintColor.cgColor
+        clearSoundButton.layer.borderColor = UIView.appearance().tintColor.cgColor
         clearSoundButton.layer.borderWidth = 1
+        clearSoundButton.titleLabel?.font = UIFont.gillSans(size: 16)
         clearSoundButton.addTarget(self, action: #selector(onClearSoundButtonPress), for: .touchUpInside)
         addSubview(clearSoundButton)
         
-        selectSoundButton.snp.makeConstraints { (make) in
+        titleLabel.snp.makeConstraints { (make) in
             make.left.equalTo(20)
+            make.top.bottom.equalTo(0)
+            make.right.equalTo(selectSoundButton.snp.left).offset(-8)
+        }
+        titleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        
+        selectSoundButton.snp.makeConstraints { (make) in
             make.right.equalTo(clearSoundButton.snp.left).offset(-6)
-            make.top.equalTo(6)
-            make.bottom.equalTo(-6)
+            make.height.equalTo(36)
+            make.centerY.equalTo(self)
         }
         
         clearSoundButton.snp.makeConstraints { (make) in
             make.right.equalTo(-20)
-            make.top.equalTo(6)
-            make.bottom.equalTo(-6)
-            make.height.equalTo(clearSoundButton.snp.width) //square
+            make.height.equalTo(36)
+            make.width.equalTo(clearSoundButton.snp.height) //square
+            make.centerY.equalTo(self)
         }
     }
     

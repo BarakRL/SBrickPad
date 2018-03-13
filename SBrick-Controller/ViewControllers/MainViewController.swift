@@ -38,9 +38,13 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
     
-    let connectingColor: UIColor = UIColor(red: 1, green: 1, blue: 0.5, alpha: 1)
-    let connectedColor: UIColor = UIColor(red: 0.5, green: 1, blue: 0.5, alpha: 1)
-    let disconnectedColor: UIColor = UIColor(red: 1, green: 0.5, blue: 0.5, alpha: 1)
+    let connectingColor: UIColor = #colorLiteral(red: 0.9917162061, green: 0.8454038501, blue: 0.003790777875, alpha: 1)
+    let connectedColor: UIColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1) //UIColor(red: 0.5, green: 1, blue: 0.5, alpha: 1)
+    let disconnectedColor: UIColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1) //UIColor(red: 1, green: 0.5, blue: 0.5, alpha: 1)
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     var gameController: GCController? {
         didSet {
@@ -75,7 +79,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     
     func updateTitle() {
         
-        let title = self.actionsFilename ?? "Button Actions"
+        let title = self.actionsFilename?.replacingOccurrences(of: ".json", with: "") ?? "Button Actions"
         self.title = "\(title)\(isModified ? "*" : "")"
     }
     
@@ -83,11 +87,13 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         super.viewDidLoad()
         
         tableView.allowsMultipleSelection = true
+        tableView.backgroundColor = #colorLiteral(red: 0.9917162061, green: 0.8454038501, blue: 0.003790777875, alpha: 1)
+        
+        statusLabel.text = "Discovering SBricks..."
+        statusView.backgroundColor = connectingColor
+        statusLabel.font = UIFont.gillSans(size: 12)
         
         manager = SBrickManager(delegate: self)
-        
-        statusLabel.text = "Discovering..."
-        statusView.backgroundColor = connectingColor
         manager.startDiscovery()
         
         NotificationCenter.default.addObserver(self, selector: #selector(gameControllerConnected(notification:)), name: .GCControllerDidConnect, object: nil)

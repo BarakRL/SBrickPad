@@ -41,9 +41,10 @@ class SegmentedControlEditCell: GameControllerActionEditCell {
     override func setup() {
         super.setup()
         
-        titleLabel.font = UIFont.systemFont(ofSize: 12)
+        titleLabel.font = UIFont.gillSansLight(size: 14)
+        titleLabel.text = self.title
         addSubview(titleLabel)
-        
+        segmentedControl.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.gillSans(size: 14)], for: .normal)
         segmentedControl.addTarget(self, action: #selector(onSegmentedControlChange), for: .valueChanged)
         addSubview(segmentedControl)
         

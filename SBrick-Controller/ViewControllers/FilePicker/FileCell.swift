@@ -12,7 +12,14 @@ class FileCell: UITableViewCell {
         
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        self.textLabel?.font = UIFont.gillSansLight(size: 18)
+        self.detailTextLabel?.font = UIFont.gillSansLight(size: 14)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.textLabel?.text = nil
+        self.detailTextLabel?.text = nil
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

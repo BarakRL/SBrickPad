@@ -32,9 +32,11 @@ class SwitchEditCell: GameControllerActionEditCell {
     override func setup() {
         super.setup()
         
-        titleLabel.font = UIFont.systemFont(ofSize: 12)
+        titleLabel.font = UIFont.gillSansLight(size: 14)
+        titleLabel.text = self.title
         addSubview(titleLabel)
         
+        actionSwitch.onTintColor = #colorLiteral(red: 0.005186316557, green: 0.5101435184, blue: 0.6784499288, alpha: 1)
         actionSwitch.addTarget(self, action: #selector(onActionSwitchChange), for: .valueChanged)
         addSubview(actionSwitch)
         

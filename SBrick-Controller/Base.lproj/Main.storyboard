@@ -144,6 +144,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="saveButton" destination="aio-nD-WfV" id="kWR-Cx-MSR"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Wq-G7-CXj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -153,13 +156,13 @@
         <scene sceneID="MUd-AM-jD6">
             <objects>
                 <tableViewController storyboardIdentifier="FilePickerViewController" id="GLi-Ud-qVy" customClass="FilePickerViewController" customModule="SBrick_Controller" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="60" sectionHeaderHeight="18" sectionFooterHeight="1" id="syx-C2-AAB">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="syx-C2-AAB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FileCell" textLabel="aBx-oR-DPI" detailTextLabel="0JJ-MI-4R8" rowHeight="60" style="IBUITableViewCellStyleSubtitle" id="Arj-ly-rvT" customClass="FileCell" customModule="SBrick_Controller" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="55.5" width="375" height="60"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Arj-ly-rvT" id="2pe-ls-hDj">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>

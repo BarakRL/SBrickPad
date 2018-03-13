@@ -30,17 +30,17 @@ class ActionHeaderView: UIView {
     func setup() {
         
         addSubview(titleLabel)
-        addSubview(addActionButton)
+        addSubview(addActionButton)        
         
-        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .light)
+        titleLabel.font = UIFont.gillSans(size: 18)
         
         titleLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(15)
+            make.leftMargin.equalTo(15)
             make.bottom.equalTo(-10)
         }
         
         addActionButton.snp.makeConstraints { (make) in
-            make.right.equalTo(-15)
+            make.rightMargin.equalTo(-15)
             make.bottom.equalTo(-15)
         }
      

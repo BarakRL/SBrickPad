@@ -15,6 +15,7 @@
 		066374091ED36A28001B0ACA /* GameControllerPressActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066374021ED36A28001B0ACA /* GameControllerPressActions.swift */; };
 		0663740A1ED36A28001B0ACA /* GameControllerValueActionEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066374031ED36A28001B0ACA /* GameControllerValueActionEasing.swift */; };
 		0663740B1ED36A28001B0ACA /* GameControllerValueActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066374041ED36A28001B0ACA /* GameControllerValueActions.swift */; };
+		06831B84205745B100C632E5 /* UIFont+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06831B83205745B100C632E5 /* UIFont+Ext.swift */; };
 		06B865681EB7D7FF002FFD0A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865671EB7D7FF002FFD0A /* MainViewController.swift */; };
 		06B8656C1EB7E585002FFD0A /* ButtonActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */; };
 		06B865711EB7EF71002FFD0A /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B865701EB7EF70002FFD0A /* ActionCell.swift */; };
@@ -47,6 +48,7 @@
 		066374021ED36A28001B0ACA /* GameControllerPressActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerPressActions.swift; sourceTree = "<group>"; };
 		066374031ED36A28001B0ACA /* GameControllerValueActionEasing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerValueActionEasing.swift; sourceTree = "<group>"; };
 		066374041ED36A28001B0ACA /* GameControllerValueActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerValueActions.swift; sourceTree = "<group>"; };
+		06831B83205745B100C632E5 /* UIFont+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Ext.swift"; sourceTree = "<group>"; };
 		06B865671EB7D7FF002FFD0A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		06B8656B1EB7E585002FFD0A /* ButtonActionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonActionsViewController.swift; sourceTree = "<group>"; };
 		06B865701EB7EF70002FFD0A /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 			children = (
 				06B865731EB81EED002FFD0A /* UIStoryboard+Ext.swift */,
 				E560FE062055CAE50015C6DE /* UITable+Ext.swift */,
+				06831B83205745B100C632E5 /* UIFont+Ext.swift */,
 			);
 			name = Helpers;
 			path = "SBrick-Controller/Helpers";
@@ -380,6 +383,7 @@
 				0663740B1ED36A28001B0ACA /* GameControllerValueActions.swift in Sources */,
 				E5DC82E81ED8BECD007B9D5E /* ActionHeaderView.swift in Sources */,
 				066374061ED36A28001B0ACA /* GameControllerAction.swift in Sources */,
+				06831B84205745B100C632E5 /* UIFont+Ext.swift in Sources */,
 				06ECE6A41EE3CE9000397612 /* EditActionViewController.swift in Sources */,
 				0602AC9C1EE3BA2D0062F1AF /* SelectSoundEditCell.swift in Sources */,
 			);
