@@ -311,7 +311,7 @@ extension MainViewController: FilePickerViewControllerDelegate {
         let alert = UIAlertController(title: "Save as:", message: nil, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (action) -> Void in
-            self?.isModified = false
+            
             if let filename = inputTextField?.text, filename.count > 0 {
                 self?.checkAndSave(filename: filename, onComplete: onComplete)
             }
@@ -363,6 +363,9 @@ extension MainViewController: FilePickerViewControllerDelegate {
         if let jsonData = try? jsonEncoder.encode(buttonActions) {
             FilePickerViewController.save(jsonData, asFilename: filename)
         }
+        
+        self.actionsFilename = filename
+        isModified = false
     }
     
     func clearActions(saveWarning: Bool) {
