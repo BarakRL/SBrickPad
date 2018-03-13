@@ -38,7 +38,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
     
-    let connectingColor: UIColor = #colorLiteral(red: 0.7952535152, green: 0.7952535152, blue: 0.7952535152, alpha: 1)
+    let connectingColor: UIColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
     let connectedColor: UIColor = #colorLiteral(red: 0.9917162061, green: 0.8454038501, blue: 0.003790777875, alpha: 1)
     let disconnectedColor: UIColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
     
@@ -264,17 +264,19 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     }
     
     //MARK: - Scroll
-    var lastScrolledToIndexPath: IndexPath?
+    var selectedIndexPaths = [IndexPath]()
+    
     func scrollToIfNeeded(_ indexPath: IndexPath, andSelect shouldSelect: Bool) {
         
-        guard lastScrolledToIndexPath != indexPath else { return }
+        guard selectedIndexPaths.contains(indexPath) == false else { return }
+        selectedIndexPaths.append(indexPath)
         
-        lastScrolledToIndexPath = indexPath
         if shouldSelect {
             self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
+            self.tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
         }
         else {
-            self.tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+            
         }
     }
 }
@@ -606,6 +608,10 @@ extension MainViewController {
             }
             else {
                 tableView.deselectRow(at: indexPath, animated: true)
+                
+                if let index = selectedIndexPaths.index(of: indexPath) {
+                    selectedIndexPaths.remove(at: index)
+                }
             }
         }
         
@@ -643,7 +649,17 @@ extension MainViewController {
         
         if let index = GameControllerButton.allButtons.index(of: button) {
             let indexPath = IndexPath(row: index, section: 0)
-            scrollToIfNeeded(indexPath, andSelect: false)
+            
+            if abs(value) > 0 {
+                self.scrollToIfNeeded(indexPath, andSelect: true)
+            }
+            else {
+                tableView.deselectRow(at: indexPath, animated: true)
+                
+                if let index = selectedIndexPaths.index(of: indexPath) {
+                    selectedIndexPaths.remove(at: index)
+                }
+            }
             
             if let cell = self.tableView.cellForRow(at: indexPath) as? ButtonCell {
                 cell.progressView.progress = abs(value)

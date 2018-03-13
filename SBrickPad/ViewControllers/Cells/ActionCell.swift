@@ -16,10 +16,12 @@ class ActionCell: UITableViewCell {
             if let action = action {
                 self.textLabel?.text = action.name
                 self.detailTextLabel?.text = action.info
+                self.accessoryType = .disclosureIndicator
             }
             else {
                 self.textLabel?.text = "No Actions"
                 self.detailTextLabel?.text = nil
+                self.accessoryType = .none
             }
         }
     }
