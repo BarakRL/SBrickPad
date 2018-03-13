@@ -32,14 +32,14 @@ class SelectSoundEditCell: GameControllerActionEditCell, FilePickerViewControlle
         
         titleLabel.font = UIFont.gillSansLight(size: 14)
         titleLabel.text = self.title        
-        addSubview(titleLabel)
+        contentView.addSubview(titleLabel)
         
         selectSoundButton.layer.cornerRadius = 5
         selectSoundButton.layer.borderColor = UIView.appearance().tintColor.cgColor
         selectSoundButton.layer.borderWidth = 1
         selectSoundButton.titleLabel?.font = UIFont.gillSans(size: 16)
         selectSoundButton.addTarget(self, action: #selector(onSelectSoundButtonPress), for: .touchUpInside)
-        addSubview(selectSoundButton)
+        contentView.addSubview(selectSoundButton)
                 
         clearSoundButton.setTitle("X", for: .normal)
         clearSoundButton.layer.cornerRadius = 5
@@ -47,10 +47,10 @@ class SelectSoundEditCell: GameControllerActionEditCell, FilePickerViewControlle
         clearSoundButton.layer.borderWidth = 1
         clearSoundButton.titleLabel?.font = UIFont.gillSans(size: 16)
         clearSoundButton.addTarget(self, action: #selector(onClearSoundButtonPress), for: .touchUpInside)
-        addSubview(clearSoundButton)
+        contentView.addSubview(clearSoundButton)
         
         titleLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(20)
+            make.leftMargin.equalTo(8)
             make.top.bottom.equalTo(0)
             make.right.equalTo(selectSoundButton.snp.left).offset(-8)
         }
@@ -63,7 +63,7 @@ class SelectSoundEditCell: GameControllerActionEditCell, FilePickerViewControlle
         }
         
         clearSoundButton.snp.makeConstraints { (make) in
-            make.right.equalTo(-20)
+            make.rightMargin.equalTo(-8)
             make.height.equalTo(36)
             make.width.equalTo(clearSoundButton.snp.height) //square
             make.centerY.equalTo(self)

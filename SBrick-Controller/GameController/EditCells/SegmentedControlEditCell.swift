@@ -43,20 +43,20 @@ class SegmentedControlEditCell: GameControllerActionEditCell {
         
         titleLabel.font = UIFont.gillSansLight(size: 14)
         titleLabel.text = self.title
-        addSubview(titleLabel)
+        contentView.addSubview(titleLabel)
         segmentedControl.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.gillSans(size: 14)], for: .normal)
         segmentedControl.addTarget(self, action: #selector(onSegmentedControlChange), for: .valueChanged)
-        addSubview(segmentedControl)
+        contentView.addSubview(segmentedControl)
         
         titleLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(20)
+            make.leftMargin.equalTo(8)
             make.top.bottom.equalTo(0)
             make.right.equalTo(segmentedControl.snp.left).offset(-8)
         }
         titleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         segmentedControl.snp.makeConstraints { (make) in
-            make.right.equalTo(-20)
+            make.rightMargin.equalTo(-8)
             make.centerY.equalTo(self)
         }
     }

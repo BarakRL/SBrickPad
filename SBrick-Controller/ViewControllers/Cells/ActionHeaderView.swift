@@ -35,12 +35,12 @@ class ActionHeaderView: UIView {
         titleLabel.font = UIFont.gillSans(size: 18)
         
         titleLabel.snp.makeConstraints { (make) in
-            make.leftMargin.equalTo(15)
+            make.leftMargin.equalTo(16)
             make.bottom.equalTo(-10)
         }
         
         addActionButton.snp.makeConstraints { (make) in
-            make.rightMargin.equalTo(-15)
+            make.rightMargin.equalTo(-16)
             make.bottom.equalTo(-15)
         }
      

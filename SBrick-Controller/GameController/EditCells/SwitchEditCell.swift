@@ -34,20 +34,20 @@ class SwitchEditCell: GameControllerActionEditCell {
         
         titleLabel.font = UIFont.gillSansLight(size: 14)
         titleLabel.text = self.title
-        addSubview(titleLabel)
+        contentView.addSubview(titleLabel)
         
         actionSwitch.onTintColor = #colorLiteral(red: 0.005186316557, green: 0.5101435184, blue: 0.6784499288, alpha: 1)
         actionSwitch.addTarget(self, action: #selector(onActionSwitchChange), for: .valueChanged)
-        addSubview(actionSwitch)
+        contentView.addSubview(actionSwitch)
         
         titleLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(20)
+            make.leftMargin.equalTo(8)
             make.top.bottom.equalTo(0)
             make.right.equalTo(actionSwitch.snp.left).offset(-8)
         }
         
         actionSwitch.snp.makeConstraints { (make) in
-            make.right.equalTo(-20)
+            make.rightMargin.equalTo(-8)
             make.centerY.equalTo(self)
         }
     }

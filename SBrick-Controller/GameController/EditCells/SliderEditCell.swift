@@ -36,20 +36,20 @@ class SliderEditCell: GameControllerActionEditCell {
         
         titleLabel.font = UIFont.gillSansLight(size: 14)
         titleLabel.text = self.title
-        addSubview(titleLabel)
+        contentView.addSubview(titleLabel)
         
         slider.minimumValue = Float(UInt8.min)
         slider.maximumValue = Float(UInt8.max)
         
         slider.addTarget(self, action: #selector(onSliderChange), for: .valueChanged)
-        addSubview(slider)
+        contentView.addSubview(slider)
         
         valueLabel.font = UIFont.gillSansLight(size: 14)
         valueLabel.textAlignment = .right
-        addSubview(valueLabel)
+        contentView.addSubview(valueLabel)
         
         titleLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(20)
+            make.leftMargin.equalTo(8)
             make.top.bottom.equalTo(0)
             make.right.equalTo(slider.snp.left).offset(-8)
         }
@@ -62,7 +62,7 @@ class SliderEditCell: GameControllerActionEditCell {
         
         valueLabel.snp.makeConstraints { (make) in
             make.top.bottom.equalTo(0)
-            make.right.equalTo(-20)
+            make.rightMargin.equalTo(-8)
             make.width.equalTo(30)
         }
     }
