@@ -36,7 +36,7 @@ class SwitchEditCell: GameControllerActionEditCell {
         titleLabel.text = self.title
         contentView.addSubview(titleLabel)
         
-        actionSwitch.onTintColor = #colorLiteral(red: 0.005186316557, green: 0.5101435184, blue: 0.6784499288, alpha: 1)
+        actionSwitch.onTintColor = #colorLiteral(red: 0.01943824254, green: 0.6778953671, blue: 0.9364978671, alpha: 1)
         actionSwitch.addTarget(self, action: #selector(onActionSwitchChange), for: .valueChanged)
         contentView.addSubview(actionSwitch)
         

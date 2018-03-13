@@ -38,9 +38,13 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
     
-    let connectingColor: UIColor = #colorLiteral(red: 0.9917162061, green: 0.8454038501, blue: 0.003790777875, alpha: 1)
-    let connectedColor: UIColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1) //UIColor(red: 0.5, green: 1, blue: 0.5, alpha: 1)
-    let disconnectedColor: UIColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1) //UIColor(red: 1, green: 0.5, blue: 0.5, alpha: 1)
+    let connectingColor: UIColor = #colorLiteral(red: 0.7952535152, green: 0.7952535152, blue: 0.7952535152, alpha: 1)
+    let connectedColor: UIColor = #colorLiteral(red: 0.9917162061, green: 0.8454038501, blue: 0.003790777875, alpha: 1)
+    let disconnectedColor: UIColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+    
+    let connectingTextColor: UIColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+    let connectedTextColor: UIColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+    let disconnectedTextColor: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -90,6 +94,7 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         tableView.backgroundColor = #colorLiteral(red: 0.9917162061, green: 0.8454038501, blue: 0.003790777875, alpha: 1)
         
         statusLabel.text = "Discovering SBricks..."
+        statusLabel.textColor = connectingTextColor
         statusView.backgroundColor = connectingColor
         statusLabel.font = UIFont.gillSans(size: 12)
         
@@ -182,26 +187,30 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
     }
     
     func sbrickConnected(_ sbrick: SBrick) {
+        
         statusLabel.text = "SBrick connected!"
+        statusLabel.textColor = connectedTextColor
         statusView.backgroundColor = connectedColor
         self.sbrick = sbrick
     }
     
     func sbrickDisconnected(_ sbrick: SBrick) {
+        
         statusLabel.text = "SBrick disconnected :("
+        statusLabel.textColor = disconnectedTextColor
         statusView.backgroundColor = disconnectedColor
         self.sbrick = nil
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.statusLabel.text = "Reconnecting: \(sbrick.manufacturerData.deviceIdentifier)"
+            self.statusLabel.textColor = self.connectingTextColor
             self.statusView.backgroundColor = self.connectingColor
             self.manager.connect(to: sbrick)
         }
     }
     
     func sbrickReady(_ sbrick: SBrick) {
-        
-        statusLabel.text = "SBrick ready!"
+        statusLabel.text = "SBrick ready :)"
     }
     
     func sbrick(_ sbrick: SBrick, didRead data: Data?) {
