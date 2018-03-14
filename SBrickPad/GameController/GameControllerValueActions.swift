@@ -35,7 +35,7 @@ class DriveValueAction: GameControllerValueAction {
     var easing: GameControllerValueActionEasing = .linear
     
     var type: String = DriveValueAction.type
-    var name: String { return "Drive Motor" }
+    var name: String { return "Drive (variable)" }
     var info: String { return "Port: \(self.port), Power: \(self.minPower)-\(self.maxPower) \(self.isCW ? "CW" : "CCW")" }
     
     func relativePower(fromValue inValue: Float) -> (value: UInt8, isNegative: Bool) {

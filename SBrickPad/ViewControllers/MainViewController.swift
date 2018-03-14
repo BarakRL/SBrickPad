@@ -637,13 +637,13 @@ extension MainViewController {
                 
                 guard let sbrick = self.sbrick else { continue }
                 
-                if action.isToggle && action.isDriving {
-                    action.isDriving = false
-                    sbrick.managedPort(for: action.port).stop()
+                let managedPort = sbrick.managedPort(for: action.port)
+                
+                if action.isToggle && managedPort.isDriving {
+                    managedPort.stop()
                 }
                 else {
-                    action.isDriving = true
-                    sbrick.managedPort(for: action.port).drive(power: action.power, isCW: action.isCW)
+                    managedPort.drive(power: action.power, isCW: action.isCW)
                 }
             }
             else if let action = action as? StopAction {

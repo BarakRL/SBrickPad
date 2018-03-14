@@ -103,12 +103,9 @@ class DriveAction: GameControllerPressAction {
     var power: UInt8 = UInt8.max
     var isCW: Bool = true
     var isToggle: Bool = false
-
-    //state
-    var isDriving: Bool = false
     
     var type: String = DriveAction.type
-    var name: String { return "Drive Motor" }
+    var name: String { return "Drive" }
     var info: String { return "Port: \(port.rawValue), \(isToggle ? "Toggle:" : "Power:") \(power) \(isCW ? "CW" : "CCW")" }
     
     var editCellsCount: Int { return 4 }
@@ -177,7 +174,7 @@ class StopAction: GameControllerPressAction {
     var port: SBrickPort = .port1
     
     var type: String = StopAction.type
-    var name: String { return "Stop Motor" }
+    var name: String { return "Stop" }
     var info: String { return "Port: \(port.rawValue)" }
     
     var editCellsCount: Int { return 1 }
