@@ -34,6 +34,14 @@ Remember to save you actions when you're done editing them.
 
 Enjoy!
 
+
+
+## See it in action
+
+[![Progress video](https://img.youtube.com/vi/q2A0YvYbSaw/0.jpg)](https://www.youtube.com/watch?v=q2A0YvYbSaw)
+
+
+
 ## tl;dr
 
 To run the project: clone the repo, run `pod install` from the project directory, build and run in Xcode.
