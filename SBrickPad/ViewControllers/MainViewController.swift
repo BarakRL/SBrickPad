@@ -362,7 +362,9 @@ extension MainViewController: FilePickerViewControllerDelegate {
         let jsonEncoder = JSONEncoder()
         jsonEncoder.outputFormatting = .prettyPrinted
         
-        if let jsonData = try? jsonEncoder.encode(buttonActions) {
+        let buttonActionsSet = GameControllerButtonActionSet(buttonActions: buttonActions)
+        
+        if let jsonData = try? jsonEncoder.encode(buttonActionsSet) {
             FilePickerViewController.save(jsonData, asFilename: filename)
         }
         
@@ -434,9 +436,13 @@ extension MainViewController: FilePickerViewControllerDelegate {
     func loadActions(filename: String) {
                 
         if let jsonData = FilePickerViewController.load(filename: filename),
-            let buttonActions = try? JSONDecoder().decode([GameControllerButtonAction].self, from: jsonData) {
+            let buttonActionSet = try? JSONDecoder().decode(GameControllerButtonActionSet.self, from: jsonData) {
             
-            self.buttonActions = buttonActions
+            if buttonActionSet.version < GameControllerButtonActionSet.currentVersion {
+                print("Warning: saved in old version of the app, might not load properly.")
+            }
+            
+            self.buttonActions = buttonActionSet.buttonActions
             self.isModified = false
             self.actionsFilename = filename
         }
@@ -630,7 +636,15 @@ extension MainViewController {
             else if let action = action as? DriveAction {
                 
                 guard let sbrick = self.sbrick else { continue }
-                sbrick.managedPort(for: action.port).drive(power: action.power, isCW: action.isCW)
+                
+                if action.isToggle && action.isDriving {
+                    action.isDriving = false
+                    sbrick.managedPort(for: action.port).stop()
+                }
+                else {
+                    action.isDriving = true
+                    sbrick.managedPort(for: action.port).drive(power: action.power, isCW: action.isCW)
+                }
             }
             else if let action = action as? StopAction {
                 

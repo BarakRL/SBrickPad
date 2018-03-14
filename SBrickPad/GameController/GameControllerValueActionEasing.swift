@@ -10,10 +10,10 @@ import Foundation
 
 enum GameControllerValueActionEasing: String, Codable {
     
-    case linear
-    case easeIn
-    case easeOut
-    case easeInOut
+    case linear     = "linear"
+    case easeIn     = "ease_in"
+    case easeOut    = "ease_out"
+    case easeInOut  = "ease_in_out"
     
     static var allValues: [GameControllerValueActionEasing] = [.linear, .easeIn, .easeOut, .easeInOut]
     

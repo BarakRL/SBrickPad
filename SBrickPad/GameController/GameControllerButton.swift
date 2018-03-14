@@ -14,28 +14,28 @@ public enum GameControllerButton: String, Codable {
         
         case pressed
         case released
-        case valueChanged        
+        case valueChanged   = "value_changed"
     }
     
-    case up
-    case down
-    case left
-    case right
-    case start
-    case select
-    case buttonA
-    case buttonB
-    case buttonX
-    case buttonY
-    case leftShoulder
-    case rightShoulder
-    case leftTrigger
-    case rightTrigger
+    case up             = "up"
+    case down           = "down"
+    case left           = "left"
+    case right          = "right"
+    case start          = "start"
+    case select         = "select"
+    case buttonA        = "button_a"
+    case buttonB        = "button_b"
+    case buttonX        = "button_x"
+    case buttonY        = "button_y"
+    case leftShoulder   = "left_shoulder"
+    case rightShoulder  = "right_shoulder"
+    case leftTrigger    = "left_trigger"
+    case rightTrigger   = "right_trigger"
     
-    case leftThumbstickX
-    case leftThumbstickY
-    case rightThumbstickX
-    case rightThumbstickY
+    case leftThumbstickX    = "left_thumbstick_x"
+    case leftThumbstickY    = "left_thumbstick_y"
+    case rightThumbstickX   = "right_thumbstick_x"
+    case rightThumbstickY   = "right_thumbstick_y"
     
     public var name: String {
         

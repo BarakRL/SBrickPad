@@ -16,6 +16,8 @@ protocol GameControllerPressAction: GameControllerAction {
 
 class PlaySoundAction: GameControllerPressAction {
     
+    static var type: String { return "play_sound" }
+    
     var filename: String?
     var loop: Bool = false
     
@@ -60,6 +62,8 @@ class PlaySoundAction: GameControllerPressAction {
 
 class StopSoundAction: GameControllerPressAction {
     
+    static var type: String { return "stop_sound" }
+    
     var filename: String?
     
     var type: String = StopSoundAction.type
@@ -83,20 +87,37 @@ class StopSoundAction: GameControllerPressAction {
 
 class DriveAction: GameControllerPressAction {
     
+    static var type: String { return "drive" }
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case type
+        case port
+        case power
+        case isCW       = "is_cw"
+        case isToggle   = "is_toggle"
+    }
+    
+    //parameters
     var port: SBrickPort = .port1
     var power: UInt8 = UInt8.max
     var isCW: Bool = true
+    var isToggle: Bool = false
+
+    //state
+    var isDriving: Bool = false
     
     var type: String = DriveAction.type
     var name: String { return "Drive Motor" }
-    var info: String { return "Port: \(port.rawValue), Power: \(power) \(isCW ? "CW" : "CCW")" }
+    var info: String { return "Port: \(port.rawValue), \(isToggle ? "Toggle:" : "Power:") \(power) \(isCW ? "CW" : "CCW")" }
     
-    var editCellsCount: Int { return 3 }
+    var editCellsCount: Int { return 4 }
     func editCellType(at index: Int) -> GameControllerActionEditCell.Type {
         switch index {
         case 0: return SegmentedControlEditCell.self
         case 1: return SliderEditCell.self
         case 2: return SwitchEditCell.self
+        case 3: return SwitchEditCell.self
         default: fatalError()
         }
     }
@@ -135,6 +156,14 @@ class DriveAction: GameControllerPressAction {
                 self.isCW = cell.isOn
             }
             
+        case 3:
+            guard let cell = editCell as? SwitchEditCell else { return }
+            cell.title = "Toggle:"
+            cell.isOn = self.isToggle
+            cell.onChange = {
+                self.isToggle = cell.isOn
+            }
+            
         default:
             break
         }
@@ -142,6 +171,8 @@ class DriveAction: GameControllerPressAction {
 }
 
 class StopAction: GameControllerPressAction {
+    
+    static var type: String { return "stop" }
     
     var port: SBrickPort = .port1
     

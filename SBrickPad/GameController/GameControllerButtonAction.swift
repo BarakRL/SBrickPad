@@ -33,6 +33,7 @@ class GameControllerButtonAction: Codable, CustomStringConvertible {
             return copy
         }
         catch {
+            print(error)
             return nil
         }        
     }

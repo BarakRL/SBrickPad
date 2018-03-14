@@ -16,6 +16,18 @@ protocol GameControllerValueAction: GameControllerAction {
 
 class DriveValueAction: GameControllerValueAction {
     
+    static var type: String { return "drive_value" }
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case type
+        case port
+        case minPower   = "min_power"
+        case maxPower   = "max_power"
+        case isCW       = "is_cw"
+        case easing
+    }
+    
     var port: SBrickPort = .port1
     var minPower: UInt8 = UInt8.min
     var maxPower: UInt8 = UInt8.max

@@ -1,166 +1,173 @@
-[
-  {
-    "button" : "leftThumbstickX",
-    "action" : {
-      "type" : "DriveValueAction",
-      "port" : 1,
-      "maxPower" : 255,
-      "isCW" : false,
-      "minPower" : 0,
-      "easing" : "easeIn"
-    },
-    "event" : "valueChanged"
-  },
-  {
-    "button" : "rightThumbstickY",
-    "action" : {
-      "type" : "DriveValueAction",
-      "port" : 3,
-      "maxPower" : 255,
-      "isCW" : false,
-      "minPower" : 0,
-      "easing" : "easeIn"
-    },
-    "event" : "valueChanged"
-  },
-  {
-    "button" : "left",
-    "action" : {
-      "port" : 1,
-      "isCW" : true,
-      "type" : "DriveAction",
-      "power" : 255
-    },
-    "event" : "pressed"
-  },
-  {
-    "button" : "left",
-    "action" : {
-      "type" : "StopAction",
-      "port" : 1
-    },
-    "event" : "released"
-  },
-  {
-    "button" : "right",
-    "action" : {
-      "port" : 1,
-      "isCW" : false,
-      "type" : "DriveAction",
-      "power" : 255
-    },
-    "event" : "pressed"
-  },
-  {
-    "button" : "right",
-    "action" : {
-      "type" : "StopAction",
-      "port" : 1
-    },
-    "event" : "released"
-  },
-  {
-    "button" : "buttonA",
-    "action" : {
-      "port" : 3,
-      "isCW" : false,
-      "type" : "DriveAction",
-      "power" : 255
-    },
-    "event" : "pressed"
-  },
-  {
-    "button" : "buttonA",
-    "action" : {
-      "type" : "StopAction",
-      "port" : 3
-    },
-    "event" : "released"
-  },
-  {
-    "button" : "buttonA",
-    "action" : {
-      "type" : "PlaySoundAction",
-      "filename" : "engine.mp3",
-      "loop" : true
-    },
-    "event" : "pressed"
-  },
-  {
-    "button" : "buttonA",
-    "action" : {
-      "type" : "StopSoundAction",
-      "filename" : "engine.mp3"
-    },
-    "event" : "released"
-  },
-  {
-    "button" : "buttonB",
-    "action" : {
-      "port" : 3,
-      "isCW" : true,
-      "type" : "DriveAction",
-      "power" : 255
-    },
-    "event" : "pressed"
-  },
-  {
-    "button" : "buttonB",
-    "action" : {
-      "type" : "StopAction",
-      "port" : 3
-    },
-    "event" : "released"
-  },
-  {
-    "button" : "buttonB",
-    "action" : {
-      "type" : "PlaySoundAction",
-      "filename" : "backup-beeps.wav",
-      "loop" : true
-    },
-    "event" : "pressed"
-  },
-  {
-    "button" : "buttonB",
-    "action" : {
-      "type" : "StopSoundAction",
-      "filename" : "backup-beeps.wav"
-    },
-    "event" : "released"
-  },
-  {
-    "button" : "leftShoulder",
-    "action" : {
-      "type" : "PlaySoundAction",
-      "filename" : "horn.wav",
-      "loop" : false
-    },
-    "event" : "pressed"
-  },
-  {
-    "button" : "leftShoulder",
-    "action" : {
-      "type" : "StopSoundAction",
-      "filename" : "horn.wav"
-    },
-    "event" : "released"
-  },
-  {
-    "button" : "rightShoulder",
-    "action" : {
-      "type" : "PlaySoundAction",
-      "filename" : "engine.mp3",
-      "loop" : true
-    },
-    "event" : "pressed"
-  },
-  {
-    "button" : "rightShoulder",
-    "action" : {
-      "type" : "StopSoundAction",
-      "filename" : "engine.mp3"
-    },
-    "event" : "released"
-  }
-]
+{
+	"version": 1,
+	"button_actions": [
+		{
+			"button": "left_thumbstick_x",
+			"action": {
+				"type": "drive_value",
+				"port": 1,
+				"max_power": 255,
+				"is_cw": false,
+				"min_power": 0,
+				"easing": "ease_in"
+			},
+			"event": "value_changed"
+		},
+		{
+			"button": "right_thumbstick_y",
+			"action": {
+				"type": "drive_value",
+				"port": 3,
+				"max_power": 255,
+				"is_cw": false,
+				"min_power": 0,
+				"easing": "ease_in"
+			},
+			"event": "value_changed"
+		},
+		{
+			"button": "left",
+			"action": {
+				"port": 1,
+				"is_cw": true,
+				"is_toggle": false,
+				"type": "drive",
+				"power": 255
+			},
+			"event": "pressed"
+		},
+		{
+			"button": "left",
+			"action": {
+				"type": "stop",
+				"port": 1
+			},
+			"event": "released"
+		},
+		{
+			"button": "right",
+			"action": {
+				"port": 1,
+				"is_cw": false,
+				"is_toggle": false,
+				"type": "drive",
+				"power": 255
+			},
+			"event": "pressed"
+		},
+		{
+			"button": "right",
+			"action": {
+				"type": "stop",
+				"port": 1
+			},
+			"event": "released"
+		},
+		{
+			"button": "button_a",
+			"action": {
+				"port": 3,
+				"is_cw": false,
+				"is_toggle": false,
+				"type": "drive",
+				"power": 255
+			},
+			"event": "pressed"
+		},
+		{
+			"button": "button_a",
+			"action": {
+				"type": "stop",
+				"port": 3
+			},
+			"event": "released"
+		},
+		{
+			"button": "button_a",
+			"action": {
+				"type": "play_sound",
+				"filename": "engine.mp3",
+				"loop": true
+			},
+			"event": "pressed"
+		},
+		{
+			"button": "button_a",
+			"action": {
+				"type": "stop_sound",
+				"filename": "engine.mp3"
+			},
+			"event": "released"
+		},
+		{
+			"button": "button_b",
+			"action": {
+				"port": 3,
+				"is_cw": true,
+				"is_toggle": false,
+				"type": "drive",
+				"power": 255
+			},
+			"event": "pressed"
+		},
+		{
+			"button": "button_b",
+			"action": {
+				"type": "stop",
+				"port": 3
+			},
+			"event": "released"
+		},
+		{
+			"button": "button_b",
+			"action": {
+				"type": "play_sound",
+				"filename": "backup-beeps.wav",
+				"loop": true
+			},
+			"event": "pressed"
+		},
+		{
+			"button": "button_b",
+			"action": {
+				"type": "stop_sound",
+				"filename": "backup-beeps.wav"
+			},
+			"event": "released"
+		},
+		{
+			"button": "left_shoulder",
+			"action": {
+				"type": "play_sound",
+				"filename": "horn.wav",
+				"loop": false
+			},
+			"event": "pressed"
+		},
+		{
+			"button": "left_shoulder",
+			"action": {
+				"type": "stop_sound",
+				"filename": "horn.wav"
+			},
+			"event": "released"
+		},
+		{
+			"button": "right_shoulder",
+			"action": {
+				"type": "play_sound",
+				"filename": "engine.mp3",
+				"loop": true
+			},
+			"event": "pressed"
+		},
+		{
+			"button": "right_shoulder",
+			"action": {
+				"type": "stop_sound",
+				"filename": "engine.mp3"
+			},
+			"event": "released"
+		}
+	]
+}

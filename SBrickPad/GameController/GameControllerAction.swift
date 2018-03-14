@@ -12,7 +12,8 @@ import UIKit
 
 protocol GameControllerAction: Codable, CustomStringConvertible {
     
-    var type: String { set get } //required for encode and decode match, should always be = 'Self'.type
+    static var type: String { get }
+    var type: String { set get } //required for encode and decode match, should always be = 'Self'.type (and set-able)
     var name: String { get }
     var info: String { get }
     
@@ -22,7 +23,7 @@ protocol GameControllerAction: Codable, CustomStringConvertible {
 }
 
 extension GameControllerAction {
-    static var type: String { return String(describing: self) }
+    //static var type: String { return String(describing: self) }
     
     //defaults
     var editCellsCount: Int { return 0 }
