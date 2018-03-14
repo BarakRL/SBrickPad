@@ -45,4 +45,5 @@ Barak Harel
 ## License
 
 SBrickPad is for non-commercial use only.
+
 (Note: SBrick-iOS is available under the MIT license, See the SBrick-iOS LICENSE file for more info.)
