@@ -23,7 +23,7 @@ After installed the pods (see above), Use Xcode to install the app on your devic
 The app will automaticlly detect and connect to any SBrick+ (the app only supports a single SBrick at this time).
 You can than assign actions to buttons or load existing action sets (the app comes with a `Simple Drive` example file).
 
-[[https://github.com/barakrl/sbrickpad/blob/master/demo.gif|alt=Demo]]
+![demo gif](https://github.com/barakrl/sbrickpad/blob/master/demo.gif)
 
 
 Supported button actions:
