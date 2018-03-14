@@ -3,7 +3,7 @@
 * iOS 10+ device with a paired MFI or iCade gamepad
 * [SBrick+](https://www.sbrick.com/sbrick-plus.html)<sup>1</sup> and Lego PF accessories (motors, light etc.)
 * [Xcode](https://developer.apple.com/xcode) 9.2
-* [CocoaPods](http://cocoapods.org)
+* [CocoaPods](https://cocoapods.org)
 
 (<sup>1</sup>might work with a "non-plus" SBrick, but I don't have  one to test it.)
 
