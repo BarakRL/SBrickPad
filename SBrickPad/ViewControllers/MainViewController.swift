@@ -87,6 +87,16 @@ class MainViewController: UITableViewController, SBrickManagerDelegate, SBrickDe
         self.title = "\(title)\(isModified ? "*" : "")"
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.isIdleTimerDisabled = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.shared.isIdleTimerDisabled = false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
