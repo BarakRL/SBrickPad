@@ -5,21 +5,21 @@ To run the project: clone the repo, run `pod install` from the project directory
 
 ## Requirements
 
-Xcode 9.2
-iOS 10+ device with a paired MFI or iCade gamepad
-SBrick+ and Lego PF accessories (motors, light etc.)
+* Xcode 9.2
+* iOS 10+ device with a paired MFI or iCade gamepad
+* SBrick+ and Lego PF accessories (motors, light etc.)
 
 (Might work with "non-plus" SBrick, but I don't have  one to test it.)
 
 ## Installation
 
-SBrickPad uses SBrick-iOS which is available through [CocoaPods](http://cocoapods.org).
+SBrickPad uses SBrick-iOS which is available through [CocoaPods](http://cocoapods.org).<br/>
 To install it run `pod install` from the project directory first.
 
 ## Usage
 
 After installed the pods (see above), Use Xcode to install the app on your device (you might have to edit the signing and bundle identifiers to match your developer account).
-
+<br/>
 The app will automaticlly detect and connect to any SBrick+ (the app only supports a single SBrick at this time).
 You can than assign actions to buttons or load existing action sets (the app comes with a `Simple Drive` example file).
 
@@ -44,6 +44,5 @@ Barak Harel
 
 ## License
 
-SBrickPad is for non-commercial use only.
-
+SBrickPad is for non-commercial use only.<br/>
 (Note: SBrick-iOS is available under the MIT license, See the SBrick-iOS LICENSE file for more info.)
