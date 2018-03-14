@@ -1,15 +1,11 @@
-
-## tl;dr
-
-To run the project: clone the repo, run `pod install` from the project directory, build and run in Xcode.
-
 ## Requirements
 
-* Xcode 9.2
 * iOS 10+ device with a paired MFI or iCade gamepad
-* SBrick+ and Lego PF accessories (motors, light etc.)
+* [SBrick+](https://www.sbrick.com/sbrick-plus.html)<sup>1</sup> and Lego PF accessories (motors, light etc.)
+* [Xcode](https://developer.apple.com/xcode) 9.2
+* [CocoaPods](http://cocoapods.org)
 
-(Might work with "non-plus" SBrick, but I don't have  one to test it.)
+(<sup>1</sup>might work with a "non-plus" SBrick, but I don't have  one to test it.)
 
 ## Installation
 
@@ -37,6 +33,10 @@ Supported button actions:
 Remember to save you actions when you're done editing them.
 
 Enjoy!
+
+## tl;dr
+
+To run the project: clone the repo, run `pod install` from the project directory, build and run in Xcode.
 
 ## Author
 
